@@ -12,6 +12,7 @@
     <!-- project properties -->
     <properties>
         <unit.type>module</unit.type>
+        <module.name>tpg300</module.name>
     </properties>
 
     <!-- parent pom.xml -->
@@ -44,8 +45,8 @@
                 <configuration>
                     <packaging>
                         <package>
-                            <include type="module" name="tpg300" />
                             <dependency version="current">%{codac_rpm_prefix}-epics-streamdevice</dependency>
+                            <include type="module" name="${module.name}" />
                             <include type="file" source="/main/epics/protocol/tpg300.proto" target="protocol/"/>
                         </package>
                         <package name="opi">
@@ -53,8 +54,11 @@
                             <include file="tpg300.opi" topopi="true" type="boy"/>
                         </package>
                         <package name="doc">
-                       	    <include type="file" source="/main/doc/README-tpg300" target="doc/tpg300/"/>
+                       	    <include type="file" source="/main/doc/README" target="doc/tpg300/"/>
                         </package>
+                        <package name="src">
+                       	    <include type="source" source="./src/main/epics" target="epics/modules/${module.name}/src"/>
+                       	</package>
                     </packaging>
                 </configuration>
             </plugin>
