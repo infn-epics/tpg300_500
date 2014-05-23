@@ -1,0 +1,167 @@
+Terminator = CR LF;
+
+
+get_puc {
+	out "PUC";
+	in ACK;
+    out ENQ;
+    in "%d";
+}
+
+set_puc {
+    @init {
+    	out "PUC";
+        in ACK;
+        out ENQ;
+        in "%d";
+    }
+	out "PUC,%d";
+	in ACK;
+    out ENQ;
+    in "%*d";
+}
+
+get_units {
+	out "UNI";
+	in ACK;
+    out ENQ;
+    in "%d";
+}
+
+set_units {
+    @init {
+    	out "UNI";
+        in ACK;
+        out ENQ;
+        in "%d";
+    }
+	out "UNI,%d";
+	in ACK;
+    out ENQ;
+    in "%*d";
+}
+
+get_baud {
+	out "BAU";
+	in ACK;
+    out ENQ;
+    in "%i";
+}
+
+get_version {
+	out "PNR";
+	in ACK;
+    out ENQ;
+    in "-- %s";
+}
+
+get_slot_1 {
+	out "TID";
+	in ACK;
+    out ENQ;
+    in "%[^,],%*[^,],%*[^,]";;
+}
+
+get_slot_2 {
+	out "TID";
+	in ACK;
+    out ENQ;
+    in "%*[^,],%[^,],%*[^,]";
+}
+
+get_slot_3 {
+	out "TID";
+	in ACK;
+    out ENQ;
+    in "%*[^,],%*[^,],%[^,]";
+}
+
+get_pressure {
+	out "P\$1";
+	in ACK;
+    out ENQ;
+    in "%(\$2)d,%E";
+}
+
+get_mode {
+	out "SEN";
+	in ACK;
+    out ENQ;
+    in "%(A)d,%(B)d,%(C)d,%(D)d";
+}
+
+set_mode {
+	out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
+	in ACK;
+    out ENQ;
+    in "%*d,%*d,%*d,%*d";
+    @mismatch
+    {
+        in NAK;
+        out "ERR";
+        in ACK;
+        out ENQ;
+        in "%(E)d";
+    }
+    out "ERR";
+    in ACK;
+    out ENQ;
+    in "%(E)d";
+}
+
+get_filter {
+	out "FIL";
+	in ACK;
+    out ENQ;
+    in "%(A)d,%(B)d,%(C)d,%(D)d";
+}
+
+set_filter {
+	out "FIL,%(A)d,%(B)d,%(C)d,%(D)d";
+	in ACK;
+    out ENQ;
+    in "%*d,%*d,%*d,%*d";
+    @mismatch {
+        in NAK;
+        out "ERR";
+        in ACK;
+        out ENQ;
+        in "%(E)d";
+    }
+    out "ERR";
+    in ACK;
+    out ENQ;
+    in "%(E)d";
+}
+
+get_function {
+	out "SP\$1";
+	in ACK;
+    out ENQ;
+    in "%(A)E,%(B)E,%(C)d";
+}
+
+set_function {
+	out "SP\$1,%(A)1.1E,%(B)1.1E,%(C)d";
+	in ACK;
+    out ENQ;
+    in "%*E,%*E,%*d";
+    @mismatch {
+        in NAK;
+        out "ERR";
+        in ACK;
+        out ENQ;
+        in "%(D)d";
+    }
+    out "ERR";
+    in ACK;
+    out ENQ;
+    in "%(D)d";
+}
+
+get_func_stat {
+	out "SPS";
+	in ACK;
+    out ENQ;
+    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
+}

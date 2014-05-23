@@ -1,0 +1,167 @@
+record(stringin, "$(PREFIX):VERSION-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_version $(TPG_PORT)")
+  field(PINI, "YES")
+}
+
+record(stringin, "$(PREFIX):SLOT1-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_slot_1() $(TPG_PORT)")
+  field(PINI, "YES")
+}
+
+record(stringin, "$(PREFIX):SLOT2-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_slot_2() $(TPG_PORT)")
+  field(PINI, "YES")
+}
+
+record(stringin, "$(PREFIX):SLOT3-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_slot_3() $(TPG_PORT)")
+  field(PINI, "YES")
+}
+
+record(ai, "$(PREFIX):BAUD-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_baud $(TPG_PORT)")
+  field(PINI, "YES")
+}
+
+record(bi, "$(PREFIX):PUC-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_puc $(TPG_PORT)")
+  field(PINI, "YES")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+}
+
+record(bo, "$(PREFIX):PUC") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_puc $(TPG_PORT)")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  field(FLNK, "$(PREFIX):PUC-RBV")
+}
+
+record(mbbi, "$(PREFIX):UNITS-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_units $(TPG_PORT)")
+  field(PINI, "YES")
+  field(ONST, "mBar")
+  field(TWST, "Torr")
+  field(THST, "Pa")
+}
+
+record(mbbo, "$(PREFIX):UNITS") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_units $(TPG_PORT)")
+  field(ONST, "mBar")
+  field(TWST, "Torr")
+  field(THST, "Pa")
+  field(FLNK, "$(PREFIX):UNITS-RBV")
+}
+
+record(calcout, "$(PREFIX):MODE-RBV") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto get_mode() $(TPG_PORT)")
+  field(FLNK, "$(PREFIX):MODE-FO")
+}
+
+record(fanout, "$(PREFIX):MODE-FO") {
+  field(LNK1, "$(PREFIX):A1-MODE-RBV")
+  field(LNK2, "$(PREFIX):A2-MODE-RBV")
+  field(LNK3, "$(PREFIX):B1-MODE-RBV")
+  field(LNK4, "$(PREFIX):B2-MODE-RBV")
+}
+
+record(calcout, "$(PREFIX):MODE") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_mode() $(TPG_PORT)")
+  field(INPA, "$(PREFIX):A1-MODE")
+  field(INPB, "$(PREFIX):A2-MODE")
+  field(INPC, "$(PREFIX):B1-MODE")
+  field(INPD, "$(PREFIX):B2-MODE")
+  field(FLNK, "$(PREFIX):MODE-STAT")
+}
+
+record(mbbi, "$(PREFIX):MODE-STAT") {
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "$(PREFIX):MODE.E")
+  field(PINI, "YES")
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+  field(FLNK, "$(PREFIX):MODE-RBV")
+}
+
+record(calcout, "$(PREFIX):FILT-RBV") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto get_filter() $(TPG_PORT)")
+  field(FLNK, "$(PREFIX):FILT-FO")
+}
+
+record(fanout, "$(PREFIX):FILT-FO") {
+  field(LNK1, "$(PREFIX):A1-FILT-RBV")
+  field(LNK2, "$(PREFIX):A2-FILT-RBV")
+  field(LNK3, "$(PREFIX):B1-FILT-RBV")
+  field(LNK4, "$(PREFIX):B2-FILT-RBV")
+}
+
+record(calcout, "$(PREFIX):FILT") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_filter() $(TPG_PORT)")
+  field(INPA, "$(PREFIX):A1-FILT")
+  field(INPB, "$(PREFIX):A2-FILT")
+  field(INPC, "$(PREFIX):B1-FILT")
+  field(INPD, "$(PREFIX):B2-FILT")
+  field(FLNK, "$(PREFIX):FILT-STAT")
+}
+
+record(mbbi, "$(PREFIX):FILT-STAT") {
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "$(PREFIX):FILT.E")
+  field(PINI, "YES")
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+  field(FLNK, "$(PREFIX):FILT-RBV")
+}
+
+record(calcout, "$(PREFIX):FUNC-STAT-RBV") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto get_func_stat() $(TPG_PORT)")
+  field(PINI, "YES")
+  field(FLNK, "$(PREFIX):FUNC-STAT-FO")
+}
+
+record(fanout, "$(PREFIX):FUNC-STAT-FO") {
+  field(LNK1, "$(PREFIX):SP1-STAT-RBV")
+  field(LNK2, "$(PREFIX):SP2-STAT-RBV")
+  field(LNK3, "$(PREFIX):SP3-STAT-RBV")
+  field(LNK4, "$(PREFIX):SP4-STAT-RBV")
+  field(LNK5, "$(PREFIX):SPA-STAT-RBV")
+  field(LNK6, "$(PREFIX):SPB-STAT-RBV")
+}

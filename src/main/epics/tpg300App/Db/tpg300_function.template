@@ -1,0 +1,101 @@
+record(mbbo, "$(PREFIX):SP$(FUNCTION)-ASSIGN") {
+  field(ZRST, "NO ASSIGNMENT")
+  field(ONST, "SENSOR A1")
+  field(TWST, "SENSOR A2")
+  field(THST, "SENSOR B1")
+  field(FRST, "SENSOR B2")
+  field(FLNK, "$(PREFIX):SP$(FUNCTION)")
+  field(STAT, "NO_ALARM")
+  field(SEVR, "NO_ALARM")
+}
+
+record(ao, "$(PREFIX):SP$(FUNCTION)-LOW") {
+  field(STAT, "NO_ALARM")
+  field(SEVR, "NO_ALARM")
+}
+
+record(ao, "$(PREFIX):SP$(FUNCTION)-HIGH") {
+  field(STAT, "NO_ALARM")
+  field(SEVR, "NO_ALARM")
+}
+
+record(calcout, "$(PREFIX):SP$(FUNCTION)") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_function() $(TPG_PORT)")
+  field(INPA, "$(PREFIX):SP$(FUNCTION)-LOW")
+  field(INPB, "$(PREFIX):SP$(FUNCTION)-HIGH")
+  field(INPC, "$(PREFIX):SP$(FUNCTION)-ASSIGN")
+  field(FLNK, "$(PREFIX):SP$(FUNCTION)-STAT")
+}
+
+record(mbbi, "$(PREFIX):SP$(FUNCTION)-STAT") {
+  field(INP,  "$(PREFIX):SP$(FUNCTION).D")
+  field(PINI, "YES")
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+  field(FLNK, "$(PREFIX):SP$(FUNCTION)-RBV")
+}
+
+record(calcout, "$(PREFIX):SP$(FUNCTION)-RBV") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto get_function($(FUNCTION)) $(TPG_PORT)")
+  field(FLNK, "$(PREFIX):SP$(FUNCTION)-FO")
+}
+
+record(fanout, "$(PREFIX):SP$(FUNCTION)-FO") {
+  field(LNK1, "$(PREFIX):SP$(FUNCTION)-LOW-RBV")
+  field(LNK2, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
+  field(LNK3, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
+  field(LNK4, "$(PREFIX):SP$(FUNCTION)-INIT")
+}
+
+record(ai, "$(PREFIX):SP$(FUNCTION)-LOW-RBV") {
+  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.A")
+}
+
+record(ai, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV") {
+  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.B")
+}
+
+record(mbbi, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV") {
+  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.C")
+  field(ZRST, "NO ASSIGNMENT")
+  field(ONST, "SENSOR A1")
+  field(TWST, "SENSOR A2")
+  field(THST, "SENSOR B1")
+  field(FRST, "SENSOR B2")
+}
+
+record(calcout, "$(PREFIX):SP$(FUNCTION)-INIT") {
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(OUT,  "$(PREFIX):SP$(FUNCTION)-INIT-FO PP")
+}
+
+record(seq, "$(PREFIX):SP$(FUNCTION)-INIT-FO") {
+  field(LNK1, "$(PREFIX):SP$(FUNCTION)-LOW")
+  field(LNK2, "$(PREFIX):SP$(FUNCTION)-HIGH")
+  field(LNK3, "$(PREFIX):SP$(FUNCTION)-ASSIGN")
+  field(DOL1, "$(PREFIX):SP$(FUNCTION)-LOW-RBV")
+  field(DOL2, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
+  field(DOL3, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
+}
+
+record(bi, "$(PREFIX):SP$(FUNCTION)-STAT-RBV") {
+  field(INP,  "$(PREFIX):FUNC-STAT-RBV.$(SOURCE)")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+}
