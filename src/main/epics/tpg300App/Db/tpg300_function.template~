@@ -29,7 +29,6 @@ record(calcout, "$(PREFIX):SP$(FUNCTION)") {
 }
 
 record(mbbi, "$(PREFIX):SP$(FUNCTION)-STAT") {
-  field(DTYP, "Raw Soft Channel")
   field(INP,  "$(PREFIX):SP$(FUNCTION).D")
   field(PINI, "YES")
   field(ZRVL, "0")

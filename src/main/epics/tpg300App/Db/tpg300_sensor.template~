@@ -1,6 +1,7 @@
 record(ai, "$(PREFIX):$(SENSOR)-PRES-RBV") {
   field(DTYP, "stream")
   field(INP,  "@tpg300.proto get_pressure($(SENSOR),$(PREFIX):$(SENSOR)-PRES-STAT) $(TPG_PORT)")
+  field(SCAN, "$(SCAN_RATE)")
   field(MDEL, "-1")
   field(SDIS, "$(PREFIX):$(SENSOR)-PRES-STAT MS")
 }

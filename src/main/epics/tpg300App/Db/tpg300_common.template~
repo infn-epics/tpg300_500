@@ -166,7 +166,7 @@ record(fanout, "$(PREFIX):FUNC-STAT-FO") {
   field(LNK6, "$(PREFIX):SPB-STAT-RBV")
 }
 
-record(fanout, "$(PREFIX):SCAN-RATE") {
+record(fanout, "$(PREFIX):SCAN-RATE) {
   field(SCAN, "$(SCAN_RATE)")
   field(LNK1, "$(PREFIX):A1-PRES-RBV")
   field(LNK2, "$(PREFIX):A2-PRES-RBV")
