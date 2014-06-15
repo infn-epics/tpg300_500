@@ -9,7 +9,7 @@
   <boy_version>3.2.0.codac_core_4_1_0</boy_version>
   <scripts />
   <show_ruler>true</show_ruler>
-  <height>735</height>
+  <height>800</height>
   <name></name>
   <snap_to_geometry>true</snap_to_geometry>
   <show_grid>true</show_grid>
@@ -87,7 +87,7 @@
       </path>
     </scripts>
     <zoom_to_fit>true</zoom_to_fit>
-    <height>670</height>
+    <height>720</height>
     <name>Linking Container Template</name>
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -181,7 +181,7 @@
     <visible>true</visible>
     <wuid>5597ab01:1424780410e:-6f3c</wuid>
     <scripts />
-    <height>31</height>
+    <height>29</height>
     <name>Device prefix combo</name>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <scale_options>
