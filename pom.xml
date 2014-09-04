@@ -54,7 +54,7 @@
                             <include file="tpg300.opi" topopi="true" type="boy"/>
                         </package>
                         <package name="doc">
-                       	    <include type="file" source="/main/doc/README" target="doc/tpg300/"/>
+                            <include type="file" source="/main/doc/ESS-CB-epics-tpg300.pdf" target="doc/${project.artifactId}/pdf/"/>
                         </package>
                         <package name="src">
                        	    <include type="source" source="./src/main/epics" target="epics/modules/${module.name}/src"/>
