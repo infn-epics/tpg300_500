@@ -8,9 +8,15 @@ include $(TOP)/configure/CONFIG
 #==================================================
 # build a support library
 
-#LIBRARY_IOC += tpg300
+LIBRARY_IOC += tpg300
 
-#tpg300_LIBS += $(EPICS_BASE_IOC_LIBS)
+# install midiStream.dbd into <top>/dbd
+DBD += tpg300.dbd
+
+# specify all source files to be compiled and added to the library
+tpg300_SRCS += tpg300Interpose.c
+
+tpg300_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
