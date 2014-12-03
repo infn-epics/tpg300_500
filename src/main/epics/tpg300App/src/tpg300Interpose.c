@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #include <cantProceed.h>
 #include <epicsAssert.h>
@@ -160,10 +161,8 @@ static asynStatus writeTpg300(void *ppvt,asynUser *pasynUser,
                     continue;
                 }
                 break;
-            case ',': /* The exponent part is over. */
+            default: /* The exponent part is over. */
                 ptpg300Pvt->messageState = MESSAGE_STATE_NONE;
-                break;
-            default:
                 break;
         }
         ptpg300Pvt->outBuf[i - numremoved] = data[i];
@@ -212,29 +211,20 @@ static asynStatus readTpg300(void *ppvt, asynUser *pasynUser,
              * insert a zero. */
             if (ptpg300Pvt->messageState == MESSAGE_STATE_EXP) {
 
-                /* We need to see two digits after the exponent to be sure
-                 * if we have to add any zeros. */
-                if (ptpg300Pvt->inBufTail + 1 == ptpg300Pvt->inBufHead) {
-                    /* Otherwise we need to read an additional char. */
-                    eom = 0;
-                    thisRead = 0;
-                    status = ptpg300Pvt->poctet->read(ptpg300Pvt->octetPvt, pasynUser,
-                            &ptpg300Pvt->inBuf[ptpg300Pvt->inBufHead], 1, &thisRead, &ptpg300Pvt->inEom);
-                    asynPrint(pasynUser, ASYN_TRACE_FLOW,
-                            "%s:%s: read additional char with status %d, nbytes %zu and eom %d\n",
-                            ptpg300Pvt->portName, functionName, status, thisRead, ptpg300Pvt->inEom);
-                    if (status != asynSuccess || thisRead == 0) {
-                        eom = ptpg300Pvt->inEom;
-                        ptpg300Pvt->inEom = 0;
-                        break;
-                    }
-                    ptpg300Pvt->inBufHead++;
-                }
-
                 ptpg300Pvt->messageState = MESSAGE_STATE_NONE;
 
+                /* If the first char of the exponent is not a digit then
+                 * this isn't an exponent at all (version string maybe). */
+                if (!isdigit(ptpg300Pvt->inBuf[ptpg300Pvt->inBufTail])) {
+                    continue;
+                }
+
                 /* if there is only one digit in the exponent we add a zero. */
-                if (ptpg300Pvt->inBuf[ptpg300Pvt->inBufTail + 1] == ',') {
+                if (ptpg300Pvt->inBufTail + 1 == ptpg300Pvt->inBufHead ||
+                        !isdigit(ptpg300Pvt->inBuf[ptpg300Pvt->inBufTail + 1])) {
+                    /* This happens if the second char of the exponent is
+                     * either not a digit (in case of setpoints it's a comma
+                     * or the end of the message that was read (pressure rbv).*/
                     asynPrint(pasynUser, ASYN_TRACE_FLOW,
                             "%s:%s: insert  char 0 at %zu with maxchars %zu\n",
                             ptpg300Pvt->portName, functionName, nRead, maxchars);
