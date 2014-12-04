@@ -40,11 +40,31 @@ set_units {
     in "%*d";
 }
 
+get_save_params {
+    out "SAV";
+    in ACK;
+    out ENQ;
+    in "%d";
+}
+
+set_save_params {
+    @init {
+        out "SAV";
+        in ACK;
+        out ENQ;
+        in "%d";
+    }
+    out "SAV,%d";
+    in ACK;
+    out ENQ;
+    in "%*d";
+}
+
 get_baud {
 	out "BAU";
 	in ACK;
     out ENQ;
-    in "%i";
+    in "%d";
 }
 
 get_version {

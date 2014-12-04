@@ -62,6 +62,24 @@ record(mbbo, "$(PREFIX):UNITS") {
   field(FLNK, "$(PREFIX):UNITS-RBV")
 }
 
+record(mbbi, "$(PREFIX):SAVE-PARAMS-RBV") {
+  field(DTYP, "stream")
+  field(INP,  "@tpg300.proto get_save_params $(TPG_PORT)")
+  field(PINI, "YES")
+  field(ZRST, "Default")
+  field(ONST, "User-defined")
+  field(TWST, "User-defined HS")
+}
+
+record(mbbo, "$(PREFIX):SAVE-PARAMS") {
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto set_save_params $(TPG_PORT)")
+  field(ZRST, "Default")
+  field(ONST, "User-defined")
+  field(TWST, "User-defined HS")
+  field(FLNK, "$(PREFIX):SAVE-PARAMS-RBV")
+}
+
 record(calcout, "$(PREFIX):MODE-RBV") {
   field(DTYP, "stream")
   field(OUT,  "@tpg300.proto get_mode() $(TPG_PORT)")
