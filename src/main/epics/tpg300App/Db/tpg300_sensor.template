@@ -26,19 +26,8 @@ record(mbbo, "$(PREFIX):$(SENSOR)-MODE") {
   field(ONST, "OFF")
   field(TWST, "AUTOMATIC")
   field(THST, "ON")
-  field(FLNK, "$(PREFIX):MODE")
   field(STAT, "NO_ALARM")
   field(SEVR, "NO_ALARM")
-}
-
-record(calcout, "$(PREFIX):$(SENSOR)-MODE-INIT") {
-  field(INPA, "$(PREFIX):$(SENSOR)-MODE-RBV")
-  field(OUT,  "$(PREFIX):$(SENSOR)-MODE")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
-  field(DOPT, "Use OCAL")
-  field(OCAL, "A")
 }
 
 record(mbbi, "$(PREFIX):$(SENSOR)-MODE-RBV") {
@@ -47,26 +36,14 @@ record(mbbi, "$(PREFIX):$(SENSOR)-MODE-RBV") {
   field(ONST, "OFF")
   field(TWST, "AUTOMATIC")
   field(THST, "ON")
-  field(FLNK, "$(PREFIX):$(SENSOR)-MODE-INIT")
 }
 
 record(mbbo, "$(PREFIX):$(SENSOR)-FILT") {
   field(ONST, "FAST")
   field(TWST, "MEDIUM")
   field(THST, "SLOW")
-  field(FLNK, "$(PREFIX):FILT")
   field(STAT, "NO_ALARM")
   field(SEVR, "NO_ALARM")
-}
-
-record(calcout, "$(PREFIX):$(SENSOR)-FILT-INIT") {
-  field(INPA, "$(PREFIX):$(SENSOR)-FILT-RBV")
-  field(OUT,  "$(PREFIX):$(SENSOR)-FILT")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
-  field(DOPT, "Use OCAL")
-  field(OCAL, "A")
 }
 
 record(mbbi, "$(PREFIX):$(SENSOR)-FILT-RBV") {
@@ -74,5 +51,4 @@ record(mbbi, "$(PREFIX):$(SENSOR)-FILT-RBV") {
   field(ONST, "FAST")
   field(TWST, "MEDIUM")
   field(THST, "SLOW")
-  field(FLNK, "$(PREFIX):$(SENSOR)-FILT-INIT")
 }

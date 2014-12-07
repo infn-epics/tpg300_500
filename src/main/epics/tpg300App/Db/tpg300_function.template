@@ -79,11 +79,20 @@ record(mbbi, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV") {
   field(FRST, "SENSOR B2")
 }
 
+record(seq, "$(PREFIX):SP$(FUNCTION)-CNCT-FO") {
+  field(DOL1, "0")
+  field(LNK1, "$(PREFIX):SP$(FUNCTION)-INIT.CALC PP")
+  field(DOL2, "1")
+  field(LNK2, "$(PREFIX):SP$(FUNCTION)-INIT.CALC")
+}
+
 record(calcout, "$(PREFIX):SP$(FUNCTION)-INIT") {
+  field(INPA, "$(PREFIX):SP$(FUNCTION)-RBV MS")
+  field(OUT,  "$(PREFIX):SP$(FUNCTION)-INIT-FO PP")
   field(VAL,  "0")
   field(CALC, "1")
   field(OOPT, "Transition To Non-zero")
-  field(OUT,  "$(PREFIX):SP$(FUNCTION)-INIT-FO PP")
+  field(IVOA, "Don't drive outputs")
 }
 
 record(seq, "$(PREFIX):SP$(FUNCTION)-INIT-FO") {
