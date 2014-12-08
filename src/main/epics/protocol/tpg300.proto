@@ -1,5 +1,14 @@
 Terminator = CR LF;
 
+# Larger LockTimeout due to increased ReadTimeout in set_save_params protocol.
+LockTimeout = 10000;
+
+# Force disconnect on timeout to achieve consistent behavior with respect to
+# readback updates when the device is power cycled and is connected through a MOXA.
+@replytimeout {
+    disconnect;
+}
+
 get_puc {
 	out "PUC";
 	in ACK;
@@ -47,7 +56,9 @@ get_save_params {
     in "%d";
 }
 
+# Saving user defined parameters takes significantly longer (~3s). 
 set_save_params {
+    ReplyTimeout = 5000;
     @init {
         out "SAV";
         in ACK;
