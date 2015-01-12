@@ -1,6 +1,6 @@
 Terminator = CR LF;
 
-# Larger LockTimeout due to increased ReadTimeout in set_save_params protocol.
+# Larger LockTimeout due to increased ReplyTimeout in set_save_params protocol.
 LockTimeout = 10000;
 
 # Force disconnect on timeout to achieve consistent behavior with respect to

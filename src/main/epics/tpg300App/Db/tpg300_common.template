@@ -87,11 +87,11 @@ record(calcout, "$(PREFIX):MODE-RBV") {
 }
 
 record(seq, "$(PREFIX):MODE-FO") {
-  field(LNK1, "$(PREFIX):A1-MODE-RBV PP")
-  field(LNK2, "$(PREFIX):A2-MODE-RBV PP")
-  field(LNK3, "$(PREFIX):B1-MODE-RBV PP")
-  field(LNK4, "$(PREFIX):B2-MODE-RBV PP")
-  field(LNK5, "$(PREFIX):MODE-INIT PP")
+  field(DOL1, "$(PREFIX):A1-MODE-RBV PP")
+  field(DOL2, "$(PREFIX):A2-MODE-RBV PP")
+  field(DOL3, "$(PREFIX):B1-MODE-RBV PP")
+  field(DOL4, "$(PREFIX):B2-MODE-RBV PP")
+  field(DOL5, "$(PREFIX):MODE-INIT PP")
 }
 
 record(calcout, "$(PREFIX):MODE") {
@@ -132,11 +132,11 @@ record(calcout, "$(PREFIX):FILT-RBV") {
 }
 
 record(seq, "$(PREFIX):FILT-FO") {
-  field(LNK1, "$(PREFIX):A1-FILT-RBV PP")
-  field(LNK2, "$(PREFIX):A2-FILT-RBV PP")
-  field(LNK3, "$(PREFIX):B1-FILT-RBV PP")
-  field(LNK4, "$(PREFIX):B2-FILT-RBV PP")
-  field(LNK5, "$(PREFIX):FILT-INIT PP")
+  field(DOL1, "$(PREFIX):A1-FILT-RBV PP")
+  field(DOL2, "$(PREFIX):A2-FILT-RBV PP")
+  field(DOL3, "$(PREFIX):B1-FILT-RBV PP")
+  field(DOL4, "$(PREFIX):B2-FILT-RBV PP")
+  field(DOL5, "$(PREFIX):FILT-INIT PP")
 }
 
 record(calcout, "$(PREFIX):FILT") {
@@ -178,21 +178,21 @@ record(calcout, "$(PREFIX):FUNC-STAT-RBV") {
 }
 
 record(seq, "$(PREFIX):FUNC-STAT-FO") {
-  field(LNK1, "$(PREFIX):SP1-STAT-RBV PP")
-  field(LNK2, "$(PREFIX):SP2-STAT-RBV PP")
-  field(LNK3, "$(PREFIX):SP3-STAT-RBV PP")
-  field(LNK4, "$(PREFIX):SP4-STAT-RBV PP")
-  field(LNK5, "$(PREFIX):SPA-STAT-RBV PP")
-  field(LNK6, "$(PREFIX):SPB-STAT-RBV PP")
+  field(DOL1, "$(PREFIX):SP1-STAT-RBV PP")
+  field(DOL2, "$(PREFIX):SP2-STAT-RBV PP")
+  field(DOL3, "$(PREFIX):SP3-STAT-RBV PP")
+  field(DOL4, "$(PREFIX):SP4-STAT-RBV PP")
+  field(DOL5, "$(PREFIX):SPA-STAT-RBV PP")
+  field(DOL6, "$(PREFIX):SPB-STAT-RBV PP")
 }
 
 record(seq, "$(PREFIX):SCAN-RATE") {
   field(SCAN, "$(SCAN_RATE)")
-  field(LNK1, "$(PREFIX):A1-PRES-RBV PP")
-  field(LNK2, "$(PREFIX):A2-PRES-RBV PP")
-  field(LNK3, "$(PREFIX):B1-PRES-RBV PP")
-  field(LNK4, "$(PREFIX):B2-PRES-RBV PP")
-  field(LNK5, "$(PREFIX):FUNC-STAT-RBV PP")
+  field(DOL1, "$(PREFIX):A1-PRES-RBV PP")
+  field(DOL2, "$(PREFIX):A2-PRES-RBV PP")
+  field(DOL3, "$(PREFIX):B1-PRES-RBV PP")
+  field(DOL4, "$(PREFIX):B2-PRES-RBV PP")
+  field(DOL5, "$(PREFIX):FUNC-STAT-RBV PP")
 }
 
 
@@ -214,37 +214,37 @@ record(calcout, "$(PREFIX):RECNCT") {
 }
 
 record(seq, "$(PREFIX):CNCT-FO") {
-  field(LNK1, "$(PREFIX):FILT-CNCT-FO PP")
-  field(LNK2, "$(PREFIX):MODE-CNCT-FO PP")
-  field(LNK3, "$(PREFIX):SP1-CNCT-FO PP")
-  field(LNK4, "$(PREFIX):SP2-CNCT-FO PP")
-  field(LNK5, "$(PREFIX):SP3-CNCT-FO PP")
-  field(LNK6, "$(PREFIX):SP4-CNCT-FO PP")
-  field(LNK7, "$(PREFIX):SPA-CNCT-FO PP")
-  field(LNK8, "$(PREFIX):SPB-CNCT-FO PP")
-  field(LNK9, "$(PREFIX):RBV-FO PP")
+  field(DOL1, "$(PREFIX):FILT-CNCT-FO PP")
+  field(DOL2, "$(PREFIX):MODE-CNCT-FO PP")
+  field(DOL3, "$(PREFIX):SP1-CNCT-FO PP")
+  field(DOL4, "$(PREFIX):SP2-CNCT-FO PP")
+  field(DOL5, "$(PREFIX):SP3-CNCT-FO PP")
+  field(DOL6, "$(PREFIX):SP4-CNCT-FO PP")
+  field(DOL7, "$(PREFIX):SPA-CNCT-FO PP")
+  field(DOL8, "$(PREFIX):SPB-CNCT-FO PP")
+  field(DOL9, "$(PREFIX):RBV-FO PP")
 }
 
 record(seq, "$(PREFIX):RBV-FO") {
-  field(LNK1, "$(PREFIX):SP-RBV-FO PP")
-  field(LNK2, "$(PREFIX):FILT-RBV PP")
-  field(LNK3, "$(PREFIX):MODE-RBV PP")
-  field(LNK4, "$(PREFIX):UNITS-RBV PP")
-  field(LNK5, "$(PREFIX):PUC-RBV PP")
-  field(LNK6, "$(PREFIX):SAVE-PARAMS-RBV PP")
-  field(LNK7, "$(PREFIX):VERSION-RBV PP")
-  field(LNK8, "$(PREFIX):SLOT1-RBV PP")
-  field(LNK9, "$(PREFIX):SLOT2-RBV PP")
-  field(LNKA, "$(PREFIX):SLOT3-RBV PP")
+  field(DOL1, "$(PREFIX):SP-RBV-FO PP")
+  field(DOL2, "$(PREFIX):FILT-RBV PP")
+  field(DOL3, "$(PREFIX):MODE-RBV PP")
+  field(DOL4, "$(PREFIX):UNITS-RBV PP")
+  field(DOL5, "$(PREFIX):PUC-RBV PP")
+  field(DOL6, "$(PREFIX):SAVE-PARAMS-RBV PP")
+  field(DOL7, "$(PREFIX):VERSION-RBV PP")
+  field(DOL8, "$(PREFIX):SLOT1-RBV PP")
+  field(DOL9, "$(PREFIX):SLOT2-RBV PP")
+  field(DOLA, "$(PREFIX):SLOT3-RBV PP")
 }
 
 record(seq, "$(PREFIX):SP-RBV-FO") {
-  field(LNK1, "$(PREFIX):SP1-RBV PP")
-  field(LNK2, "$(PREFIX):SP2-RBV PP")
-  field(LNK3, "$(PREFIX):SP3-RBV PP")
-  field(LNK4, "$(PREFIX):SP4-RBV PP")
-  field(LNK5, "$(PREFIX):SPA-RBV PP")
-  field(LNK6, "$(PREFIX):SPB-RBV PP")
+  field(DOL1, "$(PREFIX):SP1-RBV PP")
+  field(DOL2, "$(PREFIX):SP2-RBV PP")
+  field(DOL3, "$(PREFIX):SP3-RBV PP")
+  field(DOL4, "$(PREFIX):SP4-RBV PP")
+  field(DOL5, "$(PREFIX):SPA-RBV PP")
+  field(DOL6, "$(PREFIX):SPB-RBV PP")
 }
 
 record(seq, "$(PREFIX):FILT-CNCT-FO") {
@@ -264,14 +264,14 @@ record(calcout, "$(PREFIX):FILT-INIT") {
 }
 
 record(seq, "$(PREFIX):FILT-INIT-FO") {
-  field(LNK1, "$(PREFIX):A1-FILT-RBV")
-  field(LNK2, "$(PREFIX):A2-FILT-RBV")
-  field(LNK3, "$(PREFIX):B1-FILT-RBV")
-  field(LNK4, "$(PREFIX):B2-FILT-RBV")
-  field(DOL1, "$(PREFIX):A1-FILT")
-  field(DOL2, "$(PREFIX):A2-FILT")
-  field(DOL3, "$(PREFIX):B1-FILT")
-  field(DOL4, "$(PREFIX):B2-FILT")
+  field(LNK1, "$(PREFIX):A1-FILT")
+  field(LNK2, "$(PREFIX):A2-FILT")
+  field(LNK3, "$(PREFIX):B1-FILT")
+  field(LNK4, "$(PREFIX):B2-FILT")
+  field(DOL1, "$(PREFIX):A1-FILT-RBV")
+  field(DOL2, "$(PREFIX):A2-FILT-RBV")
+  field(DOL3, "$(PREFIX):B1-FILT-RBV")
+  field(DOL4, "$(PREFIX):B2-FILT-RBV")
 }
 
 record(seq, "$(PREFIX):MODE-CNCT-FO") {
@@ -291,12 +291,12 @@ record(calcout, "$(PREFIX):MODE-INIT") {
 }
 
 record(seq, "$(PREFIX):MODE-INIT-FO") {
-  field(LNK1, "$(PREFIX):A1-MODE-RBV")
-  field(LNK2, "$(PREFIX):A2-MODE-RBV")
-  field(LNK3, "$(PREFIX):B1-MODE-RBV")
-  field(LNK4, "$(PREFIX):B2-MODE-RBV")
-  field(DOL1, "$(PREFIX):A1-MODE")
-  field(DOL2, "$(PREFIX):A2-MODE")
-  field(DOL3, "$(PREFIX):B1-MODE")
-  field(DOL4, "$(PREFIX):B2-MODE")
+  field(LNK1, "$(PREFIX):A1-MODE")
+  field(LNK2, "$(PREFIX):A2-MODE")
+  field(LNK3, "$(PREFIX):B1-MODE")
+  field(LNK4, "$(PREFIX):B2-MODE")
+  field(DOL1, "$(PREFIX):A1-MODE-RBV")
+  field(DOL2, "$(PREFIX):A2-MODE-RBV")
+  field(DOL3, "$(PREFIX):B1-MODE-RBV")
+  field(DOL4, "$(PREFIX):B2-MODE-RBV")
 }

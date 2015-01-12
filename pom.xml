@@ -4,7 +4,7 @@
     <groupId>org.iter.codac.units</groupId>
     <artifactId>epics-tpg300</artifactId>
     <packaging>codac</packaging>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>EPICS Pfeiffer TPG300</name>
     <description>EPICS Device support for the Pfeiffer TPG300 vacuum gauge controller</description>
     <url>http://www.ess.org/</url>

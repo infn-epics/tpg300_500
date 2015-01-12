@@ -30,14 +30,14 @@ function cmd_func_stat {
 function cmd_get_mode {
     echo -e $ACK
     read resp;
-    echo 0,0,0,0;
+    echo 1,1,1,1;
 }
 
 
 function cmd_get_filter {
     echo -e $ACK
     read resp;
-    echo 0,0,0,0;
+    echo 1,1,1,1;
 }
 
 
@@ -79,7 +79,7 @@ function cmd_get_puc {
 function cmd_get_units {
     echo -e $ACK
     read resp;
-    echo 0;
+    echo 1;
 }
 
 
