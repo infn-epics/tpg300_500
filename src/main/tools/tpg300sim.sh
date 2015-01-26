@@ -1,106 +1,45 @@
-# Usage: ncat -lkC <port_number> -c 'sh tpg300sim.sh'
+# Usage: ncat -lC <port_number> -c 'sh tpg300sim.sh'
 
-ENQ="\005"
-ACK="\006"
+ENQ=$'\x05'
+ACK=$'\x06'
+NAK=$'\x15'
 
 sim_state="tpg300sim_state"
 
-
-function cmd_get_err {
-    echo -e $ACK
-    read resp;
-    echo 0;
-}
-
-
-function cmd_get_function {
-    echo -e $ACK
-    read resp;
-    echo 1.0E-11,1.0E-1,0;
-}
-
-
-function cmd_func_stat {
-    echo -e $ACK
-    read resp;
-    echo 0,0,0,0,0,0;
-}
-
-
-function cmd_get_mode {
-    echo -e $ACK
-    read resp;
-    echo 1,1,1,1;
-}
-
-
-function cmd_get_filter {
-    echo -e $ACK
-    read resp;
-    echo 1,1,1,1;
-}
-
-
-function cmd_get_pressure {
-    echo -e $ACK
-    read resp;
-    echo 0,1.0E-9;
-}
-
-
-function cmd_get_sav {
-    echo -e $ACK
-    read resp;
-    echo 0;
-}
-
-
-function cmd_get_tid {
-    echo -e $ACK
-    read resp;
-    echo 0,0,0;
-}
-
-
-function cmd_get_version {
-    echo -e $ACK
-    read resp;
-    echo "-- VERSION";
-}
-
-
-function cmd_get_puc {
-    echo -e $ACK
-    read resp;
-    echo 0;
-}
-
-
-function cmd_get_units {
-    echo -e $ACK
-    read resp;
-    echo 1;
-}
-
-
-function cmd_get_baud {
-    echo -e $ACK
-    read resp;
-    echo 0;
-}
-
+puc="0"
+units="1"
+baud="1"
+version="-- VERSION"
+tid="NO P,NO P,NO P"
+sav="0"
+pressure="0,1.0E-11"
+mode="3,3,3,3"
+filter="1,1,1,1"
+func_stat="0,0,0,0,0,0"
+func_param="1.0E-15,1.0E-11,0"
+err="0"
 
 
 function cmd_handle {
+
+    if [[ $1 =~ $ENQ ]]; then
+        echo $state
+        return
+    fi
+
     cmd=$(tr -dc '[[:print:]]' <<< "$1");
+    
+    if [[ ! -e $sim_state ]]; then
+        touch $sim_state
+    fi
     
     if [[ "$cmd" =~ ^OFF$ ]]; then
         echo $cmd > $sim_state
-        echo -e "\nsim $cmd\n" 1>&2
+        echo -e "\nsimulator $cmd\n" 1>&2
         return
     elif [[ "$cmd" =~ ^ON$ ]]; then
         echo $cmd > $sim_state
-        echo -e "\nsim $cmd\n" 1>&2
+        echo -e "\nsimulator $cmd\n" 1>&2
         return
     fi
     
@@ -111,68 +50,80 @@ function cmd_handle {
     
     
     if [[ "$cmd" =~ ^ERR$ ]]; then
-        cmd_get_err $cmd;
+        state=$err
     
     elif [[ "$cmd" =~ ^SP[1234AB]$ ]]; then
-        cmd_get_function $cmd;
-        
-    elif [[ "$cmd" =~ ^SP[1234AB],*,*,[0-9]$ ]]; then
-        cmd_get_function $cmd;
+        state=$func_param
+    
+    elif [[ "$cmd" =~ ^SP[1234AB],*,*,[0-9] ]]; then
+        func_param=${cmd#SP?,}
+        state=$func_param
     
     elif [[ "$cmd" =~ ^SPS$ ]]; then
-        cmd_func_stat $cmd;
+        state=$func_stat
     
     elif [[ "$cmd" =~ ^FIL$ ]]; then
-        cmd_get_filter $cmd;
+        state=$filter
         
-    elif [[ "$cmd" =~ ^FIL,[0-9],[0-9],[0-9],[0-9]$ ]]; then
-        cmd_get_filter $cmd;
+    elif [[ "$cmd" =~ ^FIL,[1-3],[1-3],[1-3],[1-3]$ ]]; then
+        filter=${cmd#FIL,}
+        state=$filter
     
     elif [[ "$cmd" =~ ^SEN$ ]]; then
-        cmd_get_mode $cmd;
+        state=$mode
         
-    elif [[ "$cmd" =~ ^SEN,[0-9],[0-9],[0-9],[0-9]$ ]]; then
-        cmd_get_mode $cmd;
+    elif [[ "$cmd" =~ ^SEN,[0-3],[0-3],[0-3],[0-3]$ ]]; then
+        mode=${cmd#SEN,}
+        state=$mode
     
     elif [[ "$cmd" =~ ^P[AB][12]$ ]]; then
-        cmd_get_pressure $cmd;
+        pressure=0,$((RANDOM%9 + 1)).$((RANDOM%10))E-$((RANDOM%5 + 10))
+        state=$pressure
     
     elif [[ "$cmd" =~ ^TID$ ]]; then
-        cmd_get_tid $cmd;
+        state=$tid
         
     elif [[ "$cmd" =~ ^PNR$ ]]; then
-        cmd_get_version $cmd;
+        state=$version
     
     elif [[ "$cmd" =~ ^UNI$ ]]; then
-        cmd_get_units $cmd;
+        state=$units
     
     elif [[ "$cmd" =~ ^UNI,[123]$ ]]; then
-        cmd_get_units $cmd;
+        units=${cmd#UNI,}
+        state=$units
     
     elif [[ "$cmd" =~ ^BAU$ ]]; then
-        cmd_get_baud $cmd;
+        state=$baud
     
     elif [[ "$cmd" =~ ^PUC$ ]]; then
-        cmd_get_puc $cmd;
+        state=$puc
     
     elif [[ "$cmd" =~ ^PUC,[01]$ ]]; then
-        cmd_get_puc $cmd;
+        puc=${cmd#PUC,}
+        state=$puc
     
     elif [[ "$cmd" =~ ^SAV$ ]]; then
-        cmd_get_sav $cmd;
+        state=$sav
+        echo -e $ACK
     
     elif [[ "$cmd" =~ ^SAV,[012]$ ]]; then
-        cmd_get_sav $cmd;
+        sav=${cmd#SAV,}
+        state=$sav
         
     else
-        echo [echo] $cmd;
+        echo "unknown $cmd" 1>&2
+        echo -e $NAK
+        return
     fi
+    
+    echo $ACK
     
     echo "command $cmd" 1>&2
 }
 
 
 while true; 
-    do sleep 0.001 && read cmd && cmd_handle $cmd; 
+    do read cmd && cmd_handle $cmd; 
 done
 
