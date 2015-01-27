@@ -4,6 +4,7 @@ ENQ=$'\x05'
 ACK=$'\x06'
 NAK=$'\x15'
 
+sim_init=0
 sim_state="tpg300sim_state"
 
 puc="0"
@@ -123,7 +124,7 @@ function cmd_handle {
 }
 
 
-while true; 
-    do read cmd && cmd_handle $cmd; 
+while true;
+    do read -r cmd && cmd_handle $cmd; 
 done
 
