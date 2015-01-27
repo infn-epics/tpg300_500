@@ -4,7 +4,6 @@ ENQ=$'\x05'
 ACK=$'\x06'
 NAK=$'\x15'
 
-sim_init=0
 sim_state="tpg300sim_state"
 
 puc="0"
