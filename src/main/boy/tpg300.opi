@@ -207,7 +207,11 @@
     <rules />
     <pv_value />
     <items>
-      <s>TPG300</s>
+      <s>TPG300-1</s>
+      <s>TPG300-2</s>
+      <s>TPG300-3</s>
+      <s>TPG300-4</s>
+      <s>TPG300-5</s>
     </items>
     <border_width>1</border_width>
     <border_color>
