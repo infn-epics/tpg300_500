@@ -82,7 +82,7 @@ get_version {
 	out "PNR";
 	in ACK;
     out ENQ;
-    in "-- %s";
+    in "%#s";
 }
 
 get_slot_1 {
