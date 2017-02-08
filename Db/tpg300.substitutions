@@ -1,25 +1,28 @@
 file tpg300_common.template
 {
 	pattern{NULL}
-		   {""}
+
+	{""}
 }
 
 file tpg300_sensor.template
 {
 	pattern{SENSOR  SOURCE}
-		   {A1      A}
-           {A2      B}
-           {B1      C}
-           {B2      D}
+
+	{A1      A}
+	{A2      B}
+	{B1      C}
+	{B2      D}
 }
 
 file tpg300_function.template
 {
 	pattern{FUNCTION    SOURCE}
-		   {1           A}
-           {2           B}
-           {3           C}
-           {4           D}
-           {A           E}
-           {B           F}
+
+	{1           A}
+	{2           B}
+	{3           C}
+	{4           D}
+	{A           E}
+	{B           F}
 }

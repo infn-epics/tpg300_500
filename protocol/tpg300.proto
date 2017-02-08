@@ -1,3 +1,9 @@
+################################################################################
+#
+# Protocol file for Pfeiffer TPG-300 gauge controller
+#
+################################################################################
+
 Terminator = CR LF;
 
 # Larger LockTimeout due to increased ReplyTimeout in set_save_params protocol.
@@ -9,189 +15,206 @@ LockTimeout = 10000;
     disconnect;
 }
 
-get_puc {
-	out "PUC";
-	in ACK;
+read_error {
     out ENQ;
-    in "%d";
+    in  "%(E)d";
 }
+
+get_error_code {
+    out "ERR";
+    in  ACK;
+    out ENQ;
+    in  "%(E)d";
+}
+
+
+get_puc {
+    out "PUC";
+    in  ACK;
+    out ENQ;
+    in  "%d";
+}
+
 
 set_puc {
-    @init {
-    	out "PUC";
-        in ACK;
-        out ENQ;
-        in "%d";
-    }
-	out "PUC,%d";
-	in ACK;
+    out "PUC,%d";
+    in  ACK;
     out ENQ;
-    in "%*d";
+    in  "%*d";
+
+    @init {
+        get_puc;
+    }
 }
+
 
 get_units {
-	out "UNI";
-	in ACK;
+    out "UNI";
+    in  ACK;
     out ENQ;
-    in "%d";
+    in  "%d";
 }
 
+
 set_units {
-    @init {
-    	out "UNI";
-        in ACK;
-        out ENQ;
-        in "%d";
-    }
-	out "UNI,%d";
-	in ACK;
+    out "UNI,%d";
+    in  ACK;
     out ENQ;
-    in "%*d";
+    in  "%*d";
+
+    @init {
+        get_units;
+    }
 }
+
 
 get_save_params {
     out "SAV";
-    in ACK;
+    in  ACK;
     out ENQ;
-    in "%d";
+    in  "%d";
 }
+
 
 # Saving user defined parameters takes significantly longer (~3s). 
 set_save_params {
     ReplyTimeout = 5000;
-    @init {
-        out "SAV";
-        in ACK;
-        out ENQ;
-        in "%d";
-    }
+
     out "SAV,%d";
-    in ACK;
+    in  ACK;
     out ENQ;
-    in "%*d";
+    in  "%*d";
+
+    @init {
+        get_save_params;
+    }
 }
+
 
 get_baud {
-	out "BAU";
-	in ACK;
+    out "BAU";
+    in  ACK;
     out ENQ;
-    in "%d";
+    in  "%d";
 }
+
 
 get_version {
-	out "PNR";
-	in ACK;
+    out "PNR";
+    in  ACK;
     out ENQ;
-    in "-- %s";
+    in  "%#s";
 }
+
 
 get_slot_1 {
-	out "TID";
-	in ACK;
+    out "TID";
+    in  ACK;
     out ENQ;
-    in "%[^,],%*[^,],%*[^,]";;
+    in  "%[^,],%*[^,],%*[^,]";
 }
+
 
 get_slot_2 {
-	out "TID";
-	in ACK;
+    out "TID";
+    in  ACK;
     out ENQ;
-    in "%*[^,],%[^,],%*[^,]";
+    in  "%*[^,],%[^,],%*[^,]";
 }
+
 
 get_slot_3 {
-	out "TID";
-	in ACK;
+    out "TID";
+    in  ACK;
     out ENQ;
-    in "%*[^,],%*[^,],%[^,]";
+    in  "%*[^,],%*[^,],%[^,]";
 }
+
 
 get_pressure {
-	out "P\$1";
-	in ACK;
+    out "P\$1";
+    in  ACK;
     out ENQ;
-    in "%(\$2)d,%E";
+    in  "%(\$2)d,%E";
 }
+
 
 get_mode {
-	out "SEN";
-	in ACK;
+    out "SEN";
+    in  ACK;
     out ENQ;
-    in "%(A)d,%(B)d,%(C)d,%(D)d";
+    in  "%(A)d,%(B)d,%(C)d,%(D)d";
 }
+
 
 set_mode {
-	out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
-	in ACK;
+    out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
+    in  ACK;
     out ENQ;
-    in "%*d,%*d,%*d,%*d";
+    in  "%*d,%*d,%*d,%*d";
+
+#FIXME: do we really need this?
+    get_error_code;
+
     @mismatch
     {
-        in NAK;
-        out "ERR";
-        in ACK;
-        out ENQ;
-        in "%(E)d";
+        in  NAK;
+        read_error;
     }
-    out "ERR";
-    in ACK;
-    out ENQ;
-    in "%(E)d";
 }
+
 
 get_filter {
-	out "FIL";
-	in ACK;
+    out "FIL";
+    in  ACK;
     out ENQ;
-    in "%(A)d,%(B)d,%(C)d,%(D)d";
+    in  "%(A)d,%(B)d,%(C)d,%(D)d";
 }
+
 
 set_filter {
-	out "FIL,%(A)d,%(B)d,%(C)d,%(D)d";
-	in ACK;
+    out "FIL,%(A)d,%(B)d,%(C)d,%(D)d";
+    in  ACK;
     out ENQ;
-    in "%*d,%*d,%*d,%*d";
+    in  "%*d,%*d,%*d,%*d";
+
+#FIXME: do we really need this?
+    get_error_code;
+
     @mismatch {
-        in NAK;
-        out "ERR";
-        in ACK;
-        out ENQ;
-        in "%(E)d";
+        in  NAK;
+        read_error;
     }
-    out "ERR";
-    in ACK;
-    out ENQ;
-    in "%(E)d";
 }
+
 
 get_function {
-	out "SP\$1";
-	in ACK;
+    out "SP\$1";
+    in  ACK;
     out ENQ;
-    in "%(A)E,%(B)E,%(C)d";
+    in  "%(A)E,%(B)E,%(C)d";
 }
+
 
 set_function {
-	out "SP\$1,%(A)1.1E,%(B)1.1E,%(C)d";
-	in ACK;
+    out "SP\$1,%(A)1.1E,%(B)1.1E,%(C)d";
+    in  ACK;
     out ENQ;
-    in "%*E,%*E,%*d";
+    in  "%*E,%*E,%*d";
+
+#FIXME: do we really need this?
+    get_error_code;
+
     @mismatch {
-        in NAK;
-        out "ERR";
-        in ACK;
-        out ENQ;
-        in "%(D)d";
+        in  NAK;
+        read_error;
     }
-    out "ERR";
-    in ACK;
-    out ENQ;
-    in "%(D)d";
 }
 
+
 get_func_stat {
-	out "SPS";
-	in ACK;
+    out "SPS";
+    in  ACK;
     out ENQ;
-    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
+    in  "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
 }
