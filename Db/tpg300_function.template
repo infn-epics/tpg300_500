@@ -1,37 +1,47 @@
-record(mbbo, "$(PREFIX):SP$(FUNCTION)-ASSIGN") {
+record(mbbo, "$(PREFIX):Relay$(FUNCTION):SensorS")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-ASSIGN")
   field(ZRST, "NO ASSIGNMENT")
   field(ONST, "SENSOR A1")
   field(TWST, "SENSOR A2")
   field(THST, "SENSOR B1")
   field(FRST, "SENSOR B2")
-  field(FLNK, "$(PREFIX):SP$(FUNCTION)")
-  field(STAT, "NO_ALARM")
-  field(SEVR, "NO_ALARM")
+  field(FLNK, "$(PREFIX):Relay$(FUNCTION):iCommitS")
+  field(VAL,  "0")
 }
 
-record(ao, "$(PREFIX):SP$(FUNCTION)-LOW") {
-  field(STAT, "NO_ALARM")
-  field(SEVR, "NO_ALARM")
+record(ao, "$(PREFIX):Relay$(FUNCTION):SetpointLowS")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-LOW")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+  field(VAL,  "1.0e-11")
 }
 
-record(ao, "$(PREFIX):SP$(FUNCTION)-HIGH") {
-  field(STAT, "NO_ALARM")
-  field(SEVR, "NO_ALARM")
+record(ao, "$(PREFIX):Relay$(FUNCTION):SetpointHighS")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-HIGH")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+  field(VAL,  "1.0e-11")
 }
 
-record(calcout, "$(PREFIX):SP$(FUNCTION)") {
+record(calcout, "$(PREFIX):Relay$(FUNCTION):iCommitS")
+{
+  alias("$(PREFIX):SP$(FUNCTION)")
   field(DTYP, "stream")
   field(OUT,  "@tpg300.proto set_function($(FUNCTION)) $(TPG_PORT)")
-  field(INPA, "$(PREFIX):SP$(FUNCTION)-LOW")
-  field(INPB, "$(PREFIX):SP$(FUNCTION)-HIGH")
-  field(INPC, "$(PREFIX):SP$(FUNCTION)-ASSIGN")
-  field(FLNK, "$(PREFIX):SP$(FUNCTION)-STAT")
+  field(INPA, "$(PREFIX):Relay$(FUNCTION):SetpointLowS")
+  field(INPB, "$(PREFIX):Relay$(FUNCTION):SetpointHighS")
+  field(INPC, "$(PREFIX):Relay$(FUNCTION):SensorS")
+  field(FLNK, "$(PREFIX):Relay$(FUNCTION):CommitS-ErrorR")
 }
 
-record(mbbi, "$(PREFIX):SP$(FUNCTION)-STAT") {
+record(mbbi, "$(PREFIX):Relay$(FUNCTION):CommitS-ErrorR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "$(PREFIX):SP$(FUNCTION).E")
-  field(PINI, "YES")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iCommitS.E")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -46,32 +56,42 @@ record(mbbi, "$(PREFIX):SP$(FUNCTION)-STAT") {
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
-  field(FLNK, "$(PREFIX):SP$(FUNCTION)-RBV")
+  field(FLNK, "$(PREFIX):Relay$(FUNCTION):iGetR")
 }
 
-record(calcout, "$(PREFIX):SP$(FUNCTION)-RBV") {
+record(calcout, "$(PREFIX):Relay$(FUNCTION):iGetR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-RBV")
   field(DTYP, "stream")
   field(OUT,  "@tpg300.proto get_function($(FUNCTION)) $(TPG_PORT)")
-  field(FLNK, "$(PREFIX):SP$(FUNCTION)-FO")
+  field(FLNK, "$(PREFIX):Relay$(FUNCTION):iGetR-FO")
 }
 
-record(fanout, "$(PREFIX):SP$(FUNCTION)-FO") {
-  field(LNK1, "$(PREFIX):SP$(FUNCTION)-LOW-RBV")
-  field(LNK2, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
-  field(LNK3, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
-  field(LNK4, "$(PREFIX):SP$(FUNCTION)-INIT")
+record(fanout, "$(PREFIX):Relay$(FUNCTION):iGetR-FO")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-FO")
+  field(LNK1, "$(PREFIX):Relay$(FUNCTION):SetpointLowR")
+  field(LNK2, "$(PREFIX):Relay$(FUNCTION):SetpointHighR")
+  field(LNK3, "$(PREFIX):Relay$(FUNCTION):SensorR")
+  field(LNK4, "$(PREFIX):Relay$(FUNCTION):iInitS")
 }
 
-record(ai, "$(PREFIX):SP$(FUNCTION)-LOW-RBV") {
-  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.A")
+record(ai, "$(PREFIX):Relay$(FUNCTION):SetpointLowR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-LOW-RBV")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.A")
 }
 
-record(ai, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV") {
-  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.B")
+record(ai, "$(PREFIX):Relay$(FUNCTION):SetpointHighR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.B")
 }
 
-record(mbbi, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV") {
-  field(INP,  "$(PREFIX):SP$(FUNCTION)-RBV.C")
+record(mbbi, "$(PREFIX):Relay$(FUNCTION):SensorR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.C")
   field(ZRST, "NO ASSIGNMENT")
   field(ONST, "SENSOR A1")
   field(TWST, "SENSOR A2")
@@ -79,33 +99,41 @@ record(mbbi, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV") {
   field(FRST, "SENSOR B2")
 }
 
-record(seq, "$(PREFIX):SP$(FUNCTION)-CNCT-FO") {
+record(seq, "$(PREFIX):Relay$(FUNCTION):iConnect-FO")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-CNCT-FO")
   field(DOL1, "0")
-  field(LNK1, "$(PREFIX):SP$(FUNCTION)-INIT.CALC PP")
+  field(LNK1, "$(PREFIX):Relay$(FUNCTION):iInitS.CALC PP")
   field(DOL2, "1")
-  field(LNK2, "$(PREFIX):SP$(FUNCTION)-INIT.CALC")
+  field(LNK2, "$(PREFIX):Relay$(FUNCTION):iInitS.CALC")
 }
 
-record(calcout, "$(PREFIX):SP$(FUNCTION)-INIT") {
-  field(INPA, "$(PREFIX):SP$(FUNCTION)-RBV MS")
-  field(OUT,  "$(PREFIX):SP$(FUNCTION)-INIT-FO PP")
+record(calcout, "$(PREFIX):Relay$(FUNCTION):iInitS")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-INIT")
+  field(INPA, "$(PREFIX):Relay$(FUNCTION):iGetR MS")
+  field(OUT,  "$(PREFIX):Relay$(FUNCTION):iInitS-FO PP")
   field(VAL,  "0")
   field(CALC, "1")
   field(OOPT, "Transition To Non-zero")
   field(IVOA, "Don't drive outputs")
 }
 
-record(seq, "$(PREFIX):SP$(FUNCTION)-INIT-FO") {
-  field(LNK1, "$(PREFIX):SP$(FUNCTION)-LOW")
-  field(LNK2, "$(PREFIX):SP$(FUNCTION)-HIGH")
-  field(LNK3, "$(PREFIX):SP$(FUNCTION)-ASSIGN")
-  field(DOL1, "$(PREFIX):SP$(FUNCTION)-LOW-RBV")
-  field(DOL2, "$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
-  field(DOL3, "$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
+record(seq, "$(PREFIX):Relay$(FUNCTION):iInitS-FO")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-INIT-FO")
+  field(LNK1, "$(PREFIX):Relay$(FUNCTION):SetpointLowS PP")
+  field(LNK2, "$(PREFIX):Relay$(FUNCTION):SetpointHighS PP")
+  field(LNK3, "$(PREFIX):Relay$(FUNCTION):SensorS")
+  field(DOL1, "$(PREFIX):Relay$(FUNCTION):SetpointLowR")
+  field(DOL2, "$(PREFIX):Relay$(FUNCTION):SetpointHighR")
+  field(DOL3, "$(PREFIX):Relay$(FUNCTION):SensorR")
 }
 
-record(bi, "$(PREFIX):SP$(FUNCTION)-STAT-RBV") {
-  field(INP,  "$(PREFIX):FUNC-STAT-RBV.$(SOURCE)")
+record(bi, "$(PREFIX):Relay$(FUNCTION):SetpointStatusR")
+{
+  alias("$(PREFIX):SP$(FUNCTION)-STAT-RBV")
+  field(INP,  "$(PREFIX):iRelaySetPointStatusesR.$(SOURCE)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }

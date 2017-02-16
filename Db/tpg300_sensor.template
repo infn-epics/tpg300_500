@@ -1,11 +1,16 @@
-record(ai, "$(PREFIX):$(SENSOR)-PRES-RBV") {
+record(ai, "$(PREFIX):$(SENSOR):PressureR")
+{
+  alias("$(PREFIX):$(SENSOR)-PRES-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_pressure($(SENSOR),$(PREFIX):$(SENSOR)-PRES-STAT) $(TPG_PORT)")
+  field(INP,  "@tpg300.proto get_pressure($(SENSOR),$(PREFIX):$(SENSOR):StatusR) $(TPG_PORT)")
   field(MDEL, "-1")
-  field(SDIS, "$(PREFIX):$(SENSOR)-PRES-STAT MS")
+  field(DISV, "-1")
+  field(SDIS, "$(PREFIX):$(SENSOR):StatusR MS")
 }
 
-record(mbbi, "$(PREFIX):$(SENSOR)-PRES-STAT") {
+record(mbbi, "$(PREFIX):$(SENSOR):StatusR")
+{
+  alias("$(PREFIX):$(SENSOR)-PRES-STAT")
   field(VAL,  "0")
   field(PINI, "YES")
   field(ZRST, "DATA OK")
@@ -21,33 +26,37 @@ record(mbbi, "$(PREFIX):$(SENSOR)-PRES-STAT") {
   field(FVSV, "INVALID")
 }
 
-record(mbbo, "$(PREFIX):$(SENSOR)-MODE") {
-  field(ZRST, "NO SENSOR")
-  field(ONST, "OFF")
-  field(TWST, "AUTOMATIC")
-  field(THST, "ON")
-  field(STAT, "NO_ALARM")
-  field(SEVR, "NO_ALARM")
-}
-
-record(mbbi, "$(PREFIX):$(SENSOR)-MODE-RBV") {
-  field(INP,  "$(PREFIX):MODE-RBV.$(SOURCE)")
+record(mbbo, "$(PREFIX):$(SENSOR):ControlModeS")
+{
+  alias("$(PREFIX):$(SENSOR)-MODE")
   field(ZRST, "NO SENSOR")
   field(ONST, "OFF")
   field(TWST, "AUTOMATIC")
   field(THST, "ON")
 }
 
-record(mbbo, "$(PREFIX):$(SENSOR)-FILT") {
+record(mbbi, "$(PREFIX):$(SENSOR):ControlModeR")
+{
+  alias("$(PREFIX):$(SENSOR)-MODE-RBV")
+  field(INP,  "$(PREFIX):iSensorControlModesR.$(SOURCE)")
+  field(ZRST, "NO SENSOR")
+  field(ONST, "OFF")
+  field(TWST, "AUTOMATIC")
+  field(THST, "ON")
+}
+
+record(mbbo, "$(PREFIX):$(SENSOR):FilterTimeS")
+{
+  alias("$(PREFIX):$(SENSOR)-FILT")
   field(ONST, "FAST")
   field(TWST, "MEDIUM")
   field(THST, "SLOW")
-  field(STAT, "NO_ALARM")
-  field(SEVR, "NO_ALARM")
 }
 
-record(mbbi, "$(PREFIX):$(SENSOR)-FILT-RBV") {
-  field(INP,  "$(PREFIX):FILT-RBV.$(SOURCE)")
+record(mbbi, "$(PREFIX):$(SENSOR):FilterTimeR")
+{
+  alias("$(PREFIX):$(SENSOR)-FILT-RBV")
+  field(INP,  "$(PREFIX):iSensorFilterTimesR.$(SOURCE)")
   field(ONST, "FAST")
   field(TWST, "MEDIUM")
   field(THST, "SLOW")
