@@ -1,3 +1,15 @@
+record(sseq, "$(PREFIX):Relay$(FUNCTION):iUnitChanged")
+{
+  field(DOL1, "$(PREFIX):UnitR CPP")
+  field(LNK1, "$(PREFIX):Relay$(FUNCTION):SetpointLowR.EGU NPP")
+  field(DOL2, "$(PREFIX):Relay$(FUNCTION):iUnitChanged.STR1")
+  field(LNK2, "$(PREFIX):Relay$(FUNCTION):SetpointHighR.EGU NPP")
+  field(DOL3, "$(PREFIX):Relay$(FUNCTION):iUnitChanged.STR1")
+  field(LNK3, "$(PREFIX):Relay$(FUNCTION):SetpointLowS.EGU NPP")
+  field(DOL4, "$(PREFIX):Relay$(FUNCTION):iUnitChanged.STR1")
+  field(LNK4, "$(PREFIX):Relay$(FUNCTION):SetpointHighS.EGU NPP")
+}
+
 record(mbbo, "$(PREFIX):Relay$(FUNCTION):SensorS")
 {
   alias("$(PREFIX):SP$(FUNCTION)-ASSIGN")
@@ -41,7 +53,7 @@ record(mbbi, "$(PREFIX):Relay$(FUNCTION):CommitS-ErrorR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "$(PREFIX):Relay$(FUNCTION):iCommitS.E")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iCommitS.E MS")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -79,19 +91,19 @@ record(fanout, "$(PREFIX):Relay$(FUNCTION):iGetR-FO")
 record(ai, "$(PREFIX):Relay$(FUNCTION):SetpointLowR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-LOW-RBV")
-  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.A")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.A MS")
 }
 
 record(ai, "$(PREFIX):Relay$(FUNCTION):SetpointHighR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-HIGH-RBV")
-  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.B")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.B MS")
 }
 
 record(mbbi, "$(PREFIX):Relay$(FUNCTION):SensorR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-ASSIGN-RBV")
-  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.C")
+  field(INP,  "$(PREFIX):Relay$(FUNCTION):iGetR.C MS")
   field(ZRST, "NO ASSIGNMENT")
   field(ONST, "SENSOR A1")
   field(TWST, "SENSOR A2")
@@ -103,9 +115,7 @@ record(seq, "$(PREFIX):Relay$(FUNCTION):iConnect-FO")
 {
   alias("$(PREFIX):SP$(FUNCTION)-CNCT-FO")
   field(DOL1, "0")
-  field(LNK1, "$(PREFIX):Relay$(FUNCTION):iInitS.CALC PP")
-  field(DOL2, "1")
-  field(LNK2, "$(PREFIX):Relay$(FUNCTION):iInitS.CALC")
+  field(LNK1, "$(PREFIX):Relay$(FUNCTION):iInitS.PVAL")
 }
 
 record(calcout, "$(PREFIX):Relay$(FUNCTION):iInitS")
@@ -133,7 +143,7 @@ record(seq, "$(PREFIX):Relay$(FUNCTION):iInitS-FO")
 record(bi, "$(PREFIX):Relay$(FUNCTION):SetpointStatusR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-STAT-RBV")
-  field(INP,  "$(PREFIX):iRelaySetPointStatusesR.$(SOURCE)")
+  field(INP,  "$(PREFIX):iRelaySetpointStatusesR.$(SOURCE) MSS")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }

@@ -1,18 +1,30 @@
+record(calcout, "$(PREFIX):$(SENSOR):iGetR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@tpg300.proto get_pressure($(SENSOR)) $(TPG_PORT)")
+  field(FLNK, "$(PREFIX):$(SENSOR):StatusR")
+}
+
+record(stringout, "$(PREFIX):$(SENSOR):iUnitChanged")
+{
+  field(DOL,  "$(PREFIX):UnitR CPP")
+  field(OMSL, "closed_loop")
+  field(OUT,  "$(PREFIX):$(SENSOR):PressureR.EGU NPP")
+}
+
 record(ai, "$(PREFIX):$(SENSOR):PressureR")
 {
   alias("$(PREFIX):$(SENSOR)-PRES-RBV")
-  field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_pressure($(SENSOR),$(PREFIX):$(SENSOR):StatusR) $(TPG_PORT)")
-  field(MDEL, "-1")
+  field(INP,  "$(PREFIX):$(SENSOR):iGetR.B MSS")
+  field(EGU,  "mBar")
   field(DISV, "-1")
-  field(SDIS, "$(PREFIX):$(SENSOR):StatusR MS")
+  field(SDIS, "$(PREFIX):$(SENSOR):StatusR MSS")
 }
 
 record(mbbi, "$(PREFIX):$(SENSOR):StatusR")
 {
   alias("$(PREFIX):$(SENSOR)-PRES-STAT")
-  field(VAL,  "0")
-  field(PINI, "YES")
+  field(INP,  "$(PREFIX):$(SENSOR):iGetR.A MSS")
   field(ZRST, "DATA OK")
   field(ONST, "UNDERRANGE")
   field(ONSV, "MAJOR")
@@ -24,6 +36,7 @@ record(mbbi, "$(PREFIX):$(SENSOR):StatusR")
   field(FRSV, "INVALID")
   field(FVST, "NO HARDWARE")
   field(FVSV, "INVALID")
+  field(FLNK, "$(PREFIX):$(SENSOR):PressureR")
 }
 
 record(mbbo, "$(PREFIX):$(SENSOR):ControlModeS")
@@ -38,7 +51,7 @@ record(mbbo, "$(PREFIX):$(SENSOR):ControlModeS")
 record(mbbi, "$(PREFIX):$(SENSOR):ControlModeR")
 {
   alias("$(PREFIX):$(SENSOR)-MODE-RBV")
-  field(INP,  "$(PREFIX):iSensorControlModesR.$(SOURCE)")
+  field(INP,  "$(PREFIX):iSensorControlModesR.$(SOURCE) MS")
   field(ZRST, "NO SENSOR")
   field(ONST, "OFF")
   field(TWST, "AUTOMATIC")
@@ -56,7 +69,7 @@ record(mbbo, "$(PREFIX):$(SENSOR):FilterTimeS")
 record(mbbi, "$(PREFIX):$(SENSOR):FilterTimeR")
 {
   alias("$(PREFIX):$(SENSOR)-FILT-RBV")
-  field(INP,  "$(PREFIX):iSensorFilterTimesR.$(SOURCE)")
+  field(INP,  "$(PREFIX):iSensorFilterTimesR.$(SOURCE) MS")
   field(ONST, "FAST")
   field(TWST, "MEDIUM")
   field(THST, "SLOW")

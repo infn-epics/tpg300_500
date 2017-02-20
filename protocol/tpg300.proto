@@ -4,21 +4,33 @@
 #
 ################################################################################
 
-Terminator = CR LF;
+OutTerminator = LF;
+InTerminator  = CR LF;
 
 # Larger LockTimeout due to increased ReplyTimeout in set_save_params protocol.
 LockTimeout = 10000;
 
-# Force disconnect on timeout to achieve consistent behavior with respect to
+# Force disconnect on timeouts to achieve consistent behavior with respect to
 # readback updates when the device is power cycled and is connected through a MOXA.
-@replytimeout {
+reconnect {
+    out ETX;
     disconnect;
+    connect 1000;
 }
 
-read_error {
-    out ENQ;
-    in  "%(E)d";
+@replytimeout {
+    reconnect;
 }
+
+@readtimeout {
+    reconnect;
+}
+
+# General mismatch handler, basically a no-op
+@mismatch {
+    in  NAK;
+}
+
 
 get_error_code {
     out "ERR";
@@ -28,18 +40,38 @@ get_error_code {
 }
 
 
-get_puc {
-    out "PUC";
+# Simple ACK/ENQ pair for protocols without further error processing
+enquery {
     in  ACK;
     out ENQ;
+}
+
+# An ACK/ENQ pair that clears the field 'E' of the connected PV
+#  for protocols that do record the error code
+enquery_with_error_reset {
+    in  ACK "%(E)?d";
+    out ENQ;
+
+# Unfortunately exception handlers are _NOT_ inherited by the calling protocol,
+#  so it needs to be copy-pasted !
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+get_puc {
+    out "PUC";
+    enquery;
     in  "%d";
 }
 
 
 set_puc {
     out "PUC,%d";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%*d";
 
     @init {
@@ -50,16 +82,14 @@ set_puc {
 
 get_units {
     out "UNI";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%d";
 }
 
 
 set_units {
     out "UNI,%d";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%*d";
 
     @init {
@@ -70,8 +100,7 @@ set_units {
 
 get_save_params {
     out "SAV";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%d";
 }
 
@@ -81,8 +110,7 @@ set_save_params {
     ReplyTimeout = 5000;
 
     out "SAV,%d";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%*d";
 
     @init {
@@ -93,128 +121,106 @@ set_save_params {
 
 get_baud {
     out "BAU";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%d";
 }
 
 
 get_version {
     out "PNR";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%#s";
 }
 
 
-get_slot_1 {
+get_slots {
     out "TID";
-    in  ACK;
-    out ENQ;
-    in  "%[^,],%*[^,],%*[^,]";
-}
+    enquery_with_error_reset;
+    in  "%(AA)[^,],%(BB)[^,],%(CC)[^,]";
 
-
-get_slot_2 {
-    out "TID";
-    in  ACK;
-    out ENQ;
-    in  "%*[^,],%[^,],%*[^,]";
-}
-
-
-get_slot_3 {
-    out "TID";
-    in  ACK;
-    out ENQ;
-    in  "%*[^,],%*[^,],%[^,]";
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
 }
 
 
 get_pressure {
     out "P\$1";
-    in  ACK;
-    out ENQ;
-    in  "%(\$2)d,%E";
+    enquery_with_error_reset;
+    in  "%(A)d,%(B)E";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
 }
 
 
 get_mode {
     out "SEN";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%(A)d,%(B)d,%(C)d,%(D)d";
 }
 
 
 set_mode {
     out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
-    in  ACK;
-    out ENQ;
+    enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
 
-#FIXME: do we really need this?
-    get_error_code;
-
-    @mismatch
-    {
+    @mismatch {
         in  NAK;
-        read_error;
+        out ENQ;
+        in  "%(E)d";
     }
 }
 
 
 get_filter {
     out "FIL";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%(A)d,%(B)d,%(C)d,%(D)d";
 }
 
 
 set_filter {
     out "FIL,%(A)d,%(B)d,%(C)d,%(D)d";
-    in  ACK;
-    out ENQ;
+    enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
-
-#FIXME: do we really need this?
-    get_error_code;
 
     @mismatch {
         in  NAK;
-        read_error;
+        out ENQ;
+        in  "%(E)d";
     }
 }
 
 
 get_function {
     out "SP\$1";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%(A)E,%(B)E,%(C)d";
 }
 
 
 set_function {
     out "SP\$1,%(A)1.1E,%(B)1.1E,%(C)d";
-    in  ACK;
-    out ENQ;
+    enquery_with_error_reset;
     in  "%*E,%*E,%*d";
-
-#FIXME: do we really need this?
-    get_error_code;
 
     @mismatch {
         in  NAK;
-        read_error;
+        out ENQ;
+        in  "%(E)d";
     }
 }
 
 
 get_func_stat {
     out "SPS";
-    in  ACK;
-    out ENQ;
+    enquery;
     in  "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
 }
