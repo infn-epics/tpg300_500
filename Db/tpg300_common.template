@@ -264,7 +264,7 @@ record(asyn,"$(PREFIX):iASYN")
   field(PORT, "$(TPG_PORT)")
 }
 
-record(bi, "$(PREFIX):Connected")
+record(bi, "$(PREFIX):ConnectedR")
 {
   field(INP,  "$(PREFIX):iASYN.CNCT CP")
   field(ONAM, "Connected")
