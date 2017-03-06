@@ -1,0 +1,11 @@
+alias("$(CONTROLLERNAME):$(SENSOR):PressureR", "$(PREFIX):PressureR")
+
+alias("$(CONTROLLERNAME):$(SENSOR):StatusR", "$(PREFIX):StatusR")
+
+alias("$(CONTROLLERNAME):$(SENSOR):ControlModeS", "$(PREFIX):ControlModeS")
+
+alias("$(CONTROLLERNAME):$(SENSOR):ControlModeR", "$(PREFIX):ControlModeR")
+
+alias("$(CONTROLLERNAME):$(SENSOR):FilterTimeS", "$(PREFIX):FilterTimeS")
+
+alias("$(CONTROLLERNAME):$(SENSOR):FilterTimeR", "$(PREFIX):FilterTimeR")
