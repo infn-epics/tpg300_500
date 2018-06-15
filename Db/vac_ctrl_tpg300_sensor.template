@@ -1,7 +1,7 @@
 record(calcout, "$(PREFIX):$(SENSOR):iGetR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_pressure($(SENSOR)) $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_pressure($(SENSOR)) $(TPG_PORT)")
   field(FLNK, "$(PREFIX):$(SENSOR):StatusR")
 }
 

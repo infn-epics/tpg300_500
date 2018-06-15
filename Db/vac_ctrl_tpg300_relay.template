@@ -42,7 +42,7 @@ record(calcout, "$(PREFIX):Relay$(FUNCTION):iCommitS")
 {
   alias("$(PREFIX):SP$(FUNCTION)")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_function($(FUNCTION)) $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_function($(FUNCTION)) $(TPG_PORT)")
   field(INPA, "$(PREFIX):Relay$(FUNCTION):SetpointLowS")
   field(INPB, "$(PREFIX):Relay$(FUNCTION):SetpointHighS")
   field(INPC, "$(PREFIX):Relay$(FUNCTION):SensorS")
@@ -75,7 +75,7 @@ record(calcout, "$(PREFIX):Relay$(FUNCTION):iGetR")
 {
   alias("$(PREFIX):SP$(FUNCTION)-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_function($(FUNCTION)) $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_function($(FUNCTION)) $(TPG_PORT)")
   field(FLNK, "$(PREFIX):Relay$(FUNCTION):iGetR-FO")
 }
 

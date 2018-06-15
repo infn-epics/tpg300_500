@@ -8,13 +8,13 @@ record(stringin, "$(PREFIX):FWVersion_Main_R")
 {
   alias("$(PREFIX):VERSION-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_version $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_version $(TPG_PORT)")
 }
 
 record(scalcout, "$(PREFIX):iModulesR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_slots() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_slots() $(TPG_PORT)")
   field(CALC, "1")
   field(FLNK, "$(PREFIX):iModulesR-FO")
 }
@@ -48,14 +48,14 @@ record(ai, "$(PREFIX):BaudrtR")
 {
   alias("$(PREFIX):BAUD-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_baud $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_baud $(TPG_PORT)")
 }
 
 record(bi, "$(PREFIX):CCUnderRangeControlR")
 {
   alias("$(PREFIX):PUC-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_puc $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_puc $(TPG_PORT)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }
@@ -64,7 +64,7 @@ record(bo, "$(PREFIX):CCUnderRangeControlS")
 {
   alias("$(PREFIX):PUC")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_puc $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_puc $(TPG_PORT)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
   field(FLNK, "$(PREFIX):CCUnderRangeControlR")
@@ -74,7 +74,7 @@ record(mbbi, "$(PREFIX):UnitR")
 {
   alias("$(PREFIX):UNITS-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_units $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_units $(TPG_PORT)")
   field(ONST, "mBar")
   field(TWST, "Torr")
   field(THST, "Pa")
@@ -84,7 +84,7 @@ record(mbbo, "$(PREFIX):UnitS")
 {
   alias("$(PREFIX):UNITS")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_units $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_units $(TPG_PORT)")
   field(ONST, "mBar")
   field(TWST, "Torr")
   field(THST, "Pa")
@@ -95,7 +95,7 @@ record(mbbi, "$(PREFIX):SaveParamsR")
 {
   alias("$(PREFIX):SAVE-PARAMS-RBV")
   field(DTYP, "stream")
-  field(INP,  "@tpg300.proto get_save_params $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_save_params $(TPG_PORT)")
   field(ZRST, "Default")
   field(ONST, "User-defined")
   field(TWST, "User-defined HS")
@@ -105,7 +105,7 @@ record(mbbo, "$(PREFIX):SaveParamsS")
 {
   alias("$(PREFIX):SAVE-PARAMS")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_save_params $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_save_params $(TPG_PORT)")
   field(ZRST, "Default")
   field(ONST, "User-defined")
   field(TWST, "User-defined HS")
@@ -116,7 +116,7 @@ record(calcout, "$(PREFIX):iSensorControlModesR")
 {
   alias("$(PREFIX):MODE-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_mode() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_mode() $(TPG_PORT)")
   field(FLNK, "$(PREFIX):iSensorControlModesR-FO")
 }
 
@@ -134,7 +134,7 @@ record(calcout, "$(PREFIX):SensorControlModesS")
 {
   alias("$(PREFIX):MODE")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_mode() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_mode() $(TPG_PORT)")
   field(INPA, "$(PREFIX):A1:ControlModeS")
   field(INPB, "$(PREFIX):A2:ControlModeS")
   field(INPC, "$(PREFIX):B1:ControlModeS")
@@ -168,7 +168,7 @@ record(calcout, "$(PREFIX):iSensorFilterTimesR")
 {
   alias("$(PREFIX):FILT-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_filter() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_filter() $(TPG_PORT)")
   field(FLNK, "$(PREFIX):iSensorFilterTimesR-FO")
 }
 
@@ -186,7 +186,7 @@ record(calcout, "$(PREFIX):SensorFilterTimesS")
 {
   alias("$(PREFIX):FILT")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto set_filter() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_filter() $(TPG_PORT)")
   field(INPA, "$(PREFIX):A1:FilterTimeS")
   field(INPB, "$(PREFIX):A2:FilterTimeS")
   field(INPC, "$(PREFIX):B1:FilterTimeS")
@@ -220,7 +220,7 @@ record(calcout, "$(PREFIX):iRelaySetpointStatusesR")
 {
   alias("$(PREFIX):FUNC-STAT-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@tpg300.proto get_func_stat() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() $(TPG_PORT)")
   field(FLNK, "$(PREFIX):iRelaySetpointStatusesR-FO")
 }
 

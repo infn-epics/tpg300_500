@@ -1,0 +1,15 @@
+alias("$(CONTROLLERNAME):Relay$(RELAY):SensorS", "$(PREFIX):SensorS")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointLowS", "$(PREFIX):SetpointLowS")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointHighS", "$(PREFIX):SetpointHighS")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):CommitS-ErrorR", "$(PREFIX):CommitS-ErrorR")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointLowR", "$(PREFIX):SetpointLowR")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointHighR", "$(PREFIX):SetpointHighR")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SensorR", "$(PREFIX):SensorR")
+
+alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointStatusR", "$(PREFIX):SetpointStatusR")

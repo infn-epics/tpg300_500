@@ -11,4 +11,4 @@
 # The switching function "mapped" to this relay
 
 #Load the database defining your EPICS records
-dbLoadRecords(tpg300_independent_relay.db, "PREFIX = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), RELAY = $(RELAY)")
+dbLoadRecords(vac_ctrl_tpg300_standalone_relay.db, "PREFIX = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), RELAY = $(RELAY)")

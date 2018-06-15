@@ -36,4 +36,4 @@ drvAsynIPPortConfigure($(DEVICENAME)-asyn-port,$(IPADDR):$(PORT))
 
 #Load the database defining your EPICS records
 #dbLoadRecords(tpg300.db, "DEVICENAME = $(DEVICENAME), ASYNPORT = $(DEVICENAME)-asyn-port")
-dbLoadRecords(tpg300.db, "PREFIX = $(DEVICENAME), TPG_PORT = $(DEVICENAME)-asyn-port, SCAN_RATE = $(SCAN_RATE)")
+dbLoadRecords(vac_ctrl_tpg300.db, "PREFIX = $(DEVICENAME), TPG_PORT = $(DEVICENAME)-asyn-port, SCAN_RATE = $(SCAN_RATE)")
