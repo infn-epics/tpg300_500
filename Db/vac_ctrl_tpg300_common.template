@@ -1,152 +1,201 @@
-record(stringin, "$(PREFIX):CtrlTypeR")
+record(stringin, "$(DEVICENAME):CtrlTypeR")
 {
   field(PINI, "YES")
   field(VAL,  "TPG-300")
 }
 
-record(stringin, "$(PREFIX):FWVersion_Main_R")
+record(stringin, "$(DEVICENAME):ModMain:FWVersionR")
 {
-  alias("$(PREFIX):VERSION-RBV")
+  alias("$(DEVICENAME):VERSION-RBV")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_version $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_version $(ASYNPORT)")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(scalcout, "$(PREFIX):iModulesR")
+record(scalcout, "$(DEVICENAME):iModTypesR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_slots() $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_slots() $(ASYNPORT)")
   field(CALC, "1")
-  field(FLNK, "$(PREFIX):iModulesR-FO")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:ConnectedR")
 }
 
-record(fanout, "$(PREFIX):iModulesR-FO")
+record(sseq, "$(DEVICENAME):iModTypesR-FO")
 {
-  field(LNK1, "$(PREFIX):SensorModule_A_R PP")
-  field(LNK2, "$(PREFIX):SensorModule_B_R PP")
-  field(LNK3, "$(PREFIX):ControlModule_R PP")
+  field(DOL1, "$(DEVICENAME):iModTypesR.AA CP MSS")
+  field(LNK1, "$(DEVICENAME):ModA:TypeR PP MSS")
+
+  field(DOL2, "$(DEVICENAME):iModTypesR.BB CP MSS")
+  field(LNK2, "$(DEVICENAME):ModB:TypeR PP MSS")
+
+  field(DOL3, "$(DEVICENAME):iModTypesR.CC CP MSS")
+  field(LNK3, "$(DEVICENAME):ModComm:TypeR PP MSS")
 }
 
-record(stringin, "$(PREFIX):SensorModule_A_R")
+record(stringin, "$(DEVICENAME):ModA:TypeR")
 {
-  alias("$(PREFIX):SLOT1-RBV")
-  field(INP,  "$(PREFIX):iModulesR.AA MS")
+  alias("$(DEVICENAME):SLOT1-RBV")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:ConnectedR")
 }
 
-record(stringin, "$(PREFIX):SensorModule_B_R")
+record(stringin, "$(DEVICENAME):ModB:TypeR")
 {
-  alias("$(PREFIX):SLOT2-RBV")
-  field(INP,  "$(PREFIX):iModulesR.BB MS")
+  alias("$(DEVICENAME):SLOT2-RBV")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:ConnectedR")
 }
 
-record(stringin, "$(PREFIX):ControlModule_R")
+record(stringin, "$(DEVICENAME):ModComm:TypeR")
 {
-  alias("$(PREFIX):SLOT3-RBV")
-  field(INP,  "$(PREFIX):iModulesR.CC MS")
+  alias("$(DEVICENAME):SLOT3-RBV")
+  field(FLNK, "${DEVICENAME}:iDisabledR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:ConnectedR")
 }
 
-record(ai, "$(PREFIX):BaudrtR")
+record(ai, "$(DEVICENAME):BaudrtR")
 {
-  alias("$(PREFIX):BAUD-RBV")
+  alias("$(DEVICENAME):BAUD-RBV")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_baud $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_baud $(ASYNPORT)")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(bi, "$(PREFIX):CCUnderRangeControlR")
+record(bi, "$(DEVICENAME):CCUnderRangeControlR")
 {
-  alias("$(PREFIX):PUC-RBV")
+  alias("$(DEVICENAME):PUC-RBV")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_puc $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_puc $(ASYNPORT)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(bo, "$(PREFIX):CCUnderRangeControlS")
+record(bo, "$(DEVICENAME):CCUnderRangeControlS")
 {
-  alias("$(PREFIX):PUC")
+  alias("$(DEVICENAME):PUC")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_puc $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_puc $(ASYNPORT)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
-  field(FLNK, "$(PREFIX):CCUnderRangeControlR")
+  field(FLNK, "$(DEVICENAME):CCUnderRangeControlR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "$(PREFIX):UnitR")
+record(mbbi, "$(DEVICENAME):Unit-RB")
 {
-  alias("$(PREFIX):UNITS-RBV")
+  alias("$(DEVICENAME):UNITS-RBV")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_units $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_units $(ASYNPORT)")
   field(ONST, "mBar")
   field(TWST, "Torr")
   field(THST, "Pa")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbo, "$(PREFIX):UnitS")
+record(mbbo, "$(DEVICENAME):UnitS")
 {
-  alias("$(PREFIX):UNITS")
+  alias("$(DEVICENAME):UNITS")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_units $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_units $(ASYNPORT)")
   field(ONST, "mBar")
   field(TWST, "Torr")
   field(THST, "Pa")
-  field(FLNK, "$(PREFIX):UnitR")
+  field(FLNK, "$(DEVICENAME):Unit-RB")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "$(PREFIX):SaveParamsR")
+record(mbbi, "$(DEVICENAME):SaveParamsR")
 {
-  alias("$(PREFIX):SAVE-PARAMS-RBV")
+  alias("$(DEVICENAME):SAVE-PARAMS-RBV")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_save_params $(TPG_PORT)")
+  field(INP,  "@vac_ctrl_tpg300.proto get_save_params $(ASYNPORT)")
   field(ZRST, "Default")
   field(ONST, "User-defined")
   field(TWST, "User-defined HS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbo, "$(PREFIX):SaveParamsS")
+record(mbbo, "$(DEVICENAME):SaveParamsS")
 {
-  alias("$(PREFIX):SAVE-PARAMS")
+  alias("$(DEVICENAME):SAVE-PARAMS")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_save_params $(TPG_PORT)")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_save_params $(ASYNPORT)")
   field(ZRST, "Default")
   field(ONST, "User-defined")
   field(TWST, "User-defined HS")
-  field(FLNK, "$(PREFIX):iReadbacks-FO")
+  field(FLNK, "$(DEVICENAME):iReadbacks-FO")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(calcout, "$(PREFIX):iSensorControlModesR")
+record(calcout, "$(DEVICENAME):iSensorCtrlModes-RB")
 {
-  alias("$(PREFIX):MODE-RBV")
+  alias("$(DEVICENAME):MODE-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_mode() $(TPG_PORT)")
-  field(FLNK, "$(PREFIX):iSensorControlModesR-FO")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_modes() $(ASYNPORT)")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(fanout, "$(PREFIX):iSensorControlModesR-FO")
+record(seq, "$(DEVICENAME):iSensorCtrlModes-RB-FO")
 {
-  alias("$(PREFIX):MODE-FO")
-  field(LNK1, "$(PREFIX):A1:ControlModeR PP")
-  field(LNK2, "$(PREFIX):A2:ControlModeR PP")
-  field(LNK3, "$(PREFIX):B1:ControlModeR PP")
-  field(LNK4, "$(PREFIX):B2:ControlModeR PP")
-  field(LNK5, "$(PREFIX):iSensorControlModesInit PP")
+  alias("$(DEVICENAME):MODE-FO")
+  field(DOL1, "$(DEVICENAME):iSensorCtrlModes-RB.A CP MSS")
+  field(LNK1, "$(DEVICENAME):A1:CtrlMode-RB PP MSS")
+
+  field(DOL2, "$(DEVICENAME):iSensorCtrlModes-RB.B CP MSS")
+  field(LNK2, "$(DEVICENAME):A2:CtrlMode-RB PP MSS")
+
+  field(DOL3, "$(DEVICENAME):iSensorCtrlModes-RB.C CP MSS")
+  field(LNK3, "$(DEVICENAME):B1:CtrlMode-RB PP MSS")
+
+  field(DOL4, "$(DEVICENAME):iSensorCtrlModes-RB.D CP MSS")
+  field(LNK4, "$(DEVICENAME):B2:CtrlMode-RB PP MSS")
 }
 
-record(calcout, "$(PREFIX):SensorControlModesS")
+record(calcout, "$(DEVICENAME):SensorCtrlModesS")
 {
-  alias("$(PREFIX):MODE")
+  alias("$(DEVICENAME):MODE")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_mode() $(TPG_PORT)")
-  field(INPA, "$(PREFIX):A1:ControlModeS")
-  field(INPB, "$(PREFIX):A2:ControlModeS")
-  field(INPC, "$(PREFIX):B1:ControlModeS")
-  field(INPD, "$(PREFIX):B2:ControlModeS")
-  field(FLNK, "$(PREFIX):SensorControlModesS-ErrorR")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_modes() $(ASYNPORT)")
+  field(INPA, "$(DEVICENAME):A1:CtrlModeS")
+  field(INPB, "$(DEVICENAME):A2:CtrlModeS")
+  field(INPC, "$(DEVICENAME):B1:CtrlModeS")
+  field(INPD, "$(DEVICENAME):B2:CtrlModeS")
+  field(FLNK, "$(DEVICENAME):SensorCtrlModesS-ErrorR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "$(PREFIX):SensorControlModesS-ErrorR")
+record(mbbi, "$(DEVICENAME):SensorCtrlModesS-ErrorR")
 {
-  alias("$(PREFIX):MODE-STAT")
+  alias("$(DEVICENAME):MODE-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "$(PREFIX):SensorControlModesS.E")
+  field(INP,  "$(DEVICENAME):SensorCtrlModesS.E")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -161,44 +210,57 @@ record(mbbi, "$(PREFIX):SensorControlModesS-ErrorR")
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
-  field(FLNK, "$(PREFIX):iSensorControlModesR")
+  field(FLNK, "$(DEVICENAME):iSensorCtrlModes-RB")
 }
 
-record(calcout, "$(PREFIX):iSensorFilterTimesR")
+record(calcout, "$(DEVICENAME):iSensorFltTims-RB")
 {
-  alias("$(PREFIX):FILT-RBV")
+  alias("$(DEVICENAME):FILT-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_filter() $(TPG_PORT)")
-  field(FLNK, "$(PREFIX):iSensorFilterTimesR-FO")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_filter() $(ASYNPORT)")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(fanout, "$(PREFIX):iSensorFilterTimesR-FO")
+record(seq, "$(DEVICENAME):iSensorFltTims-RB-FO")
 {
-  alias("$(PREFIX):FILT-FO")
-  field(LNK1, "$(PREFIX):A1:FilterTimeR PP")
-  field(LNK2, "$(PREFIX):A2:FilterTimeR PP")
-  field(LNK3, "$(PREFIX):B1:FilterTimeR PP")
-  field(LNK4, "$(PREFIX):B2:FilterTimeR PP")
-  field(LNK5, "$(PREFIX):iSensorFilterTimesInit PP")
+  alias("$(DEVICENAME):FILT-FO")
+  field(DOL1, "$(DEVICENAME):iSensorFltTims-RB.A CP MSS")
+  field(LNK1, "$(DEVICENAME):A1:FltTim-RB.RVAL PP MSS")
+
+  field(DOL2, "$(DEVICENAME):iSensorFltTims-RB.B CP MSS")
+  field(LNK2, "$(DEVICENAME):A2:FltTim-RB.RVAL PP MSS")
+
+  field(DOL3, "$(DEVICENAME):iSensorFltTims-RB.C CP MSS")
+  field(LNK3, "$(DEVICENAME):B1:FltTim-RB.RVAL PP MSS")
+
+  field(DOL4, "$(DEVICENAME):iSensorFltTims-RB.D CP MSS")
+  field(LNK4, "$(DEVICENAME):B2:FltTim-RB.RVAL PP MSS")
+
+  field(FLNK, "$(DEVICENAME):iSensorFltTimsInit PP")
 }
 
-record(calcout, "$(PREFIX):SensorFilterTimesS")
+record(calcout, "$(DEVICENAME):SensorFltTimsS")
 {
-  alias("$(PREFIX):FILT")
+  alias("$(DEVICENAME):FILT")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_filter() $(TPG_PORT)")
-  field(INPA, "$(PREFIX):A1:FilterTimeS")
-  field(INPB, "$(PREFIX):A2:FilterTimeS")
-  field(INPC, "$(PREFIX):B1:FilterTimeS")
-  field(INPD, "$(PREFIX):B2:FilterTimeS")
-  field(FLNK, "$(PREFIX):SensorFilterTimesS-ErrorR")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_filter() $(ASYNPORT)")
+  field(INPA, "$(DEVICENAME):A1:FltTimS.RVAL")
+  field(INPB, "$(DEVICENAME):A2:FltTimS.RVAL")
+  field(INPC, "$(DEVICENAME):B1:FltTimS.RVAL")
+  field(INPD, "$(DEVICENAME):B2:FltTimS.RVAL")
+  field(FLNK, "$(DEVICENAME):SensorFltTimsS-ErrorR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "$(PREFIX):SensorFilterTimesS-ErrorR")
+record(mbbi, "$(DEVICENAME):SensorFltTimsS-ErrorR")
 {
-  alias("$(PREFIX):FILT-STAT")
+  alias("$(DEVICENAME):FILT-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "$(PREFIX):SensorFilterTimesS.E")
+  field(INP,  "$(DEVICENAME):SensorFltTimsS.E")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -213,44 +275,48 @@ record(mbbi, "$(PREFIX):SensorFilterTimesS-ErrorR")
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
-  field(FLNK, "$(PREFIX):iSensorFilterTimesR")
+  field(FLNK, "$(DEVICENAME):iSensorFltTims-RB")
 }
 
-record(calcout, "$(PREFIX):iRelaySetpointStatusesR")
+record(calcout, "$(DEVICENAME):iRlySetpointStatusesR")
 {
-  alias("$(PREFIX):FUNC-STAT-RBV")
+  alias("$(DEVICENAME):FUNC-STAT-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() $(TPG_PORT)")
-  field(FLNK, "$(PREFIX):iRelaySetpointStatusesR-FO")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() $(ASYNPORT)")
+  field(FLNK, "$(DEVICENAME):iRlySetpointStatusesR-FO")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(fanout, "$(PREFIX):iRelaySetpointStatusesR-FO")
+record(fanout, "$(DEVICENAME):iRlySetpointStatusesR-FO")
 {
-  alias("$(PREFIX):FUNC-STAT-FO")
-  field(LNK1, "$(PREFIX):Relay1:SetpointStatusR PP")
-  field(LNK2, "$(PREFIX):Relay2:SetpointStatusR PP")
-  field(LNK3, "$(PREFIX):Relay3:SetpointStatusR PP")
-  field(LNK4, "$(PREFIX):Relay4:SetpointStatusR PP")
-  field(LNK5, "$(PREFIX):RelayA:SetpointStatusR PP")
-  field(LNK6, "$(PREFIX):RelayB:SetpointStatusR PP")
+  alias("$(DEVICENAME):FUNC-STAT-FO")
+  field(LNK1, "$(DEVICENAME):Rly1:SetpointStatusR PP")
+  field(LNK2, "$(DEVICENAME):Rly2:SetpointStatusR PP")
+  field(LNK3, "$(DEVICENAME):Rly3:SetpointStatusR PP")
+  field(LNK4, "$(DEVICENAME):Rly4:SetpointStatusR PP")
+  field(LNK5, "$(DEVICENAME):RlyA:SetpointStatusR PP")
+  field(LNK6, "$(DEVICENAME):RlyB:SetpointStatusR PP")
 }
 
-record(fanout, "$(PREFIX):iSensorsR-FO")
+record(fanout, "$(DEVICENAME):iPressuresR-FO")
 {
-  field(LNK1, "$(PREFIX):A1:iGetR PP")
-  field(LNK2, "$(PREFIX):A2:iGetR PP")
-  field(LNK3, "$(PREFIX):B1:iGetR PP")
-  field(LNK4, "$(PREFIX):B2:iGetR PP")
+  field(LNK1, "$(DEVICENAME):A1:iPrsR PP")
+  field(LNK2, "$(DEVICENAME):A2:iPrsR PP")
+  field(LNK3, "$(DEVICENAME):B1:iPrsR PP")
+  field(LNK4, "$(DEVICENAME):B2:iPrsR PP")
 }
 
-record(fanout, "$(PREFIX):ScanRate-FO")
+record(fanout, "$(DEVICENAME):ScanRate-FO")
 {
-  alias("$(PREFIX):SCAN-RATE")
+  alias("$(DEVICENAME):SCAN-RATE")
   field(SCAN, "$(SCAN_RATE)")
-  field(LNK1, "$(PREFIX):iSensorsR-FO PP")
-  field(LNK2, "$(PREFIX):iRelaySetpointStatusesR PP")
-  field(LNK3, "$(PREFIX):iSensorControlModesR PP")
-  field(LNK4, "$(PREFIX):UnitR PP")
+  field(LNK1, "$(DEVICENAME):iModTypesR PP")
+  field(LNK2, "$(DEVICENAME):iPressuresR-FO PP")
+  field(LNK3, "$(DEVICENAME):iRlySetpointStatusesR PP")
+  field(LNK4, "$(DEVICENAME):iSensorCtrlModes-RB PP")
+  field(LNK5, "$(DEVICENAME):Unit-RB PP")
 }
 
 
@@ -258,132 +324,150 @@ record(fanout, "$(PREFIX):ScanRate-FO")
 # Reconnect logic                                                              #
 ################################################################################
 
-record(asyn,"$(PREFIX):iASYN")
+record(asyn,"$(DEVICENAME):iASYN")
 {
   field(DTYP, "asynRecordDevice")
-  field(PORT, "$(TPG_PORT)")
+  field(PORT, "$(ASYNPORT)")
 }
 
-record(bi, "$(PREFIX):ConnectedR")
+record(bi, "$(DEVICENAME):ConnectedR")
 {
-  field(INP,  "$(PREFIX):iASYN.CNCT CP")
+  field(INP,  "$(DEVICENAME):iASYN.CNCT CP")
   field(ONAM, "Connected")
   field(ZNAM, "Disconnected")
   field(ZSV,  "MAJOR")
+  field(FLNK, "$(DEVICENAME):iModTypesR")
 }
 
-record(calcout, "$(PREFIX):iConnect")
+record(scalcout, "${DEVICENAME}:iDisabledR")
 {
-  alias("$(PREFIX):RECNCT")
-  field(INPA, "$(PREFIX):iASYN.CNCT CP")
-  field(VAL,  "0")
-  field(CALC, "A")
-  field(OOPT, "Transition To Non-zero")
-  field(OUT,  "$(PREFIX):iConnect-FO PP")
+    field(INPA, "${DEVICENAME}:ConnectedR CP")
+    field(INBB, "${DEVICENAME}:ModComm:TypeR")
+    field(INPC, "${DEVICENAME}:iModTypesR.STAT")
+    field(CALC, "D:=(!(A && BB=='IF 300') || C);D")
+    field(PINI, "YES")
+    field(OCAL, "!D")
+    field(DOPT, "Use OCAL")
+    field(OOPT, "On Change")
+    field(OUT,  "${DEVICENAME}:CommsOK PP")
 }
 
-record(fanout, "$(PREFIX):iConnect-FO")
+record(bi, "${DEVICENAME}:CommsOK")
 {
-  alias("$(PREFIX):CNCT-FO")
-  field(LNK1, "$(PREFIX):iConnect-FilterTimes-FO PP")
-  field(LNK2, "$(PREFIX):iConnect-SensorControlModes-FO PP")
-  field(LNK3, "$(PREFIX):iConnect-Relays-FO PP")
-  field(LNK4, "$(PREFIX):iReadbacks-FO PP")
+    field(ZNAM, "No communication")
+    field(ONAM, "Communication is OK")
+    field(ZSV,  "MINOR")
+    field(FLNK, "${DEVICENAME}:iInit-FO")
 }
 
-record(fanout, "$(PREFIX):iConnect-Relays-FO")
+record(fanout, "$(DEVICENAME):iInit-FO")
 {
-  field(LNK1, "$(PREFIX):Relay1:iConnect-FO PP")
-  field(LNK2, "$(PREFIX):Relay2:iConnect-FO PP")
-  field(LNK3, "$(PREFIX):Relay3:iConnect-FO PP")
-  field(LNK4, "$(PREFIX):Relay4:iConnect-FO PP")
-  field(LNK5, "$(PREFIX):RelayA:iConnect-FO PP")
-  field(LNK6, "$(PREFIX):RelayB:iConnect-FO PP")
+  alias("$(DEVICENAME):CNCT-FO")
+  field(LNK1, "$(DEVICENAME):iConnect-FltTims-FO PP")
+  field(LNK2, "$(DEVICENAME):iConnect-SensorCtrlModes-FO PP")
+  field(LNK3, "$(DEVICENAME):iConnect-Rlys-FO PP")
+  field(LNK4, "$(DEVICENAME):iReadbacks-FO PP")
+}
+
+record(fanout, "$(DEVICENAME):iConnect-Rlys-FO")
+{
+  field(LNK1, "$(DEVICENAME):Rly1:iConnect-FO PP")
+  field(LNK2, "$(DEVICENAME):Rly2:iConnect-FO PP")
+  field(LNK3, "$(DEVICENAME):Rly3:iConnect-FO PP")
+  field(LNK4, "$(DEVICENAME):Rly4:iConnect-FO PP")
+  field(LNK5, "$(DEVICENAME):RlyA:iConnect-FO PP")
+  field(LNK6, "$(DEVICENAME):RlyB:iConnect-FO PP")
 }
 
 #fanout
-record(seq, "$(PREFIX):iReadbacks-FO")
+record(seq, "$(DEVICENAME):iReadbacks-FO")
 {
-  alias("$(PREFIX):RBV-FO")
-  field(LNK1, "$(PREFIX):iRelaySetpointsR-FO PP")
-  field(LNK2, "$(PREFIX):iSensorFilterTimesR PP")
-  field(LNK3, "$(PREFIX):iSensorControlModesR PP")
-  field(LNK4, "$(PREFIX):UnitR PP")
-  field(LNK5, "$(PREFIX):CCUnderRangeControlR PP")
-  field(LNK6, "$(PREFIX):SaveParamsR PP")
-  field(LNK7, "$(PREFIX):FWVersion_Main_R PP")
-  field(LNK8, "$(PREFIX):iModulesR PP")
+  alias("$(DEVICENAME):RBV-FO")
+  field(LNK1, "$(DEVICENAME):iRlySetpointsR-FO PP")
+  field(LNK2, "$(DEVICENAME):iSensorFltTims-RB PP")
+  field(LNK3, "$(DEVICENAME):iSensorCtrlModes-RB PP")
+  field(LNK4, "$(DEVICENAME):Unit-RB PP")
+  field(LNK5, "$(DEVICENAME):CCUnderRangeControlR PP")
+  field(LNK6, "$(DEVICENAME):SaveParamsR PP")
+  field(LNK7, "$(DEVICENAME):ModMain:FWVersionR PP")
+  field(LNK8, "$(DEVICENAME):iModTypesR PP")
 }
 
-record(fanout, "$(PREFIX):iRelaySetpointsR-FO")
+record(fanout, "$(DEVICENAME):iRlySetpointsR-FO")
 {
-  alias("$(PREFIX):SP-RBV-FO")
-  field(LNK1, "$(PREFIX):Relay1:iGetR PP")
-  field(LNK2, "$(PREFIX):Relay2:iGetR PP")
-  field(LNK3, "$(PREFIX):Relay3:iGetR PP")
-  field(LNK4, "$(PREFIX):Relay4:iGetR PP")
-  field(LNK5, "$(PREFIX):RelayA:iGetR PP")
-  field(LNK6, "$(PREFIX):RelayB:iGetR PP")
+  alias("$(DEVICENAME):SP-RBV-FO")
+  field(LNK1, "$(DEVICENAME):Rly1:iGetR PP")
+  field(LNK2, "$(DEVICENAME):Rly2:iGetR PP")
+  field(LNK3, "$(DEVICENAME):Rly3:iGetR PP")
+  field(LNK4, "$(DEVICENAME):Rly4:iGetR PP")
+  field(LNK5, "$(DEVICENAME):RlyA:iGetR PP")
+  field(LNK6, "$(DEVICENAME):RlyB:iGetR PP")
 }
 
-record(seq, "$(PREFIX):iConnect-FilterTimes-FO")
+record(seq, "$(DEVICENAME):iConnect-FltTims-FO")
 {
-  alias("$(PREFIX):FILT-CNCT-FO")
+  alias("$(DEVICENAME):FILT-CNCT-FO")
   field(DOL1, "0")
-  field(LNK1, "$(PREFIX):iSensorFilterTimesInit.PVAL")
+  field(LNK1, "$(DEVICENAME):iSensorFltTimsInit.PVAL")
 }
 
-record(calcout, "$(PREFIX):iSensorFilterTimesInit")
+record(calcout, "$(DEVICENAME):iSensorFltTimsInit")
 {
-  alias("$(PREFIX):FILT-INIT")
-  field(INPA, "$(PREFIX):iSensorFilterTimesR MS")
-  field(OUT,  "$(PREFIX):iSensorFilterTimesInit-FO PP")
+  alias("$(DEVICENAME):FILT-INIT")
+  field(INPA, "$(DEVICENAME):iSensorFltTims-RB MS")
+  field(OUT,  "$(DEVICENAME):iSensorFltTimsInit-FO PP")
   field(VAL,  "0")
   field(CALC, "1")
   field(OOPT, "Transition To Non-zero")
   field(IVOA, "Don't drive outputs")
 }
 
-record(seq, "$(PREFIX):iSensorFilterTimesInit-FO")
+record(seq, "$(DEVICENAME):iSensorFltTimsInit-FO")
 {
-  alias("$(PREFIX):FILT-INIT-FO")
-  field(LNK1, "$(PREFIX):A1:FilterTimeS PP")
-  field(LNK2, "$(PREFIX):A2:FilterTimeS PP")
-  field(LNK3, "$(PREFIX):B1:FilterTimeS PP")
-  field(LNK4, "$(PREFIX):B2:FilterTimeS PP")
-  field(DOL1, "$(PREFIX):A1:FilterTimeR")
-  field(DOL2, "$(PREFIX):A2:FilterTimeR")
-  field(DOL3, "$(PREFIX):B1:FilterTimeR")
-  field(DOL4, "$(PREFIX):B2:FilterTimeR")
+  alias("$(DEVICENAME):FILT-INIT-FO")
+  field(LNK1, "$(DEVICENAME):A1:FltTimS PP")
+  field(LNK2, "$(DEVICENAME):A2:FltTimS PP")
+  field(LNK3, "$(DEVICENAME):B1:FltTimS PP")
+  field(LNK4, "$(DEVICENAME):B2:FltTimS PP")
+  field(DOL1, "$(DEVICENAME):A1:FltTim-RB")
+  field(DOL2, "$(DEVICENAME):A2:FltTim-RB")
+  field(DOL3, "$(DEVICENAME):B1:FltTim-RB")
+  field(DOL4, "$(DEVICENAME):B2:FltTim-RB")
 }
 
-record(seq, "$(PREFIX):iConnect-SensorControlModes-FO")
-{
-  alias("$(PREFIX):MODE-CNCT-FO")
-  field(DOL1, "0")
-  field(LNK1, "$(PREFIX):iSensorControlModesInit.PVAL")
-}
-
-record(calcout, "$(PREFIX):iSensorControlModesInit")
-{
-  alias("$(PREFIX):MODE-INIT")
-  field(INPA, "$(PREFIX):iSensorControlModesR MS")
-  field(OUT,  "$(PREFIX):iSensorControlModesInit-FO PP")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
-  field(IVOA, "Don't drive outputs")
-}
-
-record(seq, "$(PREFIX):iSensorControlModesInit-FO")
-{
-  alias("$(PREFIX):MODE-INIT-FO")
-  field(LNK1, "$(PREFIX):A1:ControlModeS PP")
-  field(LNK2, "$(PREFIX):A2:ControlModeS PP")
-  field(LNK3, "$(PREFIX):B1:ControlModeS PP")
-  field(LNK4, "$(PREFIX):B2:ControlModeS PP")
-  field(DOL1, "$(PREFIX):A1:ControlModeR")
-  field(DOL2, "$(PREFIX):A2:ControlModeR")
-  field(DOL3, "$(PREFIX):B1:ControlModeR")
-  field(DOL4, "$(PREFIX):B2:ControlModeR")
-}
+#
+# These are not really needed
+#
+#record(seq, "$(DEVICENAME):iConnect-SensorCtrlModes-FO")
+#{
+#  alias("$(DEVICENAME):MODE-CNCT-FO")
+#  field(DOL1, "0")
+#  field(LNK1, "$(DEVICENAME):iSensorCtrlModesInit.PVAL")
+#}
+#
+#record(calcout, "$(DEVICENAME):iSensorCtrlModesInit")
+#{
+#  alias("$(DEVICENAME):MODE-INIT")
+#  field(INPA, "$(DEVICENAME):iSensorCtrlModes-RB MS")
+#  field(OUT,  "$(DEVICENAME):iSensorCtrlModesInit-FO PP")
+#  field(VAL,  "0")
+#  field(CALC, "1")
+#  field(OOPT, "Transition To Non-zero")
+#  field(IVOA, "Don't drive outputs")
+#}
+#
+#record(seq, "$(DEVICENAME):iSensorCtrlModesInit-FO")
+#{
+#  alias("$(DEVICENAME):MODE-INIT-FO")
+#  field(DOL1, "$(DEVICENAME):A1:CtrlMode-RB")
+#  field(LNK1, "$(DEVICENAME):A1:CtrlModeS PP")
+#
+#  field(DOL2, "$(DEVICENAME):A2:CtrlMode-RB")
+#  field(LNK2, "$(DEVICENAME):A2:CtrlModeS PP")
+#
+#  field(DOL3, "$(DEVICENAME):B1:CtrlMode-RB")
+#  field(LNK3, "$(DEVICENAME):B1:CtrlModeS PP")
+#
+#  field(DOL4, "$(DEVICENAME):B2:CtrlMode-RB")
+#  field(LNK4, "$(DEVICENAME):B2:CtrlModeS PP")
+#}

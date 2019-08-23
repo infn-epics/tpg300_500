@@ -1,11 +1,25 @@
-alias("$(CONTROLLERNAME):$(SENSOR):PressureR", "$(PREFIX):PressureR")
+alias("$(CONTROLLERNAME):$(SENSOR):PrsR", "$(DEVICENAME):PrsR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):StatusR", "$(PREFIX):StatusR")
+alias("$(CONTROLLERNAME):$(SENSOR):PrsStatR", "$(DEVICENAME):PrsStatR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):ControlModeS", "$(PREFIX):ControlModeS")
+alias("$(CONTROLLERNAME):$(SENSOR):GaugeStatR", "$(DEVICENAME):GaugeStatR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):ControlModeR", "$(PREFIX):ControlModeR")
+alias("$(CONTROLLERNAME):$(SENSOR):CtrlModeS", "$(DEVICENAME):CtrlModeS")
 
-alias("$(CONTROLLERNAME):$(SENSOR):FilterTimeS", "$(PREFIX):FilterTimeS")
+alias("$(CONTROLLERNAME):$(SENSOR):CtrlMode-RB", "$(DEVICENAME):CtrlMode-RB")
 
-alias("$(CONTROLLERNAME):$(SENSOR):FilterTimeR", "$(PREFIX):FilterTimeR")
+alias("$(CONTROLLERNAME):$(SENSOR):FltTimS", "$(DEVICENAME):FltTimS")
+
+alias("$(CONTROLLERNAME):$(SENSOR):FltTim-RB", "$(DEVICENAME):FltTim-RB")
+
+record("*", "${CONTROLLERNAME}:${SENSOR}:DevNameR")
+{
+    field(PINI, "YES")
+    field(VAL,  "${DEVICENAME}")
+}
+
+record("*", "${CONTROLLERNAME}:${SENSOR}:NumOfRlysR")
+{
+#    field(VAL,  "2")
+#    field(PINI, "YES")
+}

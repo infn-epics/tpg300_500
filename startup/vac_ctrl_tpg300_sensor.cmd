@@ -12,4 +12,4 @@
 
 
 #Load the database defining your EPICS records
-dbLoadRecords(vac_ctrl_tpg300_standalone_sensor.db, "PREFIX = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL)")
+dbLoadRecords(vac_ctrl_tpg300_standalone_sensor.db, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL)")

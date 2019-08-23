@@ -1,15 +1,15 @@
-alias("$(CONTROLLERNAME):Relay$(RELAY):SensorS", "$(PREFIX):SensorS")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SensorS", "$(DEVICENAME):SensorS")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointLowS", "$(PREFIX):SetpointLowS")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointLowS", "$(DEVICENAME):SetpointLowS")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointHighS", "$(PREFIX):SetpointHighS")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointHighS", "$(DEVICENAME):SetpointHighS")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):CommitS-ErrorR", "$(PREFIX):CommitS-ErrorR")
+alias("$(CONTROLLERNAME):Rly$(RELAY):CommitS-ErrorR", "$(DEVICENAME):CommitS-ErrorR")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointLowR", "$(PREFIX):SetpointLowR")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointLowR", "$(DEVICENAME):SetpointLowR")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointHighR", "$(PREFIX):SetpointHighR")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointHighR", "$(DEVICENAME):SetpointHighR")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SensorR", "$(PREFIX):SensorR")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SensorR", "$(DEVICENAME):SensorR")
 
-alias("$(CONTROLLERNAME):Relay$(RELAY):SetpointStatusR", "$(PREFIX):SetpointStatusR")
+alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointStatusR", "$(DEVICENAME):SetpointStatusR")

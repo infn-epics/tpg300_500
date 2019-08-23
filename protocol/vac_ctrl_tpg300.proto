@@ -133,6 +133,26 @@ get_version {
 }
 
 
+# A and B
+#  Pirani
+#             PI 300D
+#             PI 300DN
+#  Cold cathode
+#             PE 300DC9
+#  Pirani / Cold cathode combined
+#             CP 300C9
+#             CP 300C10
+#             CP 300T11
+#             CP 300T11L
+# C
+#  RS232C interface (D-Sub-Connector) and Relays
+#             IF 300A
+#  RS232C interface (cable) and Relays
+#             IF 300B
+#  RS422 interface and Relays
+#             IF 300C
+#  Profibus-DP interface and Relays
+#             IF 300P
 get_slots {
     out "TID";
     enquery_with_error_reset;
@@ -159,14 +179,14 @@ get_pressure {
 }
 
 
-get_mode {
+get_modes {
     out "SEN";
     enquery;
     in  "%(A)d,%(B)d,%(C)d,%(D)d";
 }
 
 
-set_mode {
+set_modes {
     out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
     enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
