@@ -1,15 +1,41 @@
-alias("$(CONTROLLERNAME):Rly$(RELAY):SensorS", "$(DEVICENAME):SensorS")
+################################################################################
+# Database for TPG gauge relays for
+# TPG300 Gauge Controller
+# CONTROLLERNAME = devicename of the TPG controller
+# GAUGE = devicename of the gauge
+# RELAY = the ID of the relay that is mapped to this gauge; 1..4
+# n     = 1,2,3,4 if gauge is VGC
+################################################################################
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointLowS", "$(DEVICENAME):SetpointLowS")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointHighS", "$(DEVICENAME):SetpointHighS")
+alias("${CONTROLLERNAME}:Rly${RELAY}:NameR",          "${DEVICENAME}:Rly${n}:NameR")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):CommitS-ErrorR", "$(DEVICENAME):CommitS-ErrorR")
+alias("${CONTROLLERNAME}:Rly${RELAY}:DAQTrigR",       "${DEVICENAME}:Rly${n}:DAQTrigR")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointLowR", "$(DEVICENAME):SetpointLowR")
+alias("${CONTROLLERNAME}:Rly${RELAY}:SensorS",        "${DEVICENAME}:Rly${n}:SensorS")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointHighR", "$(DEVICENAME):SetpointHighR")
+alias("${CONTROLLERNAME}:Rly${RELAY}:LowSPS",         "${DEVICENAME}:Rly${n}:LowSPS")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SensorR", "$(DEVICENAME):SensorR")
+alias("${CONTROLLERNAME}:Rly${RELAY}:HighSPS",        "${DEVICENAME}:Rly${n}:HighSPS")
 
-alias("$(CONTROLLERNAME):Rly$(RELAY):SetpointStatusR", "$(DEVICENAME):SetpointStatusR")
+alias("${CONTROLLERNAME}:Rly${RELAY}:CommitS",        "${DEVICENAME}:Rly${n}:CommitS")
+
+alias("${CONTROLLERNAME}:Rly${RELAY}:CommitS-ErrorR", "${DEVICENAME}:Rly${n}:CommitS-ErrorR")
+
+alias("${CONTROLLERNAME}:Rly${RELAY}:LowSP-RB",       "${DEVICENAME}:Rly${n}:LowSP-RB")
+
+alias("${CONTROLLERNAME}:Rly${RELAY}:HighSP-RB",      "${DEVICENAME}:Rly${n}:HighSP-RB")
+
+alias("${CONTROLLERNAME}:Rly${RELAY}:Sensor-RB",      "${DEVICENAME}:Rly${n}:Sensor-RB")
+
+alias("${CONTROLLERNAME}:Rly${RELAY}:StatR",          "${DEVICENAME}:Rly${n}:StatR")
+
+
+record(calcout, "${DEVICENAME}:Rly${n}:iDAQTrigR")
+{
+  field(INPA, "${DEVICENAME}:DAQRlySelectS CP")
+  field(CALC, "A + 1 == ${n}")
+  field(OUT,  "${DEVICENAME}:Rly${n}:DAQTrigR PP")
+}
+
+

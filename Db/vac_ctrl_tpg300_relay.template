@@ -1,149 +1,209 @@
-record(sseq, "$(DEVICENAME):Rly$(FUNCTION):iUnitChanged")
+record(stringin, "${DEVICENAME}:Rly${FUNCTION}:NameR")
 {
-  field(DOL1, "$(DEVICENAME):Unit-RB CPP")
-  field(LNK1, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowR.EGU NPP")
-  field(DOL2, "$(DEVICENAME):Rly$(FUNCTION):iUnitChanged.STR1")
-  field(LNK2, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighR.EGU NPP")
-  field(DOL3, "$(DEVICENAME):Rly$(FUNCTION):iUnitChanged.STR1")
-  field(LNK3, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowS.EGU NPP")
-  field(DOL4, "$(DEVICENAME):Rly$(FUNCTION):iUnitChanged.STR1")
-  field(LNK4, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighS.EGU NPP")
+  field(PINI, "YES")
+  field(DISP, "1")
+  field(VAL,  "Relay${FUNCTION}")
 }
 
-record(mbbo, "$(DEVICENAME):Rly$(FUNCTION):SensorS")
+
+record(bi, "${DEVICENAME}:Rly${FUNCTION}:DAQTrigR")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-ASSIGN")
+  field(DESC, "Relay is set to trigger DAQ post mortem")
+  field(ONAM, "Triggers DAQ")
+}
+
+
+record(sseq, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged")
+{
+  field(DOL1, "${DEVICENAME}:Unit-RB CPP")
+  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB.EGU NPP")
+
+  field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged.STR1")
+  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB.EGU NPP")
+
+  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged.STR1")
+  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:LowSPS.EGU NPP")
+
+  field(DOL4, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged.STR1")
+  field(LNK4, "${DEVICENAME}:Rly${FUNCTION}:HighSPS.EGU NPP")
+}
+
+
+record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:SensorS")
+{
+  alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN")
   field(ZRST, "NO ASSIGNMENT")
+  field(ZRVL, "0")
   field(ONST, "SENSOR A1")
+  field(ONVL, "1")
   field(TWST, "SENSOR A2")
+  field(TWVL, "2")
   field(THST, "SENSOR B1")
+  field(THVL, "3")
   field(FRST, "SENSOR B2")
-  field(FLNK, "$(DEVICENAME):Rly$(FUNCTION):iCommitS")
+  field(FRVL, "4")
   field(VAL,  "0")
 }
 
-record(ao, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowS")
+
+record(ao, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-LOW")
+  alias("${DEVICENAME}:SP${FUNCTION}-LOW")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
   field(VAL,  "1.0e-11")
 }
 
-record(ao, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighS")
+
+record(ao, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-HIGH")
+  alias("${DEVICENAME}:SP${FUNCTION}-HIGH")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
   field(VAL,  "1.0e-11")
 }
 
-record(calcout, "$(DEVICENAME):Rly$(FUNCTION):iCommitS")
+
+record(bo, "${DEVICENAME}:Rly${FUNCTION}:CommitS")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:iCommitS PP")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
+}
+
+
+record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iCommitS")
+{
+  alias("${DEVICENAME}:SP${FUNCTION}")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_function($(FUNCTION)) $(ASYNPORT)")
-  field(INPA, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowS")
-  field(INPB, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighS")
-  field(INPC, "$(DEVICENAME):Rly$(FUNCTION):SensorS")
-  field(FLNK, "$(DEVICENAME):Rly$(FUNCTION):CommitS-ErrorR")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_function(${FUNCTION}) ${ASYNPORT}")
+  field(INPA, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
+  field(INPB, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
+  field(INPC, "${DEVICENAME}:Rly${FUNCTION}:SensorS")
+#  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "$(DEVICENAME):Rly$(FUNCTION):CommitS-ErrorR")
+
+record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-STAT")
+  alias("${DEVICENAME}:SP${FUNCTION}-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "$(DEVICENAME):Rly$(FUNCTION):iCommitS.E MS")
-  field(ZRVL, "0")
+  field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iCommitS.E CP MSS")
   field(ZRST, "NO ERROR")
-  field(ONVL, "1")
+  field(ZRVL, "0")
   field(ONST, "SYNTAX ERROR")
+  field(ONVL, "1")
   field(ONSV, "MAJOR")
-  field(TWVL, "10")
   field(TWST, "INVALID PARAMETER")
+  field(TWVL, "10")
   field(TWSV, "MAJOR")
-  field(THVL, "100")
   field(THST, "NO HARDWARE")
+  field(THVL, "100")
   field(THSV, "MAJOR")
-  field(FRVL, "1000")
   field(FRST, "TPG ERROR")
+  field(FRVL, "1000")
   field(FRSV, "MAJOR")
-  field(FLNK, "$(DEVICENAME):Rly$(FUNCTION):iGetR")
+  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 }
 
-record(calcout, "$(DEVICENAME):Rly$(FUNCTION):iGetR")
+
+record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-RBV")
+  alias("${DEVICENAME}:SP${FUNCTION}-RBV")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_function($(FUNCTION)) $(ASYNPORT)")
-  field(FLNK, "$(DEVICENAME):Rly$(FUNCTION):iGetR-FO")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_function(${FUNCTION}) ${ASYNPORT}")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(fanout, "$(DEVICENAME):Rly$(FUNCTION):iGetR-FO")
+
+record(seq, "${DEVICENAME}:Rly${FUNCTION}:iGetR-FO")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-FO")
-  field(LNK1, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowR")
-  field(LNK2, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighR")
-  field(LNK3, "$(DEVICENAME):Rly$(FUNCTION):SensorR")
-  field(LNK4, "$(DEVICENAME):Rly$(FUNCTION):iInitS")
+  alias("${DEVICENAME}:SP${FUNCTION}-FO")
+  field(DOL1, "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
+  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB MSS PP")
+
+  field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
+  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB MSS PP")
+
+  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
+  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB MSS PP")
+
+  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 }
 
-record(ai, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowR")
+
+record(ai, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-LOW-RBV")
-  field(INP,  "$(DEVICENAME):Rly$(FUNCTION):iGetR.A MS")
+  alias("${DEVICENAME}:SP${FUNCTION}-LOW-RBV")
 }
 
-record(ai, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighR")
+
+record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-HIGH-RBV")
-  field(INP,  "$(DEVICENAME):Rly$(FUNCTION):iGetR.B MS")
+  alias("${DEVICENAME}:SP${FUNCTION}-HIGH-RBV")
 }
 
-record(mbbi, "$(DEVICENAME):Rly$(FUNCTION):SensorR")
+
+record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-ASSIGN-RBV")
-  field(INP,  "$(DEVICENAME):Rly$(FUNCTION):iGetR.C MS")
-  field(ZRST, "NO ASSIGNMENT")
-  field(ONST, "SENSOR A1")
-  field(TWST, "SENSOR A2")
-  field(THST, "SENSOR B1")
-  field(FRST, "SENSOR B2")
+  alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN-RBV")
+  field(ZRST, "N/A")
+  field(ZRVL, "0")
+  field(ONST, "A1")
+  field(ONVL, "1")
+  field(TWST, "A2")
+  field(TWVL, "2")
+  field(THST, "B1")
+  field(THVL, "3")
+  field(FRST, "B2")
+  field(FRVL, "4")
 }
 
-record(seq, "$(DEVICENAME):Rly$(FUNCTION):iConnect-FO")
+
+record(seq, "${DEVICENAME}:Rly${FUNCTION}:iConnect-FO")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-CNCT-FO")
+  alias("${DEVICENAME}:SP${FUNCTION}-CNCT-FO")
   field(DOL1, "0")
-  field(LNK1, "$(DEVICENAME):Rly$(FUNCTION):iInitS.PVAL")
+  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:iInitS.PVAL")
 }
 
-record(calcout, "$(DEVICENAME):Rly$(FUNCTION):iInitS")
+
+record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-INIT")
-  field(INPA, "$(DEVICENAME):Rly$(FUNCTION):iGetR MS")
-  field(OUT,  "$(DEVICENAME):Rly$(FUNCTION):iInitS-FO PP")
+  alias("${DEVICENAME}:SP${FUNCTION}-INIT")
+  field(INPA, "${DEVICENAME}:Rly${FUNCTION}:iGetR MS")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO PP")
   field(VAL,  "0")
   field(CALC, "1")
   field(OOPT, "Transition To Non-zero")
   field(IVOA, "Don't drive outputs")
 }
 
-record(seq, "$(DEVICENAME):Rly$(FUNCTION):iInitS-FO")
+
+record(seq, "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-INIT-FO")
-  field(LNK1, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowS PP")
-  field(LNK2, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighS PP")
-  field(LNK3, "$(DEVICENAME):Rly$(FUNCTION):SensorS")
-  field(DOL1, "$(DEVICENAME):Rly$(FUNCTION):SetpointLowR")
-  field(DOL2, "$(DEVICENAME):Rly$(FUNCTION):SetpointHighR")
-  field(DOL3, "$(DEVICENAME):Rly$(FUNCTION):SensorR")
+  alias("${DEVICENAME}:SP${FUNCTION}-INIT-FO")
+  field(DOL1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
+  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSPS PP")
+
+  field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
+  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSPS PP")
+
+  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB")
+  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:SensorS PP")
 }
 
-record(bi, "$(DEVICENAME):Rly$(FUNCTION):SetpointStatusR")
+
+record(bi, "${DEVICENAME}:Rly${FUNCTION}:StatR")
 {
-  alias("$(DEVICENAME):SP$(FUNCTION)-STAT-RBV")
-  field(INP,  "$(DEVICENAME):iRlySetpointStatusesR.$(SOURCE) MSS")
+  alias("${DEVICENAME}:SP${FUNCTION}-STAT-RBV")
+  field(INP,  "${DEVICENAME}:iRlyStatsR.${SOURCE} CP MSS")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }

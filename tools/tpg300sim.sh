@@ -13,13 +13,19 @@ units="1"
 baud="1"
 version="-- VERSION"
 tid="NO P,NO P,NO P"
-#tid="NO P,NO P,IF 300"
+tid="NO P,NO P,IF 300"
+tid="PE 300,NO P,IF 300"
 sav="0"
 pressure="0,1.0E-11"
 mode="3,3,3,3"
 filter="1,1,1,1"
 func_stat="0,0,0,0,0,0"
 func_param="1.0E-15,1.0E-11,0"
+func_params[0]="1.0E-15,1.0E-11,0"
+func_params[1]="1.0E-15,1.0E-11,1"
+func_params[2]="1.0E-15,1.0E-11,0"
+func_params[3]="1.0E-15,1.0E-11,3"
+func_params[4]="1.0E-15,1.0E-11,0"
 err="0000"
 state="$err"
 
@@ -28,6 +34,7 @@ function cmd_handle {
 
     if [[ $1 =~ $ENQ ]]; then
         echo $state
+        echo "reply   $state" 1>&2
         return
     fi
 
@@ -57,7 +64,12 @@ function cmd_handle {
         state=$err
 
     elif [[ "$cmd" =~ ^SP[1234AB]$ ]]; then
-        state=$func_param
+        relay=${cmd:2}
+        if [[ "$relay" != "A" && "$relay" != "B" ]]; then
+            state=${func_params[$relay]}
+        else
+            state=$func_param
+        fi
 
     elif [[ "$cmd" =~ ^SP[1234AB],*,*,[0-9] ]]; then
         func_param=${cmd#SP?,}

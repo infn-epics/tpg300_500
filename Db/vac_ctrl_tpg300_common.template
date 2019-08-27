@@ -1,4 +1,4 @@
-record(stringin, "$(DEVICENAME):CtrlTypeR")
+record(stringin, "$(DEVICENAME):iUITypeR")
 {
   field(PINI, "YES")
   field(VAL,  "TPG-300")
@@ -278,27 +278,27 @@ record(mbbi, "$(DEVICENAME):SensorFltTimsS-ErrorR")
   field(FLNK, "$(DEVICENAME):iSensorFltTims-RB")
 }
 
-record(calcout, "$(DEVICENAME):iRlySetpointStatusesR")
+record(calcout, "$(DEVICENAME):iRlyStatsR")
 {
   alias("$(DEVICENAME):FUNC-STAT-RBV")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() $(ASYNPORT)")
-  field(FLNK, "$(DEVICENAME):iRlySetpointStatusesR-FO")
+#  field(FLNK, "$(DEVICENAME):iRlyStatsR-FO")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(fanout, "$(DEVICENAME):iRlySetpointStatusesR-FO")
-{
-  alias("$(DEVICENAME):FUNC-STAT-FO")
-  field(LNK1, "$(DEVICENAME):Rly1:SetpointStatusR PP")
-  field(LNK2, "$(DEVICENAME):Rly2:SetpointStatusR PP")
-  field(LNK3, "$(DEVICENAME):Rly3:SetpointStatusR PP")
-  field(LNK4, "$(DEVICENAME):Rly4:SetpointStatusR PP")
-  field(LNK5, "$(DEVICENAME):RlyA:SetpointStatusR PP")
-  field(LNK6, "$(DEVICENAME):RlyB:SetpointStatusR PP")
-}
+#record(fanout, "$(DEVICENAME):iRlyStatsR-FO")
+#{
+#  alias("$(DEVICENAME):FUNC-STAT-FO")
+#  field(LNK1, "$(DEVICENAME):Rly1:StatR PP")
+#  field(LNK2, "$(DEVICENAME):Rly2:StatR PP")
+#  field(LNK3, "$(DEVICENAME):Rly3:StatR PP")
+#  field(LNK4, "$(DEVICENAME):Rly4:StatR PP")
+#  field(LNK5, "$(DEVICENAME):RlyA:StatR PP")
+#  field(LNK6, "$(DEVICENAME):RlyB:StatR PP")
+#}
 
 record(fanout, "$(DEVICENAME):iPressuresR-FO")
 {
@@ -308,16 +308,35 @@ record(fanout, "$(DEVICENAME):iPressuresR-FO")
   field(LNK4, "$(DEVICENAME):B2:iPrsR PP")
 }
 
-record(fanout, "$(DEVICENAME):ScanRate-FO")
+record(fanout, "$(DEVICENAME):iScan1")
 {
-  alias("$(DEVICENAME):SCAN-RATE")
-  field(SCAN, "$(SCAN_RATE)")
-  field(LNK1, "$(DEVICENAME):iModTypesR PP")
-  field(LNK2, "$(DEVICENAME):iPressuresR-FO PP")
-  field(LNK3, "$(DEVICENAME):iRlySetpointStatusesR PP")
-  field(LNK4, "$(DEVICENAME):iSensorCtrlModes-RB PP")
-  field(LNK5, "$(DEVICENAME):Unit-RB PP")
+  field(SCAN, "1 second")
+  field(LNK1, "$(DEVICENAME):iPressuresR-FO")
+  field(LNK2, "$(DEVICENAME):iRlyStatsR")
 }
+
+record(fanout, "$(DEVICENAME):iScan10")
+{
+  field(SCAN, "10 second")
+  field(LNK1, "$(DEVICENAME):iModTypesR PP")
+  field(LNK2, "$(DEVICENAME):iSensorCtrlModes-RB PP")
+  field(LNK3, "$(DEVICENAME):Unit-RB PP")
+  field(FLNK, "${DEVICENAME}:iRereadScan")
+}
+
+record(calcout, "${DEVICENAME}:iRereadScan")
+{
+  field(DESC, "Re-read all values every minute or so")
+  field(INPA, "${DEVICENAME}:iRereadScan")
+  field(CALC, "A<5?A+1:0")
+  field(OOPT, "When Zero")
+  field(OUT,  "${DEVICENAME}:iReadbacks-FO PP")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
+}
+
+
 
 
 ################################################################################
@@ -341,30 +360,31 @@ record(bi, "$(DEVICENAME):ConnectedR")
 
 record(scalcout, "${DEVICENAME}:iDisabledR")
 {
-    field(INPA, "${DEVICENAME}:ConnectedR CP")
-    field(INBB, "${DEVICENAME}:ModComm:TypeR")
-    field(INPC, "${DEVICENAME}:iModTypesR.STAT")
-    field(CALC, "D:=(!(A && BB=='IF 300') || C);D")
-    field(PINI, "YES")
-    field(OCAL, "!D")
-    field(DOPT, "Use OCAL")
-    field(OOPT, "On Change")
-    field(OUT,  "${DEVICENAME}:CommsOK PP")
+  field(INPA, "${DEVICENAME}:ConnectedR CP")
+  field(INBB, "${DEVICENAME}:ModComm:TypeR")
+  field(INPC, "${DEVICENAME}:iModTypesR.STAT")
+  field(CALC, "D:=(!(A && BB=='IF 300') || C);D")
+  field(PINI, "YES")
+  field(OCAL, "!D")
+  field(DOPT, "Use OCAL")
+  field(OOPT, "On Change")
+  field(OUT,  "${DEVICENAME}:CommsOK PP")
 }
 
 record(bi, "${DEVICENAME}:CommsOK")
 {
-    field(ZNAM, "No communication")
-    field(ONAM, "Communication is OK")
-    field(ZSV,  "MINOR")
-    field(FLNK, "${DEVICENAME}:iInit-FO")
+  alias("${DEVICENAME}:ValidR")
+  field(ZNAM, "No communication")
+  field(ONAM, "Communication is OK")
+  field(ZSV,  "MINOR")
+  field(FLNK, "${DEVICENAME}:iInit-FO")
 }
 
 record(fanout, "$(DEVICENAME):iInit-FO")
 {
   alias("$(DEVICENAME):CNCT-FO")
   field(LNK1, "$(DEVICENAME):iConnect-FltTims-FO PP")
-  field(LNK2, "$(DEVICENAME):iConnect-SensorCtrlModes-FO PP")
+#  field(LNK2, "$(DEVICENAME):iConnect-SensorCtrlModes-FO PP")
   field(LNK3, "$(DEVICENAME):iConnect-Rlys-FO PP")
   field(LNK4, "$(DEVICENAME):iReadbacks-FO PP")
 }
@@ -383,7 +403,7 @@ record(fanout, "$(DEVICENAME):iConnect-Rlys-FO")
 record(seq, "$(DEVICENAME):iReadbacks-FO")
 {
   alias("$(DEVICENAME):RBV-FO")
-  field(LNK1, "$(DEVICENAME):iRlySetpointsR-FO PP")
+  field(LNK1, "$(DEVICENAME):iRlySPsR-FO PP")
   field(LNK2, "$(DEVICENAME):iSensorFltTims-RB PP")
   field(LNK3, "$(DEVICENAME):iSensorCtrlModes-RB PP")
   field(LNK4, "$(DEVICENAME):Unit-RB PP")
@@ -393,7 +413,7 @@ record(seq, "$(DEVICENAME):iReadbacks-FO")
   field(LNK8, "$(DEVICENAME):iModTypesR PP")
 }
 
-record(fanout, "$(DEVICENAME):iRlySetpointsR-FO")
+record(fanout, "$(DEVICENAME):iRlySPsR-FO")
 {
   alias("$(DEVICENAME):SP-RBV-FO")
   field(LNK1, "$(DEVICENAME):Rly1:iGetR PP")

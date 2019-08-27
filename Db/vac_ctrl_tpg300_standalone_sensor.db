@@ -1,16 +1,22 @@
-alias("$(CONTROLLERNAME):$(SENSOR):PrsR", "$(DEVICENAME):PrsR")
+alias("${CONTROLLERNAME}:${SENSOR}:ValidR",      "${DEVICENAME}:ValidR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):PrsStatR", "$(DEVICENAME):PrsStatR")
+alias("${CONTROLLERNAME}:${SENSOR}:ChanR",       "${DEVICENAME}:ChanR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):GaugeStatR", "$(DEVICENAME):GaugeStatR")
+alias("${CONTROLLERNAME}:${SENSOR}:PrsR",        "${DEVICENAME}:PrsR")
+alias("${CONTROLLERNAME}:${SENSOR}:PrsR-STR",    "${DEVICENAME}:PrsR-STR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):CtrlModeS", "$(DEVICENAME):CtrlModeS")
+alias("${CONTROLLERNAME}:${SENSOR}:PrsStatR",    "${DEVICENAME}:PrsStatR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):CtrlMode-RB", "$(DEVICENAME):CtrlMode-RB")
+alias("${CONTROLLERNAME}:${SENSOR}:GaugeStatR",  "${DEVICENAME}:GaugeStatR")
 
-alias("$(CONTROLLERNAME):$(SENSOR):FltTimS", "$(DEVICENAME):FltTimS")
+alias("${CONTROLLERNAME}:${SENSOR}:CtrlModeS",   "${DEVICENAME}:CtrlModeS")
 
-alias("$(CONTROLLERNAME):$(SENSOR):FltTim-RB", "$(DEVICENAME):FltTim-RB")
+alias("${CONTROLLERNAME}:${SENSOR}:CtrlMode-RB", "${DEVICENAME}:CtrlMode-RB")
+
+alias("${CONTROLLERNAME}:${SENSOR}:FltTimS",     "${DEVICENAME}:FltTimS")
+
+alias("${CONTROLLERNAME}:${SENSOR}:FltTim-RB",   "${DEVICENAME}:FltTim-RB")
+
 
 record("*", "${CONTROLLERNAME}:${SENSOR}:DevNameR")
 {
@@ -18,8 +24,16 @@ record("*", "${CONTROLLERNAME}:${SENSOR}:DevNameR")
     field(VAL,  "${DEVICENAME}")
 }
 
+
 record("*", "${CONTROLLERNAME}:${SENSOR}:NumOfRlysR")
 {
-#    field(VAL,  "2")
-#    field(PINI, "YES")
+    field(VAL,  "2")
+    field(PINI, "YES")
+}
+
+
+record("*", "${CONTROLLERNAME}:${SENSOR}:iCheckType")
+{
+  field(CALC, "(A&&AA[1,2]=='PE')?'1':'0'")
+  field(CALC, "(A&&(AA[0,1]=='${BOARD}'||AA[0,1]=='CP'))?'1':'0'")
 }
