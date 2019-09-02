@@ -29,20 +29,19 @@ record(sseq, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged")
 }
 
 
-record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:SensorS")
+record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 {
   alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN")
-  field(ZRST, "NO ASSIGNMENT")
+  field(ZRST, "N/A")
   field(ZRVL, "0")
-  field(ONST, "SENSOR A1")
+  field(ONST, "A1")
   field(ONVL, "1")
-  field(TWST, "SENSOR A2")
+  field(TWST, "A2")
   field(TWVL, "2")
-  field(THST, "SENSOR B1")
+  field(THST, "B1")
   field(THVL, "3")
-  field(FRST, "SENSOR B2")
+  field(FRST, "B2")
   field(FRVL, "4")
-  field(VAL,  "0")
 }
 
 
@@ -80,7 +79,7 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iCommitS")
   field(OUT,  "@vac_ctrl_tpg300.proto set_function(${FUNCTION}) ${ASYNPORT}")
   field(INPA, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
   field(INPB, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
-  field(INPC, "${DEVICENAME}:Rly${FUNCTION}:SensorS")
+  field(INPC, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 #  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -132,7 +131,7 @@ record(seq, "${DEVICENAME}:Rly${FUNCTION}:iGetR-FO")
   field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB MSS PP")
 
   field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
-  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB MSS PP")
+  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB MSS PP")
 
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 }
@@ -150,7 +149,7 @@ record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 }
 
 
-record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB")
+record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB")
 {
   alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN-RBV")
   field(ZRST, "N/A")
@@ -194,9 +193,6 @@ record(seq, "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO")
 
   field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
   field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSPS PP")
-
-  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:Sensor-RB")
-  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:SensorS PP")
 }
 
 

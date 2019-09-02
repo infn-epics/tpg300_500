@@ -92,9 +92,9 @@ set_units {
     enquery;
     in  "%*d";
 
-    @init {
-        get_units;
-    }
+#    @init {
+#        get_units;
+#    }
 }
 
 
@@ -188,6 +188,58 @@ get_modes {
 
 set_modes {
     out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
+    enquery_with_error_reset;
+    in  "%*d,%*d,%*d,%*d";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+set_mode_A1 {
+    out "SEN,%(A)d,0,0,0";
+    enquery_with_error_reset;
+    in  "%*d,%*d,%*d,%*d";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+set_mode_A2 {
+    out "SEN,0,%(A)d,0,0";
+    enquery_with_error_reset;
+    in  "%*d,%*d,%*d,%*d";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+set_mode_B1 {
+    out "SEN,0,0,%(A)d,0";
+    enquery_with_error_reset;
+    in  "%*d,%*d,%*d,%*d";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+set_mode_B2 {
+    out "SEN,0,0,0,%(A)d";
     enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
 

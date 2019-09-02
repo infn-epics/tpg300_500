@@ -2,9 +2,10 @@
 # Database for TPG gauge relays for
 # TPG300 Gauge Controller
 # CONTROLLERNAME = devicename of the TPG controller
-# GAUGE = devicename of the gauge
-# RELAY = the ID of the relay that is mapped to this gauge; 1..4
-# n     = 1,2,3,4 if gauge is VGC
+# GAUGE          = devicename of the gauge
+# CHANNEL        = the channel of the gauge
+# RELAY          = the ID of the relay that is mapped to this gauge; 1..4
+# n              = 1,2,3,4 if gauge is VGC
 ################################################################################
 
 
@@ -12,7 +13,7 @@ alias("${CONTROLLERNAME}:Rly${RELAY}:NameR",          "${DEVICENAME}:Rly${n}:Nam
 
 alias("${CONTROLLERNAME}:Rly${RELAY}:DAQTrigR",       "${DEVICENAME}:Rly${n}:DAQTrigR")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:SensorS",        "${DEVICENAME}:Rly${n}:SensorS")
+alias("${CONTROLLERNAME}:Rly${RELAY}:ChanS",          "${DEVICENAME}:Rly${n}:ChanS")
 
 alias("${CONTROLLERNAME}:Rly${RELAY}:LowSPS",         "${DEVICENAME}:Rly${n}:LowSPS")
 
@@ -26,7 +27,7 @@ alias("${CONTROLLERNAME}:Rly${RELAY}:LowSP-RB",       "${DEVICENAME}:Rly${n}:Low
 
 alias("${CONTROLLERNAME}:Rly${RELAY}:HighSP-RB",      "${DEVICENAME}:Rly${n}:HighSP-RB")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:Sensor-RB",      "${DEVICENAME}:Rly${n}:Sensor-RB")
+alias("${CONTROLLERNAME}:Rly${RELAY}:Chan-RB",        "${DEVICENAME}:Rly${n}:Chan-RB")
 
 alias("${CONTROLLERNAME}:Rly${RELAY}:StatR",          "${DEVICENAME}:Rly${n}:StatR")
 
@@ -39,3 +40,9 @@ record(calcout, "${DEVICENAME}:Rly${n}:iDAQTrigR")
 }
 
 
+record(stringout, "${DEVICENAME}:Rly${n}:iChanS")
+{
+  field(OUT,  "${CONTROLLERNAME}:Rly${RELAY}:ChanS PP")
+  field(PINI, "YES")
+  field(VAL,  "${CHANNEL}")
+}

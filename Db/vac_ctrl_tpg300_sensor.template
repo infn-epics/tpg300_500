@@ -23,7 +23,7 @@ record(longin, "${DEVICENAME}:${SENSOR}:NumOfRlysR")
 
 record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckType")
 {
-  field(INAA, "${DEVICENAME}:Mod${SLOT}:TypeR")
+  field(INAA, "${DEVICENAME}:Mod${SLOT}:TypeR CP")
   field(INPA, "${DEVICENAME}:CommsOK CP")
   field(CALC, "'0'")
   field(OOPT, "On Change")
@@ -36,36 +36,36 @@ record(bi, "${DEVICENAME}:${SENSOR}:ValidR")
   field(ZNAM, "Incorrect Gauge Type")
   field(ONAM, "Correct Gauge Type")
   field(ZSV,  "MAJOR")
-#  field(FLNK, "${DEVICENAME}:${SENSOR}:iInit-FO.PROC CA")
 }
 
 
-record(calcout, "$(DEVICENAME):$(SENSOR):iPrsR")
+record(calcout, "${DEVICENAME}:${SENSOR}:iPrsR")
 {
+#field(TPRO, "1")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_pressure($(SENSOR)) $(ASYNPORT)")
-#  field(FLNK, "$(DEVICENAME):$(SENSOR):GaugeStatR")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
-record(stringout, "$(DEVICENAME):$(SENSOR):iUnitChanged")
+record(stringout, "${DEVICENAME}:${SENSOR}:iUnitChanged")
 {
-  field(DOL,  "$(DEVICENAME):Unit-RB CPP")
+  field(DOL,  "${DEVICENAME}:Unit-RB CPP")
   field(OMSL, "closed_loop")
-  field(OUT,  "$(DEVICENAME):$(SENSOR):PrsR.EGU NPP")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:PrsR.EGU NPP")
 }
 
 
-record(ai, "$(DEVICENAME):$(SENSOR):PrsR")
+record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
-  alias("$(DEVICENAME):$(SENSOR)-PRES-RBV")
-  field(INP,  "$(DEVICENAME):$(SENSOR):iPrsR.B CP MSS")
+#field(TPRO, "1")
+  alias("${DEVICENAME}:${SENSOR}-PRES-RBV")
+  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
   field(EGU,  "mBar")
   field(DISV, "-1")
-  field(SDIS, "$(DEVICENAME):$(SENSOR):PrsStatR MSS")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
 }
 
 
@@ -75,10 +75,11 @@ record(stringin, "${DEVICENAME}:${SENSOR}:PrsR-STR")
 }
 
 
-record(mbbi, "$(DEVICENAME):$(SENSOR):GaugeStatR")
+record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
 {
-  alias("$(DEVICENAME):$(SENSOR)-PRES-STAT")
-  field(INP,  "$(DEVICENAME):$(SENSOR):iPrsR.A CP MSS")
+#field(TPRO, "1")
+  alias("${DEVICENAME}:${SENSOR}-PRES-STAT")
+  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.A CP MSS")
   field(ZRST, "DATA OK")
   field(ZRVL, "0")
   field(ONST, "UNDERRANGE")
@@ -91,8 +92,11 @@ record(mbbi, "$(DEVICENAME):$(SENSOR):GaugeStatR")
   field(FRVL, "4")
   field(FVST, "NO HARDWARE")
   field(FVVL, "5")
-#  field(FLNK, "$(DEVICENAME):$(SENSOR):iCalcStat")
-#  field(FLNK, "$(DEVICENAME):$(SENSOR):iPrsStatS")
+#  field(FLNK, "${DEVICENAME}:${SENSOR}:iCalcStat")
+#  field(FLNK, "${DEVICENAME}:${SENSOR}:iPrsStatS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
@@ -112,28 +116,6 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
   field(OMSL, "closed_loop")
   field(OUT,  "${DEVICENAME}:${SENSOR}:PrsStatR MSS PP")
   field(DTYP, "Raw Soft Channel")
-
-  # ON:
-  #  -  0 -- DATA OK
-  field(ZRVL, "1")
-
-  # OFF:
-  #  -  4 -- MEASUREMENT CIRCUIT OFF
-  field(FRVL, "2")
-
-  # ERROR:
-  #  -  3 -- MEASUREMENT CIRCUIT ERROR
-  #  -  5 -- NO HARDWARE
-  field(THVL, "3")
-  field(FVVL, "3")
-
-  # OVER-RANGE:
-  #  -  2 -- OVERRANGE
-  field(TWVL, "4")
-
-  # UNDER-RANGE:
-  #  -  1 -- UNDERRANGE
-  field(ONVL, "5")
 
   # INVALID
   #  -  0
@@ -165,6 +147,7 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 {
+#field(TPRO, "1")
   field(DESC, "Status of channel ${SENSOR}")
 
   field(ZRST, "INVALID")
@@ -180,35 +163,74 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 
   field(FVST, "UNDER-RANGE")
 
-  field(FLNK, "$(DEVICENAME):$(SENSOR):PrsR")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
-record(mbbo, "$(DEVICENAME):$(SENSOR):CtrlModeS")
+record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlMode")
 {
-  alias("$(DEVICENAME):$(SENSOR)-MODE")
   field(ZRST, "NO SENSOR")
   field(ZRVL, "0")
   field(ONST, "OFF")
   field(ONVL, "1")
-  field(TWST, "AUTOMATIC")
+  field(TWST, "AUTO")
   field(TWVL, "2")
   field(THST, "ON")
   field(THVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
-record(mbbi, "$(DEVICENAME):$(SENSOR):CtrlMode-RB")
+record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
 {
-  alias("$(DEVICENAME):$(SENSOR)-MODE-RBV")
+  alias("${DEVICENAME}:${SENSOR}-MODE")
+  field(DTYP, "Raw Soft Channel")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlModeCommitS.A PP")
+  field(ZRST, "OFF")
+  field(ZRVL, "1")
+  field(ONST, "AUTO")
+  field(ONVL, "2")
+  field(TWST, "ON")
+  field(TWVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+}
+
+record(calcout, "${DEVICENAME}:${SENSOR}:CtrlModeCommitS")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
+  field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+}
+
+
+record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
+{
+  alias("${DEVICENAME}:${SENSOR}-MODE-RBV")
+  field(INP,  "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP MSS")
   field(ZRST, "NO SENSOR")
   field(ZRVL, "0")
   field(ONST, "OFF")
   field(ONVL, "1")
-  field(TWST, "AUTOMATIC")
+  field(TWST, "AUTO")
   field(TWVL, "2")
   field(THST, "ON")
   field(THVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
@@ -217,19 +239,20 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
   field(DESC, "Initializes CtrlModeS from CtrlMode-RB")
   field(INPA, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
   field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB.STAT")
-  field(INPC, "${DEVICENAME}:${SENSOR}:CtrlModeS.STAT")
-  # 17 - UDF
-  field(CALC, "B==0 && C==17")
+#  field(INPC, "${DEVICENAME}:${SENSOR}:CtrlModeS.STAT")
+#  # 17 - UDF
+#  field(CALC, "B==0 && C==17")
+  field(CALC, "B==0")
   field(OOPT, "When Non-zero")
-  field(DOPT, "Use OCAL")
-  field(OCAL, "A")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlModeS PP")
+#  field(DOPT, "Use OCAL")
+#  field(OCAL, "A")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlMode PP")
 }
 
 
-record(mbbo, "$(DEVICENAME):$(SENSOR):FltTimS")
+record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
 {
-  alias("$(DEVICENAME):$(SENSOR)-FILT")
+  alias("${DEVICENAME}:${SENSOR}-FILT")
   field(DTYP, "Raw Soft Channel")
   field(ZRST, "FAST")
   field(ZRVL, "1")
@@ -237,17 +260,26 @@ record(mbbo, "$(DEVICENAME):$(SENSOR):FltTimS")
   field(ONVL, "2")
   field(TWST, "SLOW")
   field(TWVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
-record(mbbi, "$(DEVICENAME):$(SENSOR):FltTim-RB")
+record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
 {
-  alias("$(DEVICENAME):$(SENSOR)-FILT-RBV")
+  alias("${DEVICENAME}:${SENSOR}-FILT-RBV")
   field(DTYP, "Raw Soft Channel")
+  field(INP,  "${DEVICENAME}:iSensorFltTims-RB.${SOURCE} CP MSS")
   field(ZRST, "FAST")
   field(ZRVL, "1")
   field(ONST, "MEDIUM")
   field(ONVL, "2")
   field(TWST, "SLOW")
   field(TWVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
