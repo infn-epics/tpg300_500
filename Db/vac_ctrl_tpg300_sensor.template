@@ -21,13 +21,33 @@ record(longin, "${DEVICENAME}:${SENSOR}:NumOfRlysR")
 }
 
 
-record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckType")
+record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckModType")
 {
   field(INAA, "${DEVICENAME}:Mod${SLOT}:TypeR CP")
   field(INPA, "${DEVICENAME}:CommsOK CP")
   field(CALC, "'0'")
+}
+
+
+record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckType")
+{
+  field(INPA, "${DEVICENAME}:${SENSOR}:iCheckModType CP")
+  field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
+  field(INPB, "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP")
+  field(CALC, "A&&B")
   field(OOPT, "On Change")
   field(OUT,  "${DEVICENAME}:${SENSOR}:ValidR PP")
+}
+
+
+record(stringin, "${DEVICENAME}:${SENSOR}:SensorTypeR")
+{
+  field(DISP, "1")
+  field(INP,  "${DEVICENAME}:${SENSOR}:iSensorTypeR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
@@ -41,7 +61,6 @@ record(bi, "${DEVICENAME}:${SENSOR}:ValidR")
 
 record(calcout, "${DEVICENAME}:${SENSOR}:iPrsR")
 {
-#field(TPRO, "1")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
   field(DISV, "0")
@@ -60,7 +79,6 @@ record(stringout, "${DEVICENAME}:${SENSOR}:iUnitChanged")
 
 record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
-#field(TPRO, "1")
   alias("${DEVICENAME}:${SENSOR}-PRES-RBV")
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
   field(EGU,  "mBar")
@@ -77,8 +95,6 @@ record(stringin, "${DEVICENAME}:${SENSOR}:PrsR-STR")
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
 {
-#field(TPRO, "1")
-  alias("${DEVICENAME}:${SENSOR}-PRES-STAT")
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.A CP MSS")
   field(ZRST, "DATA OK")
   field(ZRVL, "0")
@@ -92,8 +108,6 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
   field(FRVL, "4")
   field(FVST, "NO HARDWARE")
   field(FVVL, "5")
-#  field(FLNK, "${DEVICENAME}:${SENSOR}:iCalcStat")
-#  field(FLNK, "${DEVICENAME}:${SENSOR}:iPrsStatS")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
@@ -102,6 +116,7 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
 
 record(calc, "${DEVICENAME}:${SENSOR}:iCalcStat")
 {
+# Increase GaugeStat value if INVALID
   field(INPA, "${DEVICENAME}:${SENSOR}:GaugeStatR CP")
   field(INPB, "${DEVICENAME}:${SENSOR}:GaugeStatR.SEVR")
   # SEVR == INVALID
@@ -111,7 +126,6 @@ record(calc, "${DEVICENAME}:${SENSOR}:iCalcStat")
 
 record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
 {
-  field(DOL,  "${DEVICENAME}:${SENSOR}:GaugeStatR CP MSS")
   field(DOL,  "${DEVICENAME}:${SENSOR}:iCalcStat CP MSS")
   field(OMSL, "closed_loop")
   field(OUT,  "${DEVICENAME}:${SENSOR}:PrsStatR MSS PP")
@@ -147,7 +161,6 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 {
-#field(TPRO, "1")
   field(DESC, "Status of channel ${SENSOR}")
 
   field(ZRST, "INVALID")
@@ -188,9 +201,8 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlMode")
 
 record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
 {
-  alias("${DEVICENAME}:${SENSOR}-MODE")
   field(DTYP, "Raw Soft Channel")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlModeCommitS.A PP")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.A PP")
   field(ZRST, "OFF")
   field(ZRVL, "1")
   field(ONST, "AUTO")
@@ -203,7 +215,8 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
-record(calcout, "${DEVICENAME}:${SENSOR}:CtrlModeCommitS")
+
+record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
@@ -215,9 +228,29 @@ record(calcout, "${DEVICENAME}:${SENSOR}:CtrlModeCommitS")
 }
 
 
+record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlModeS-ErrorR")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.E CP MSS")
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+}
+
+
 record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
 {
-  alias("${DEVICENAME}:${SENSOR}-MODE-RBV")
   field(INP,  "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP MSS")
   field(ZRST, "NO SENSOR")
   field(ZRVL, "0")
@@ -230,13 +263,13 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
 record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
 {
-  field(DESC, "Initializes CtrlModeS from CtrlMode-RB")
+  field(DESC, "Initializes CtrlMode from CtrlMode-RB")
   field(INPA, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
   field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB.STAT")
 #  field(INPC, "${DEVICENAME}:${SENSOR}:CtrlModeS.STAT")
@@ -244,15 +277,14 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
 #  field(CALC, "B==0 && C==17")
   field(CALC, "B==0")
   field(OOPT, "When Non-zero")
-#  field(DOPT, "Use OCAL")
-#  field(OCAL, "A")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "A")
   field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlMode PP")
 }
 
 
 record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
 {
-  alias("${DEVICENAME}:${SENSOR}-FILT")
   field(DTYP, "Raw Soft Channel")
   field(ZRST, "FAST")
   field(ZRVL, "1")
@@ -260,6 +292,7 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
   field(ONVL, "2")
   field(TWST, "SLOW")
   field(TWVL, "3")
+  field(FLNK, "${DEVICENAME}:SensorFltTimsS PP")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -269,7 +302,6 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
 {
-  alias("${DEVICENAME}:${SENSOR}-FILT-RBV")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:iSensorFltTims-RB.${SOURCE} CP MSS")
   field(ZRST, "FAST")
@@ -278,8 +310,36 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
   field(ONVL, "2")
   field(TWST, "SLOW")
   field(TWVL, "3")
+  field(FLNK, "${DEVICENAME}:${SENSOR}:iFltTimInit")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+}
+
+
+record(seq, "${DEVICENAME}:${SENSOR}:iConnect-FltTim-FO")
+{
+  field(DOL1, "0")
+  field(LNK1, "${DEVICENAME}:${SENSOR}:iFltTimInit.PVAL")
+}
+
+
+record(calcout, "${DEVICENAME}:${SENSOR}:iFltTimInit")
+{
+  field(INPA, "${DEVICENAME}:${SENSOR}:FltTim-RB MS")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:iFltTimInit-FO PP")
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+record(seq, "${DEVICENAME}:${SENSOR}:iFltTimInit-FO")
+{
+  # Do not PP; FltTimS has an FLNK to SensorFltTimsS
+  # FIXME: we have to PP to properly calculate RVAL
+  field(DOL1, "${DEVICENAME}:${SENSOR}:FltTim-RB")
+  field(LNK1, "${DEVICENAME}:${SENSOR}:FltTimS")
 }

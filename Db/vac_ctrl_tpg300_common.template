@@ -243,7 +243,6 @@ record(calcout, "${DEVICENAME}:iSensorFltTims-RB")
 
 record(calcout, "${DEVICENAME}:SensorFltTimsS")
 {
-  alias("${DEVICENAME}:FILT")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_filter() ${ASYNPORT}")
   field(INPA, "${DEVICENAME}:A1:FltTimS.RVAL")
@@ -256,9 +255,9 @@ record(calcout, "${DEVICENAME}:SensorFltTimsS")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
+
 record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
 {
-  alias("${DEVICENAME}:FILT-STAT")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:SensorFltTimsS.E")
   field(ZRVL, "0")
@@ -278,27 +277,17 @@ record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
   field(FLNK, "${DEVICENAME}:iSensorFltTims-RB")
 }
 
+
 record(calcout, "${DEVICENAME}:iRlyStatsR")
 {
   alias("${DEVICENAME}:FUNC-STAT-RBV")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() ${ASYNPORT}")
-#  field(FLNK, "${DEVICENAME}:iRlyStatsR-FO")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-#record(fanout, "${DEVICENAME}:iRlyStatsR-FO")
-#{
-#  alias("${DEVICENAME}:FUNC-STAT-FO")
-#  field(LNK1, "${DEVICENAME}:Rly1:StatR PP")
-#  field(LNK2, "${DEVICENAME}:Rly2:StatR PP")
-#  field(LNK3, "${DEVICENAME}:Rly3:StatR PP")
-#  field(LNK4, "${DEVICENAME}:Rly4:StatR PP")
-#  field(LNK5, "${DEVICENAME}:RlyA:StatR PP")
-#  field(LNK6, "${DEVICENAME}:RlyB:StatR PP")
-#}
 
 record(fanout, "${DEVICENAME}:iPressuresR-FO")
 {
@@ -308,12 +297,14 @@ record(fanout, "${DEVICENAME}:iPressuresR-FO")
   field(LNK4, "${DEVICENAME}:B2:iPrsR")
 }
 
+
 record(fanout, "${DEVICENAME}:iScan1")
 {
 #  field(SCAN, "1 second")
   field(LNK1, "${DEVICENAME}:iPressuresR-FO")
   field(LNK2, "${DEVICENAME}:iRlyStatsR")
 }
+
 
 record(fanout, "${DEVICENAME}:iScan10")
 {
@@ -323,6 +314,7 @@ record(fanout, "${DEVICENAME}:iScan10")
   field(LNK3, "${DEVICENAME}:Unit-RB PP")
   field(FLNK, "${DEVICENAME}:iRereadScan")
 }
+
 
 record(calcout, "${DEVICENAME}:iRereadScan")
 {
@@ -349,6 +341,7 @@ record(asyn,"${DEVICENAME}:iASYN")
   field(PORT, "${ASYNPORT}")
 }
 
+
 record(bi, "${DEVICENAME}:ConnectedR")
 {
   field(INP,  "${DEVICENAME}:iASYN.CNCT CP")
@@ -357,6 +350,7 @@ record(bi, "${DEVICENAME}:ConnectedR")
   field(ZSV,  "MAJOR")
   field(FLNK, "${DEVICENAME}:iModTypesR")
 }
+
 
 record(scalcout, "${DEVICENAME}:iDisabledR")
 {
@@ -371,6 +365,7 @@ record(scalcout, "${DEVICENAME}:iDisabledR")
   field(OUT,  "${DEVICENAME}:CommsOK PP")
 }
 
+
 record(bi, "${DEVICENAME}:CommsOK")
 {
   alias("${DEVICENAME}:ValidR")
@@ -380,15 +375,23 @@ record(bi, "${DEVICENAME}:CommsOK")
   field(FLNK, "${DEVICENAME}:iInit-FO")
 }
 
+
 record(fanout, "${DEVICENAME}:iInit-FO")
 {
-  alias("${DEVICENAME}:CNCT-FO")
   field(LNK1, "${DEVICENAME}:iPressuresR-FO")
   field(LNK2, "${DEVICENAME}:iRlyStatsR")
   field(LNK3, "${DEVICENAME}:iConnect-FltTims-FO")
-#  field(LNK4, "${DEVICENAME}:iConnect-SensorCtrlModes-FO")
-  field(LNK5, "${DEVICENAME}:iConnect-Rlys-FO")
+  field(LNK4, "${DEVICENAME}:iConnect-Rlys-FO")
   field(FLNK, "${DEVICENAME}:iReadbacks-FO")
+}
+
+
+record(fanout, "${DEVICENAME}:iConnect-FltTims-FO")
+{
+  field(LNK1, "${DEVICENAME}:A1:iConnect-FltTim-FO")
+  field(LNK2, "${DEVICENAME}:A2:iConnect-FltTim-FO")
+  field(LNK3, "${DEVICENAME}:B1:iConnect-FltTim-FO")
+  field(LNK4, "${DEVICENAME}:B2:iConnect-FltTim-FO")
 }
 
 
@@ -405,7 +408,6 @@ record(fanout, "${DEVICENAME}:iConnect-Rlys-FO")
 
 record(fanout, "${DEVICENAME}:iReadbacks-FO")
 {
-  alias("${DEVICENAME}:RBV-FO")
   field(LNK1, "${DEVICENAME}:iRlySPs-RB-FO")
   field(LNK2, "${DEVICENAME}:iSensorFltTims-RB")
   field(LNK3, "${DEVICENAME}:iSensorCtrlModes-RB")
@@ -419,7 +421,6 @@ record(fanout, "${DEVICENAME}:iReadbacks-FO")
 
 record(fanout, "${DEVICENAME}:iRlySPs-RB-FO")
 {
-  alias("${DEVICENAME}:SP-RBV-FO")
   field(LNK1, "${DEVICENAME}:Rly1:iGetR")
   field(LNK2, "${DEVICENAME}:Rly2:iGetR")
   field(LNK3, "${DEVICENAME}:Rly3:iGetR")
@@ -429,75 +430,36 @@ record(fanout, "${DEVICENAME}:iRlySPs-RB-FO")
 }
 
 
-record(seq, "${DEVICENAME}:iConnect-FltTims-FO")
-{
-  alias("${DEVICENAME}:FILT-CNCT-FO")
-  field(DOL1, "0")
-  field(LNK1, "${DEVICENAME}:iSensorFltTimsInit.PVAL")
-}
-
-
-record(calcout, "${DEVICENAME}:iSensorFltTimsInit")
-{
-  alias("${DEVICENAME}:FILT-INIT")
-  field(INPA, "${DEVICENAME}:iSensorFltTims-RB MS")
-  field(OUT,  "${DEVICENAME}:iSensorFltTimsInit-FO PP")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
-  field(IVOA, "Don't drive outputs")
-}
-
-
-record(seq, "${DEVICENAME}:iSensorFltTimsInit-FO")
-{
-  alias("${DEVICENAME}:FILT-INIT-FO")
-  field(DOL1, "${DEVICENAME}:A1:FltTim-RB")
-  field(LNK1, "${DEVICENAME}:A1:FltTimS PP")
-
-  field(DOL2, "${DEVICENAME}:A2:FltTim-RB")
-  field(LNK2, "${DEVICENAME}:A2:FltTimS PP")
-
-  field(DOL3, "${DEVICENAME}:B1:FltTim-RB")
-  field(LNK3, "${DEVICENAME}:B1:FltTimS PP")
-
-  field(DOL4, "${DEVICENAME}:B2:FltTim-RB")
-  field(LNK4, "${DEVICENAME}:B2:FltTimS PP")
-}
-
-#
-# These are not really needed
-#
-#record(seq, "${DEVICENAME}:iConnect-SensorCtrlModes-FO")
+#record(seq, "${DEVICENAME}:iConnect-FltTims-FO")
 #{
-#  alias("${DEVICENAME}:MODE-CNCT-FO")
 #  field(DOL1, "0")
-#  field(LNK1, "${DEVICENAME}:iSensorCtrlModesInit.PVAL")
+#  field(LNK1, "${DEVICENAME}:iSensorFltTimsInit.PVAL")
 #}
 #
-#record(calcout, "${DEVICENAME}:iSensorCtrlModesInit")
+#
+#record(calcout, "${DEVICENAME}:iSensorFltTimsInit")
 #{
-#  alias("${DEVICENAME}:MODE-INIT")
-#  field(INPA, "${DEVICENAME}:iSensorCtrlModes-RB MS")
-#  field(OUT,  "${DEVICENAME}:iSensorCtrlModesInit-FO PP")
+#  field(INPA, "${DEVICENAME}:iSensorFltTims-RB MS")
+#  field(OUT,  "${DEVICENAME}:iSensorFltTimsInit-FO PP")
 #  field(VAL,  "0")
 #  field(CALC, "1")
 #  field(OOPT, "Transition To Non-zero")
 #  field(IVOA, "Don't drive outputs")
 #}
 #
-#record(seq, "${DEVICENAME}:iSensorCtrlModesInit-FO")
+#
+#record(seq, "${DEVICENAME}:iSensorFltTimsInit-FO")
 #{
-#  alias("${DEVICENAME}:MODE-INIT-FO")
-#  field(DOL1, "${DEVICENAME}:A1:CtrlMode-RB")
-#  field(LNK1, "${DEVICENAME}:A1:CtrlModeS PP")
+#  # Do not PP; FltTimS has an FLNK to SensorFltTimsS
+#  field(DOL1, "${DEVICENAME}:A1:FltTim-RB")
+#  field(LNK1, "${DEVICENAME}:A1:FltTimS")
 #
-#  field(DOL2, "${DEVICENAME}:A2:CtrlMode-RB")
-#  field(LNK2, "${DEVICENAME}:A2:CtrlModeS PP")
+#  field(DOL2, "${DEVICENAME}:A2:FltTim-RB")
+#  field(LNK2, "${DEVICENAME}:A2:FltTimS")
 #
-#  field(DOL3, "${DEVICENAME}:B1:CtrlMode-RB")
-#  field(LNK3, "${DEVICENAME}:B1:CtrlModeS PP")
+#  field(DOL3, "${DEVICENAME}:B1:FltTim-RB")
+#  field(LNK3, "${DEVICENAME}:B1:FltTimS")
 #
-#  field(DOL4, "${DEVICENAME}:B2:CtrlMode-RB")
-#  field(LNK4, "${DEVICENAME}:B2:CtrlModeS PP")
+##  field(DOL4, "${DEVICENAME}:B2:FltTim-RB")
+#  field(LNK4, "${DEVICENAME}:B2:FltTimS")
 #}

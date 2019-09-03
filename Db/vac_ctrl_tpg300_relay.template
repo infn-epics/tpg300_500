@@ -31,7 +31,6 @@ record(sseq, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged")
 
 record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN")
   field(ZRST, "N/A")
   field(ZRVL, "0")
   field(ONST, "A1")
@@ -47,7 +46,6 @@ record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 
 record(ao, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-LOW")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
   field(VAL,  "1.0e-11")
@@ -56,10 +54,9 @@ record(ao, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
 
 record(ao, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-HIGH")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
-  field(VAL,  "1.0e-11")
+  field(VAL,  "9.9e+3")
 }
 
 
@@ -74,13 +71,11 @@ record(bo, "${DEVICENAME}:Rly${FUNCTION}:CommitS")
 
 record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iCommitS")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_function(${FUNCTION}) ${ASYNPORT}")
   field(INPA, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
   field(INPB, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
   field(INPC, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
-#  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
@@ -89,7 +84,6 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iCommitS")
 
 record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-STAT")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iCommitS.E CP MSS")
   field(ZRST, "NO ERROR")
@@ -112,7 +106,7 @@ record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
 
 record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-RBV")
+#field(TPRO, "1")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_function(${FUNCTION}) ${ASYNPORT}")
   field(DISV, "0")
@@ -123,35 +117,42 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 
 record(seq, "${DEVICENAME}:Rly${FUNCTION}:iGetR-FO")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-FO")
-  field(DOL1, "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
-  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB MSS PP")
+#field(TPRO, "1")
+#  field(DOL1, "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
+#  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB MSS PP")
 
-  field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
-  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB MSS PP")
+#  field(DOL2, "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
+#  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB MSS PP")
 
-  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
-  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB MSS PP")
+#  field(DOL3, "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
+#  field(LNK3, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB MSS PP")
 
-  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
+#  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 }
 
 
 record(ai, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-LOW-RBV")
+#field(TPRO, "1")
+  field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
+  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS")
+  field(SDIS, "${DEVICENAME}:Rly${FUNCTION}:iGetR CP MSS")
 }
 
 
 record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-HIGH-RBV")
+#field(TPRO, "1")
+  field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
+  field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS")
+  field(SDIS, "${DEVICENAME}:Rly${FUNCTION}:iGetR CP MSS")
 }
 
 
 record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-ASSIGN-RBV")
+#field(TPRO, "1")
+  field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
   field(ZRST, "N/A")
   field(ZRVL, "0")
   field(ONST, "A1")
@@ -162,20 +163,44 @@ record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB")
   field(THVL, "3")
   field(FRST, "B2")
   field(FRVL, "4")
+  field(SDIS, "${DEVICENAME}:Rly${FUNCTION}:iGetR CP MSS")
 }
 
 
 record(seq, "${DEVICENAME}:Rly${FUNCTION}:iConnect-FO")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-CNCT-FO")
   field(DOL1, "0")
-  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:iInitS.PVAL")
+  field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS.PVAL")
+
+  field(DOL2, "0")
+  field(LNK2, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS.PVAL")
+}
+
+
+record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS")
+{
+  field(INPA, "${DEVICENAME}:Rly${FUNCTION}:iGetR MS")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS-FO PP")
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS")
+{
+  field(INPA, "${DEVICENAME}:Rly${FUNCTION}:iGetR MS")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS-FO PP")
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(IVOA, "Don't drive outputs")
 }
 
 
 record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-INIT")
   field(INPA, "${DEVICENAME}:Rly${FUNCTION}:iGetR MS")
   field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO PP")
   field(VAL,  "0")
@@ -185,9 +210,24 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iInitS")
 }
 
 
+record(ao, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:LowSPS PP")
+}
+
+
+record(ao, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
+  field(OUT,  "${DEVICENAME}:Rly${FUNCTION}:HighSPS PP")
+}
+
+
 record(seq, "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-INIT-FO")
   field(DOL1, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
   field(LNK1, "${DEVICENAME}:Rly${FUNCTION}:LowSPS PP")
 
@@ -198,7 +238,6 @@ record(seq, "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO")
 
 record(bi, "${DEVICENAME}:Rly${FUNCTION}:StatR")
 {
-  alias("${DEVICENAME}:SP${FUNCTION}-STAT-RBV")
   field(INP,  "${DEVICENAME}:iRlyStatsR.${SOURCE} CP MSS")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
