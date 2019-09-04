@@ -81,6 +81,7 @@ record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
   alias("${DEVICENAME}:${SENSOR}-PRES-RBV")
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
+  field(PREC, "2")
   field(EGU,  "mBar")
   field(DISV, "-1")
   field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")

@@ -1,201 +1,241 @@
 record(stringin, "${DEVICENAME}:iUITypeR")
 {
+  alias("${DEVICENAME}:ModMain:TypeR")
   field(PINI, "YES")
   field(VAL,  "TPG-300")
 }
 
+
 record(stringin, "${DEVICENAME}:ModMain:FWVersionR")
 {
-  alias("${DEVICENAME}:VERSION-RBV")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_version ${ASYNPORT}")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
+
+
+record(bo, "${DEVICENAME}:iRst")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto reset_interface ${ASYNPORT}")
+  field(VAL,  "0")
+  field(FLNK, "${DEVICENAME}:iModTypesR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:ConnectedR")
+}
+
 
 record(scalcout, "${DEVICENAME}:iModTypesR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_slots() ${ASYNPORT}")
   field(CALC, "1")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:ConnectedR")
 }
 
-record(sseq, "${DEVICENAME}:iModTypesR-FO")
-{
-  field(DOL1, "${DEVICENAME}:iModTypesR.AA CP MSS")
-  field(LNK1, "${DEVICENAME}:ModA:TypeR PP MSS")
-
-  field(DOL2, "${DEVICENAME}:iModTypesR.BB CP MSS")
-  field(LNK2, "${DEVICENAME}:ModB:TypeR PP MSS")
-
-  field(DOL3, "${DEVICENAME}:iModTypesR.CC CP MSS")
-  field(LNK3, "${DEVICENAME}:ModComm:TypeR PP MSS")
-}
 
 record(stringin, "${DEVICENAME}:ModA:TypeR")
 {
-  alias("${DEVICENAME}:SLOT1-RBV")
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:ConnectedR")
+  field(INP,  "${DEVICENAME}:iModTypesR.AA CP MSS")
+
+  field(DISV, "42")
+  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
 }
+
 
 record(stringin, "${DEVICENAME}:ModB:TypeR")
 {
-  alias("${DEVICENAME}:SLOT2-RBV")
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:ConnectedR")
+  field(INP,  "${DEVICENAME}:iModTypesR.BB CP MSS")
+
+  field(DISV, "42")
+  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
 }
+
 
 record(stringin, "${DEVICENAME}:ModComm:TypeR")
 {
-  alias("${DEVICENAME}:SLOT3-RBV")
+  field(INP,  "${DEVICENAME}:iModTypesR.CC CP MSS")
   field(FLNK, "${DEVICENAME}:iDisabledR")
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:ConnectedR")
+
+  field(DISV, "42")
+  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
 }
 
-record(ai, "${DEVICENAME}:BaudrtR")
+
+record(mbbi, "${DEVICENAME}:BaudrtR")
 {
-  alias("${DEVICENAME}:BAUD-RBV")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_baud ${ASYNPORT}")
+  field(ZRST, " 1200 baud")
+  field(ZRVL, "1")
+  field(ONST, " 2400 baud")
+  field(ONVL, "2")
+  field(TWST, " 4800 baud")
+  field(TWVL, "4")
+  field(THST, " 9600 baud")
+  field(THVL, "9")
+  field(FRST, "19200 baud")
+  field(FRVL, "3")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(bi, "${DEVICENAME}:CCUnderRangeControlR")
+
+record(mbbo, "${DEVICENAME}:BaudrtS")
 {
-  alias("${DEVICENAME}:PUC-RBV")
+  field(DISP, "1")
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_baud ${ASYNPORT}")
+  field(ZRST, " 1200 baud")
+  field(ZRVL, "1")
+  field(ONST, " 2400 baud")
+  field(ONVL, "2")
+  field(TWST, " 4800 baud")
+  field(TWVL, "4")
+  field(THST, " 9600 baud")
+  field(THVL, "9")
+  field(FRST, "19200 baud")
+  field(FRVL, "3")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
+}
+
+
+record(bi, "${DEVICENAME}:UnderRngCtrl-RB")
+{
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_puc ${ASYNPORT}")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(bo, "${DEVICENAME}:CCUnderRangeControlS")
+
+record(bo, "${DEVICENAME}:UnderRngCtrlS")
 {
-  alias("${DEVICENAME}:PUC")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_puc ${ASYNPORT}")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
-  field(FLNK, "${DEVICENAME}:CCUnderRangeControlR")
+  field(FLNK, "${DEVICENAME}:UnderRngCtrl-RB")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
+
 
 record(mbbi, "${DEVICENAME}:Unit-RB")
 {
-  alias("${DEVICENAME}:UNITS-RBV")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_units ${ASYNPORT}")
-  field(ONST, "mBar")
-  field(TWST, "Torr")
-  field(THST, "Pa")
+  field(ZRST, "mBar")
+  field(ZRVL, "1")
+  field(ONST, "Torr")
+  field(ONVL, "2")
+  field(TWST, "Pa")
+  field(TWVL, "3")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
+
 
 record(mbbo, "${DEVICENAME}:UnitS")
 {
-  alias("${DEVICENAME}:UNITS")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_units ${ASYNPORT}")
-  field(ONST, "mBar")
-  field(TWST, "Torr")
-  field(THST, "Pa")
+  field(ZRST, "mBar")
+  field(ZRVL, "1")
+  field(ONST, "Torr")
+  field(ONVL, "2")
+  field(TWST, "Pa")
+  field(TWVL, "3")
   field(FLNK, "${DEVICENAME}:Unit-RB")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-record(mbbi, "${DEVICENAME}:SaveParamsR")
+
+record(mbbi, "${DEVICENAME}:SaveParams-RB")
 {
-  alias("${DEVICENAME}:SAVE-PARAMS-RBV")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_save_params ${ASYNPORT}")
   field(ZRST, "Default")
   field(ONST, "User-defined")
-  field(TWST, "User-defined HS")
+  field(TWST, "User-defined w/ hot start")
+  field(ZRST, "User-defined w/ hot start")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
+
 record(mbbo, "${DEVICENAME}:SaveParamsS")
 {
-  alias("${DEVICENAME}:SAVE-PARAMS")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_save_params ${ASYNPORT}")
   field(ZRST, "Default")
   field(ONST, "User-defined")
-  field(TWST, "User-defined HS")
-  field(FLNK, "${DEVICENAME}:iReadbacks-FO")
+  field(TWST, "User-defined w/ hot start")
+  field(FLNK, "${DEVICENAME}:SaveParams-RB")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
+
 
 record(calcout, "${DEVICENAME}:iSensorCtrlModes-RB")
 {
-  alias("${DEVICENAME}:MODE-RBV")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_modes() ${ASYNPORT}")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-#record(seq, "${DEVICENAME}:iSensorCtrlModes-RB-FO")
-#{
-#  alias("${DEVICENAME}:MODE-FO")
-#  field(DOL1, "${DEVICENAME}:iSensorCtrlModes-RB.A CP MSS")
-#  field(LNK1, "${DEVICENAME}:A1:CtrlMode-RB PP MSS")
-#
-#  field(DOL2, "${DEVICENAME}:iSensorCtrlModes-RB.B CP MSS")
-#  field(LNK2, "${DEVICENAME}:A2:CtrlMode-RB PP MSS")
-#
-#  field(DOL3, "${DEVICENAME}:iSensorCtrlModes-RB.C CP MSS")
-#  field(LNK3, "${DEVICENAME}:B1:CtrlMode-RB PP MSS")
-#
-#  field(DOL4, "${DEVICENAME}:iSensorCtrlModes-RB.D CP MSS")
-#  field(LNK4, "${DEVICENAME}:B2:CtrlMode-RB PP MSS")
-#}
 
 record(calcout, "${DEVICENAME}:SensorCtrlModesS")
 {
-  alias("${DEVICENAME}:MODE")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_modes() ${ASYNPORT}")
   field(INPA, "${DEVICENAME}:A1:CtrlModeS")
   field(INPB, "${DEVICENAME}:A2:CtrlModeS")
   field(INPC, "${DEVICENAME}:B1:CtrlModeS")
   field(INPD, "${DEVICENAME}:B2:CtrlModeS")
-  field(FLNK, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
+  field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
+
 record(mbbi, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
 {
-  alias("${DEVICENAME}:MODE-STAT")
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:SensorCtrlModesS.E")
+  field(INP,  "${DEVICENAME}:SensorCtrlModesS.E CP MSS")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -210,14 +250,14 @@ record(mbbi, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
-  field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
 }
+
 
 record(calcout, "${DEVICENAME}:iSensorFltTims-RB")
 {
-  alias("${DEVICENAME}:FILT-RBV")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_filter() ${ASYNPORT}")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
@@ -232,7 +272,8 @@ record(calcout, "${DEVICENAME}:SensorFltTimsS")
   field(INPB, "${DEVICENAME}:A2:FltTimS.RVAL")
   field(INPC, "${DEVICENAME}:B1:FltTimS.RVAL")
   field(INPD, "${DEVICENAME}:B2:FltTimS.RVAL")
-  field(FLNK, "${DEVICENAME}:SensorFltTimsS-ErrorR")
+  field(FLNK, "${DEVICENAME}:iSensorFltTims-RB")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
@@ -242,7 +283,7 @@ record(calcout, "${DEVICENAME}:SensorFltTimsS")
 record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:SensorFltTimsS.E")
+  field(INP,  "${DEVICENAME}:SensorFltTimsS.E CP MSS")
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
   field(ONVL, "1")
@@ -257,15 +298,14 @@ record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
-  field(FLNK, "${DEVICENAME}:iSensorFltTims-RB")
 }
 
 
 record(calcout, "${DEVICENAME}:iRlyStatsR")
 {
-  alias("${DEVICENAME}:FUNC-STAT-RBV")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() ${ASYNPORT}")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
@@ -283,7 +323,7 @@ record(fanout, "${DEVICENAME}:iPressuresR-FO")
 
 record(fanout, "${DEVICENAME}:iScan1")
 {
-#  field(SCAN, "1 second")
+  field(SCAN, "1 second")
   field(LNK1, "${DEVICENAME}:iPressuresR-FO")
   field(LNK2, "${DEVICENAME}:iRlyStatsR")
 }
@@ -291,10 +331,10 @@ record(fanout, "${DEVICENAME}:iScan1")
 
 record(fanout, "${DEVICENAME}:iScan10")
 {
-#  field(SCAN, "10 second")
-  field(LNK1, "${DEVICENAME}:iModTypesR PP")
-  field(LNK2, "${DEVICENAME}:iSensorCtrlModes-RB PP")
-  field(LNK3, "${DEVICENAME}:Unit-RB PP")
+  field(SCAN, "10 second")
+  field(LNK1, "${DEVICENAME}:iModTypesR")
+  field(LNK2, "${DEVICENAME}:iSensorCtrlModes-RB")
+  field(LNK3, "${DEVICENAME}:Unit-RB")
   field(FLNK, "${DEVICENAME}:iRereadScan")
 }
 
@@ -306,6 +346,7 @@ record(calcout, "${DEVICENAME}:iRereadScan")
   field(CALC, "A<5?A+1:0")
   field(OOPT, "When Zero")
   field(OUT,  "${DEVICENAME}:iReadbacks-FO PP")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:CommsOK")
@@ -331,7 +372,7 @@ record(bi, "${DEVICENAME}:ConnectedR")
   field(ONAM, "Connected")
   field(ZNAM, "Disconnected")
   field(ZSV,  "MAJOR")
-  field(FLNK, "${DEVICENAME}:iModTypesR")
+  field(FLNK, "${DEVICENAME}:iRst")
 }
 
 
@@ -395,10 +436,11 @@ record(fanout, "${DEVICENAME}:iReadbacks-FO")
   field(LNK2, "${DEVICENAME}:iSensorFltTims-RB")
   field(LNK3, "${DEVICENAME}:iSensorCtrlModes-RB")
   field(LNK4, "${DEVICENAME}:Unit-RB")
-  field(LNK5, "${DEVICENAME}:CCUnderRangeControlR")
-  field(LNK6, "${DEVICENAME}:SaveParamsR")
+  field(LNK5, "${DEVICENAME}:UnderRngCtrl-RB")
+  field(LNK6, "${DEVICENAME}:SaveParams-RB")
   field(LNK7, "${DEVICENAME}:ModMain:FWVersionR")
   field(LNK8, "${DEVICENAME}:iModTypesR")
+  field(LNK9, "${DEVICENAME}:BaudrtR")
 }
 
 

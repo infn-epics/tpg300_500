@@ -32,6 +32,10 @@ reconnect {
 }
 
 
+reset_interface {
+    out ETX;
+}
+
 get_error_code {
     out "ERR";
     in  ACK;
@@ -73,10 +77,6 @@ set_puc {
     out "PUC,%d";
     enquery;
     in  "%*d";
-
-    @init {
-        get_puc;
-    }
 }
 
 
@@ -91,10 +91,6 @@ set_units {
     out "UNI,%d";
     enquery;
     in  "%*d";
-
-#    @init {
-#        get_units;
-#    }
 }
 
 
@@ -112,10 +108,6 @@ set_save_params {
     out "SAV,%d";
     enquery;
     in  "%*d";
-
-    @init {
-        get_save_params;
-    }
 }
 
 
@@ -123,6 +115,13 @@ get_baud {
     out "BAU";
     enquery;
     in  "%d";
+}
+
+
+set_baud {
+    out "BAU,%d";
+    in  ACK;
+    disconnect;
 }
 
 
