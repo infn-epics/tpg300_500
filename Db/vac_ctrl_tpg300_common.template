@@ -223,23 +223,6 @@ record(calcout, "${DEVICENAME}:iSensorFltTims-RB")
   field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
-#record(seq, "${DEVICENAME}:iSensorFltTims-RB-FO")
-#{
-#  alias("${DEVICENAME}:FILT-FO")
-#  field(DOL1, "${DEVICENAME}:iSensorFltTims-RB.A CP MSS")
-#  field(LNK1, "${DEVICENAME}:A1:FltTim-RB.RVAL PP MSS")
-#
-#  field(DOL2, "${DEVICENAME}:iSensorFltTims-RB.B CP MSS")
-#  field(LNK2, "${DEVICENAME}:A2:FltTim-RB.RVAL PP MSS")
-#
-#  field(DOL3, "${DEVICENAME}:iSensorFltTims-RB.C CP MSS")
-#  field(LNK3, "${DEVICENAME}:B1:FltTim-RB.RVAL PP MSS")
-#
-#  field(DOL4, "${DEVICENAME}:iSensorFltTims-RB.D CP MSS")
-#  field(LNK4, "${DEVICENAME}:B2:FltTim-RB.RVAL PP MSS")
-#
-#  field(FLNK, "${DEVICENAME}:iSensorFltTimsInit PP")
-#}
 
 record(calcout, "${DEVICENAME}:SensorFltTimsS")
 {
@@ -428,38 +411,3 @@ record(fanout, "${DEVICENAME}:iRlySPs-RB-FO")
   field(LNK5, "${DEVICENAME}:RlyA:iGetR")
   field(LNK6, "${DEVICENAME}:RlyB:iGetR")
 }
-
-
-#record(seq, "${DEVICENAME}:iConnect-FltTims-FO")
-#{
-#  field(DOL1, "0")
-#  field(LNK1, "${DEVICENAME}:iSensorFltTimsInit.PVAL")
-#}
-#
-#
-#record(calcout, "${DEVICENAME}:iSensorFltTimsInit")
-#{
-#  field(INPA, "${DEVICENAME}:iSensorFltTims-RB MS")
-#  field(OUT,  "${DEVICENAME}:iSensorFltTimsInit-FO PP")
-#  field(VAL,  "0")
-#  field(CALC, "1")
-#  field(OOPT, "Transition To Non-zero")
-#  field(IVOA, "Don't drive outputs")
-#}
-#
-#
-#record(seq, "${DEVICENAME}:iSensorFltTimsInit-FO")
-#{
-#  # Do not PP; FltTimS has an FLNK to SensorFltTimsS
-#  field(DOL1, "${DEVICENAME}:A1:FltTim-RB")
-#  field(LNK1, "${DEVICENAME}:A1:FltTimS")
-#
-#  field(DOL2, "${DEVICENAME}:A2:FltTim-RB")
-#  field(LNK2, "${DEVICENAME}:A2:FltTimS")
-#
-#  field(DOL3, "${DEVICENAME}:B1:FltTim-RB")
-#  field(LNK3, "${DEVICENAME}:B1:FltTimS")
-#
-##  field(DOL4, "${DEVICENAME}:B2:FltTim-RB")
-#  field(LNK4, "${DEVICENAME}:B2:FltTimS")
-#}

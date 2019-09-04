@@ -283,23 +283,6 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
 }
 
 
-record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
-{
-  field(DTYP, "Raw Soft Channel")
-  field(ZRST, "FAST")
-  field(ZRVL, "1")
-  field(ONST, "MEDIUM")
-  field(ONVL, "2")
-  field(TWST, "SLOW")
-  field(TWVL, "3")
-  field(FLNK, "${DEVICENAME}:SensorFltTimsS PP")
-
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
-}
-
-
 record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
 {
   field(DTYP, "Raw Soft Channel")
@@ -315,6 +298,27 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+}
+
+
+record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(ZRST, "FAST")
+  field(ZRVL, "1")
+  field(ONST, "MEDIUM")
+  field(ONVL, "2")
+  field(TWST, "SLOW")
+  field(TWVL, "3")
+  # Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
+  field(FLNK, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
+}
+
+
+record(fanout, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
+{
+  # Dinamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
+  field(FLNK, "${DEVICENAME}:SensorFltTimsS")
 }
 
 
@@ -338,8 +342,12 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iFltTimInit")
 
 record(seq, "${DEVICENAME}:${SENSOR}:iFltTimInit-FO")
 {
-  # Do not PP; FltTimS has an FLNK to SensorFltTimsS
-  # FIXME: we have to PP to properly calculate RVAL
-  field(DOL1, "${DEVICENAME}:${SENSOR}:FltTim-RB")
-  field(LNK1, "${DEVICENAME}:${SENSOR}:FltTimS")
+  field(DOL1, "1")
+  field(LNK1, "${DEVICENAME}:${SENSOR}:FltTimCommitS.DISA")
+
+  field(DOL2, "${DEVICENAME}:${SENSOR}:FltTim-RB")
+  field(LNK2, "${DEVICENAME}:${SENSOR}:FltTimS PP")
+
+  field(DOL3, "0")
+  field(LNK3, "${DEVICENAME}:${SENSOR}:FltTimCommitS.DISA")
 }
