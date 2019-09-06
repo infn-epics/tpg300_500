@@ -29,14 +29,46 @@ record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckModType")
 }
 
 
-record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckType")
+record(calcout, "${DEVICENAME}:${SENSOR}:iCheckType")
 {
   field(INPA, "${DEVICENAME}:${SENSOR}:iCheckModType CP")
-  field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
   field(INPB, "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP")
   field(CALC, "A&&B")
+  field(VAL,  "42")
   field(OOPT, "On Change")
   field(OUT,  "${DEVICENAME}:${SENSOR}:ValidR PP")
+}
+
+
+record(calcout, "${DEVICENAME}:${SENSOR}:iSetType")
+{
+  field(INPA, "${DEVICENAME}:CommsOK CP")
+  field(INPB, "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP")
+  field(INPC, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(CALC, "A ? (B ? (2 * C) : 1) : 0")
+  field(VAL,  "42")
+  field(OOPT, "On Change")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:iSensorType-FO PP")
+}
+
+
+record(dfanout, "${DEVICENAME}:${SENSOR}:iSensorType-FO")
+{
+  field(SELM, "All")
+  field(OUTA, "${DEVICENAME}:${SENSOR}:iSensorTypeR PP")
+  field(OUTB, "${DEVICENAME}:${SENSOR}:SensorTypeR.PROC")
+}
+
+
+record(mbbi, "${DEVICENAME}:${SENSOR}:iSensorTypeR")
+{
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(VAL,  "0")
+  field(ZRST, "N/A")
+  field(ZRVL, "0")
+  field(ONST, "N/C")
+  field(ONVL, "1")
 }
 
 
@@ -44,10 +76,6 @@ record(stringin, "${DEVICENAME}:${SENSOR}:SensorTypeR")
 {
   field(DISP, "1")
   field(INP,  "${DEVICENAME}:${SENSOR}:iSensorTypeR")
-
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
 }
 
 
@@ -79,7 +107,6 @@ record(stringout, "${DEVICENAME}:${SENSOR}:iUnitChanged")
 
 record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
-  alias("${DEVICENAME}:${SENSOR}-PRES-RBV")
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
   field(PREC, "2")
   field(EGU,  "mBar")
@@ -273,9 +300,6 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
   field(DESC, "Initializes CtrlMode from CtrlMode-RB")
   field(INPA, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
   field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB.STAT")
-#  field(INPC, "${DEVICENAME}:${SENSOR}:CtrlModeS.STAT")
-#  # 17 - UDF
-#  field(CALC, "B==0 && C==17")
   field(CALC, "B==0")
   field(OOPT, "When Non-zero")
   field(DOPT, "Use OCAL")
@@ -318,7 +342,7 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
 
 record(fanout, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
 {
-  # Dinamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
+  # Dynamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
   field(FLNK, "${DEVICENAME}:SensorFltTimsS")
 }
 

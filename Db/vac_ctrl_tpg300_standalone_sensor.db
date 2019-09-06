@@ -42,9 +42,8 @@ record("*", "${CONTROLLERNAME}:${SENSOR}:iCheckModType")
 }
 
 
-record(stringin, "${CONTROLLERNAME}:${SENSOR}:iSensorTypeR")
+record("*", "${CONTROLLERNAME}:${SENSOR}:iSensorTypeR")
 {
-  field(DISP, "1")
-  field(PINI, "YES")
-  field(VAL,  "${GAUGE}")
+  field(TWST, "${GAUGE}")
+  field(TWVL, "2")
 }
