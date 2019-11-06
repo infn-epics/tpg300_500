@@ -101,7 +101,7 @@ get_save_params {
 }
 
 
-# Saving user defined parameters takes significantly longer (~3s). 
+# Saving user defined parameters takes significantly longer (~3s).
 set_save_params {
     ReplyTimeout = 5000;
 
@@ -168,7 +168,7 @@ get_slots {
 get_pressure {
     out "P\$1";
     enquery_with_error_reset;
-    in  "%(A)d,%(B)E";
+    in  "%(A)d,%(BB)s";
 
     @mismatch {
         in  NAK;

@@ -87,10 +87,11 @@ record(bi, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iPrsR")
+record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
+  field(CALC, "42")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
@@ -107,7 +108,7 @@ record(stringout, "${DEVICENAME}:${SENSOR}:iUnitChanged")
 
 record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
-  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
+  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.BB CP MSS")
   field(PREC, "2")
   field(EGU,  "mBar")
   field(DISV, "-1")
@@ -115,9 +116,20 @@ record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 }
 
 
+record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR-STR")
+{
+  field(INPA, "${DEVICENAME}:${SENSOR}:GaugeStatR CP")
+  field(INAA, "${DEVICENAME}:${SENSOR}:GaugeStatR")
+  field(INBB, "${DEVICENAME}:${SENSOR}:iPrsR.BB CP")
+  field(CALC, "A?AA:BB")
+  field(OUT,  "${DEVICENAME}:${SENSOR}:PrsR-STR PP")
+}
+
+
 record(stringin, "${DEVICENAME}:${SENSOR}:PrsR-STR")
 {
-  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.B CP MSS")
+  field(DISV, "-1")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
 }
 
 
