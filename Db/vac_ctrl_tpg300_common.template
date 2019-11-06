@@ -63,7 +63,7 @@ record(stringin, "${DEVICENAME}:ModB:TypeR")
 record(stringin, "${DEVICENAME}:ModComm:TypeR")
 {
   field(INP,  "${DEVICENAME}:iModTypesR.CC CP MSS")
-  field(FLNK, "${DEVICENAME}:iDisabledR")
+  field(FLNK, "${DEVICENAME}:iCommsStatR")
 
   field(DISV, "42")
   field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
@@ -409,15 +409,11 @@ record(bi, "${DEVICENAME}:ConnectedR")
 }
 
 
-record(scalcout, "${DEVICENAME}:iDisabledR")
+record(calcout, "${DEVICENAME}:iCommsOK")
 {
-  field(INPA, "${DEVICENAME}:ConnectedR CP")
-  field(INBB, "${DEVICENAME}:ModComm:TypeR")
-  field(INPC, "${DEVICENAME}:iModTypesR.STAT")
-  field(CALC, "D:=(!(A && BB[0,4]=='IF300') || C);D")
+  field(INPA, "${DEVICENAME}:CommsStatR CP")
+  field(CALC, "A==3")
   field(PINI, "YES")
-  field(OCAL, "!D")
-  field(DOPT, "Use OCAL")
   field(OOPT, "On Change")
   field(OUT,  "${DEVICENAME}:CommsOK PP")
 }
@@ -430,6 +426,36 @@ record(bi, "${DEVICENAME}:CommsOK")
   field(ONAM, "Communication is OK")
   field(ZSV,  "MINOR")
   field(FLNK, "${DEVICENAME}:iInit-FO")
+}
+
+
+record(scalcout, "${DEVICENAME}:iCommsStatR")
+{
+  field(INPA, "${DEVICENAME}:ConnectedR CP")
+  field(INBB, "${DEVICENAME}:ModComm:TypeR")
+  field(INPC, "${DEVICENAME}:iModTypesR.STAT")
+  field(CALC, "B:=BB[0,4]=='IF300';A?(C==0?(B==0?'2':'3'):'1'):'0'")
+  field(OOPT, "On Change")
+  field(OUT,  "${DEVICENAME}:CommsStatR PP")
+  field(PINI, "YES")
+  field(VAL, "-1")
+}
+
+
+record(mbbi, "${DEVICENAME}:CommsStatR")
+{
+  field(DESC, "Status of communication")
+  field(ZRVL, "0")
+  field(ZRST, "No connection")
+
+  field(ONVL, "1")
+  field(ONST, "No communication")
+
+  field(TWVL, "2")
+  field(TWST, "Unknown device")
+
+  field(THVL, "3")
+  field(THST, "Communication OK")
 }
 
 
