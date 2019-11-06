@@ -47,6 +47,7 @@ record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 record(ao, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
 {
   field(PREC, "2")
+  field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
   field(VAL,  "1.0e-11")
@@ -56,6 +57,7 @@ record(ao, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
 record(ao, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
 {
   field(PREC, "2")
+  field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
   field(VAL,  "9.9e+3")
@@ -126,6 +128,7 @@ record(ai, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
 {
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
   field(PREC, "2")
+  field(EGU,  "${EGU}")
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS")
 
   field(DISV, "42")
@@ -137,6 +140,7 @@ record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 {
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
   field(PREC, "2")
+  field(EGU,  "${EGU}")
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS")
 
   field(DISV, "42")

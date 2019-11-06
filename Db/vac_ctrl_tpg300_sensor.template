@@ -110,7 +110,7 @@ record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
 {
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.BB CP MSS")
   field(PREC, "2")
-  field(EGU,  "mBar")
+  field(EGU,  "${EGU}")
   field(DISV, "-1")
   field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
 }
