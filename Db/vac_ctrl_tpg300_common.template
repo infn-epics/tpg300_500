@@ -366,6 +366,39 @@ record(asyn,"${DEVICENAME}:iASYN")
 }
 
 
+record(mbbo, "${DEVICENAME}:ASYNTrace")
+{
+  field(DTYP, "Raw Soft Channel")
+
+  field(ZRVL, "3")
+  field(ZRST, "Stop tracing")
+
+  field(ONVL, "12")
+  field(ONST, "Start tracing")
+
+  field(FLNK, "${DEVICENAME}:iASYNTrace")
+}
+
+
+record(seq, "${DEVICENAME}:iASYNTrace")
+{
+  field(SELM, "Mask")
+  field(SELL, "${DEVICENAME}:ASYNTrace.RVAL")
+
+  field(DOL1, "0")
+  field(LNK1, "${DEVICENAME}:iASYN.TIOM PP")
+
+  field(DOL2, "0")
+  field(LNK2, "${DEVICENAME}:iASYN.TMSK PP")
+
+  field(DOL3, "1")
+  field(LNK3, "${DEVICENAME}:iASYN.TIOM PP")
+
+  field(DOL4, "9")
+  field(LNK4, "${DEVICENAME}:iASYN.TMSK PP")
+}
+
+
 record(bi, "${DEVICENAME}:ConnectedR")
 {
   field(INP,  "${DEVICENAME}:iASYN.CNCT CP")
