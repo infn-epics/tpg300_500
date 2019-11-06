@@ -10,4 +10,4 @@
 # @type STRING
 # Channel on the head unit where the gauge is connected to (A1, B1)
 
-requireSnippet(vac_gauge_tpg300_vgc_$(CHANNEL).cmd, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME)")
+requireSnippet(_vac_gauge_tpg300_vgc_$(CHANNEL).cmd, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME)")
