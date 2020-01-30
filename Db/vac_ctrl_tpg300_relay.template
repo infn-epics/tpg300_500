@@ -31,16 +31,20 @@ record(sseq, "${DEVICENAME}:Rly${FUNCTION}:iUnitChanged")
 
 record(mbbo, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
 {
-  field(ZRST, "N/A")
   field(ZRVL, "0")
-  field(ONST, "A1")
+  field(ZRST, "N/A")
+
   field(ONVL, "1")
-  field(TWST, "A2")
+  field(ONST, "A1")
+
   field(TWVL, "2")
-  field(THST, "B1")
+  field(TWST, "A2")
+
   field(THVL, "3")
-  field(FRST, "B2")
+  field(THST, "B1")
+
   field(FRVL, "4")
+  field(FRST, "B2")
 }
 
 
@@ -78,6 +82,7 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iCommitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_function(${FUNCTION}) ${ASYNPORT}")
+
   field(INPA, "${DEVICENAME}:Rly${FUNCTION}:LowSPS")
   field(INPB, "${DEVICENAME}:Rly${FUNCTION}:HighSPS")
   field(INPC, "${DEVICENAME}:Rly${FUNCTION}:ChanS")
@@ -92,20 +97,26 @@ record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:CommitS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iCommitS.E CP MSS")
-  field(ZRST, "NO ERROR")
+
   field(ZRVL, "0")
-  field(ONST, "SYNTAX ERROR")
+  field(ZRST, "NO ERROR")
+
   field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
   field(ONSV, "MAJOR")
-  field(TWST, "INVALID PARAMETER")
+
   field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
   field(TWSV, "MAJOR")
-  field(THST, "NO HARDWARE")
+
   field(THVL, "100")
+  field(THST, "NO HARDWARE")
   field(THSV, "MAJOR")
-  field(FRST, "TPG ERROR")
+
   field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
+
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 
   field(DISV, "42")
@@ -127,6 +138,7 @@ record(calcout, "${DEVICENAME}:Rly${FUNCTION}:iGetR")
 record(ai, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
 {
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.A CP MSS")
+
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitLowSPS")
@@ -139,6 +151,7 @@ record(ai, "${DEVICENAME}:Rly${FUNCTION}:LowSP-RB")
 record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 {
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.B CP MSS")
+
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(FLNK, "${DEVICENAME}:Rly${FUNCTION}:iInitHighSPS")
@@ -151,16 +164,21 @@ record(ai, "${DEVICENAME}:Rly${FUNCTION}:HighSP-RB")
 record(mbbi, "${DEVICENAME}:Rly${FUNCTION}:Chan-RB")
 {
   field(INP,  "${DEVICENAME}:Rly${FUNCTION}:iGetR.C CP MSS")
-  field(ZRST, "N/A")
+
   field(ZRVL, "0")
-  field(ONST, "A1")
+  field(ZRST, "N/A")
+
   field(ONVL, "1")
-  field(TWST, "A2")
+  field(ONST, "A1")
+
   field(TWVL, "2")
-  field(THST, "B1")
+  field(TWST, "A2")
+
   field(THVL, "3")
-  field(FRST, "B2")
+  field(THST, "B1")
+
   field(FRVL, "4")
+  field(FRST, "B2")
 
   field(DISV, "42")
   field(SDIS, "${DEVICENAME}:Rly${FUNCTION}:iGetR CP MSS")
@@ -239,6 +257,7 @@ record(seq, "${DEVICENAME}:Rly${FUNCTION}:iInitS-FO")
 record(bi, "${DEVICENAME}:Rly${FUNCTION}:StatR")
 {
   field(INP,  "${DEVICENAME}:iRlyStatsR.${SOURCE} CP MSS")
+
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 

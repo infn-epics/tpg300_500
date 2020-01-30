@@ -1,23 +1,23 @@
 record(stringin, "${DEVICENAME}:${SENSOR}:DevNameR")
 {
-    field(DESC, "Devicename of gauge connected to channel")
-    field(DISP, "1")
+  field(DESC, "Devicename of gauge connected to channel")
+  field(DISP, "1")
 }
 
 
 record(stringin, "${DEVICENAME}:${SENSOR}:ChanR")
 {
-    field(DESC, "The channel this gauge is connected to")
-    field(DISP, "1")
-    field(PINI, "YES")
-    field(VAL,  "${SENSOR}")
+  field(DESC, "The channel this gauge is connected to")
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(VAL,  "${SENSOR}")
 }
 
 
 record(longin, "${DEVICENAME}:${SENSOR}:NumOfRlysR")
 {
-    field(DESC, "Number of relays assigned to channel")
-    field(DISP, "1")
+  field(DESC, "Number of relays assigned to channel")
+  field(DISP, "1")
 }
 
 
@@ -62,13 +62,15 @@ record(dfanout, "${DEVICENAME}:${SENSOR}:iSensorType-FO")
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:iSensorTypeR")
 {
+  field(ZRVL, "0")
+  field(ZRST, "N/A")
+
+  field(ONVL, "1")
+  field(ONST, "N/C")
+
   field(DISP, "1")
   field(PINI, "YES")
   field(VAL,  "0")
-  field(ZRST, "N/A")
-  field(ZRVL, "0")
-  field(ONST, "N/C")
-  field(ONVL, "1")
 }
 
 
@@ -92,6 +94,7 @@ record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
   field(CALC, "42")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
@@ -111,6 +114,7 @@ record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.BB CP MSS")
   field(PREC, "2")
   field(EGU,  "${EGU}")
+
   field(DISV, "-1")
   field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
 }
@@ -136,18 +140,25 @@ record(stringin, "${DEVICENAME}:${SENSOR}:PrsR-STR")
 record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
 {
   field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.A CP MSS")
-  field(ZRST, "DATA OK")
+
   field(ZRVL, "0")
-  field(ONST, "UNDERRANGE")
+  field(ZRST, "DATA OK")
+
   field(ONVL, "1")
-  field(TWST, "OVERRANGE")
+  field(ONST, "UNDERRANGE")
+
   field(TWVL, "2")
-  field(THST, "MEASUREMENT CIRCUIT ERROR")
+  field(TWST, "OVERRANGE")
+
   field(THVL, "3")
-  field(FRST, "MEASUREMENT CIRCUIT OFF")
+  field(THST, "MEASUREMENT CIRCUIT ERROR")
+
   field(FRVL, "4")
-  field(FVST, "NO HARDWARE")
+  field(FRST, "MEASUREMENT CIRCUIT OFF")
+
   field(FVVL, "5")
+  field(FVST, "NO HARDWARE")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
@@ -166,10 +177,10 @@ record(calc, "${DEVICENAME}:${SENSOR}:iCalcStat")
 
 record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
 {
+  field(DTYP, "Raw Soft Channel")
   field(DOL,  "${DEVICENAME}:${SENSOR}:iCalcStat CP MSS")
   field(OMSL, "closed_loop")
   field(OUT,  "${DEVICENAME}:${SENSOR}:PrsStatR MSS PP")
-  field(DTYP, "Raw Soft Channel")
 
   # INVALID
   #  -  0
@@ -203,17 +214,23 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 {
   field(DESC, "Status of channel ${SENSOR}")
 
+  field(ZRVL, "0")
   field(ZRST, "INVALID")
 
+  field(ONVL, "1")
   field(ONST, "ON")
 
+  field(TWVL, "2")
   field(TWST, "OFF")
 
+  field(THVL, "3")
   field(THST, "ERROR")
   field(THSV, "MAJOR")
 
+  field(FRVL, "4")
   field(FRST, "OVER-RANGE")
 
+  field(FVVL, "5")
   field(FVST, "UNDER-RANGE")
 
   field(DISV, "0")
@@ -224,14 +241,17 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 
 record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlMode")
 {
-  field(ZRST, "NO SENSOR")
   field(ZRVL, "0")
-  field(ONST, "OFF")
+  field(ZRST, "NO SENSOR")
+
   field(ONVL, "1")
-  field(TWST, "AUTO")
+  field(ONST, "OFF")
+
   field(TWVL, "2")
-  field(THST, "ON")
+  field(TWST, "AUTO")
+
   field(THVL, "3")
+  field(THST, "ON")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -243,12 +263,15 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
 {
   field(DTYP, "Raw Soft Channel")
   field(OUT,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.A PP")
-  field(ZRST, "OFF")
+
   field(ZRVL, "1")
-  field(ONST, "AUTO")
+  field(ZRST, "OFF")
+
   field(ONVL, "2")
-  field(TWST, "ON")
+  field(ONST, "AUTO")
+
   field(TWVL, "3")
+  field(TWST, "ON")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -260,6 +283,7 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
+
   field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
 
   field(DISV, "0")
@@ -272,34 +296,47 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlModeS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.E CP MSS")
+
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
+
   field(ONVL, "1")
   field(ONST, "SYNTAX ERROR")
   field(ONSV, "MAJOR")
+
   field(TWVL, "10")
   field(TWST, "INVALID PARAMETER")
   field(TWSV, "MAJOR")
+
   field(THVL, "100")
   field(THST, "NO HARDWARE")
   field(THSV, "MAJOR")
+
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
 record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
 {
   field(INP,  "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP MSS")
-  field(ZRST, "NO SENSOR")
+
   field(ZRVL, "0")
-  field(ONST, "OFF")
+  field(ZRST, "NO SENSOR")
+
   field(ONVL, "1")
-  field(TWST, "AUTO")
+  field(ONST, "OFF")
+
   field(TWVL, "2")
-  field(THST, "ON")
+  field(TWST, "AUTO")
+
   field(THVL, "3")
+  field(THST, "ON")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -324,12 +361,16 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:iSensorFltTims-RB.${SOURCE} CP MSS")
-  field(ZRST, "FAST")
+
   field(ZRVL, "1")
-  field(ONST, "MEDIUM")
+  field(ZRST, "FAST")
+
   field(ONVL, "2")
-  field(TWST, "SLOW")
+  field(ONST, "MEDIUM")
+
   field(TWVL, "3")
+  field(TWST, "SLOW")
+
   field(FLNK, "${DEVICENAME}:${SENSOR}:iFltTimInit")
 
   field(DISV, "0")
@@ -341,20 +382,24 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
 record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(ZRST, "FAST")
+
   field(ZRVL, "1")
-  field(ONST, "MEDIUM")
+  field(ZRST, "FAST")
+
   field(ONVL, "2")
-  field(TWST, "SLOW")
+  field(ONST, "MEDIUM")
+
   field(TWVL, "3")
-  # Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
+  field(TWST, "SLOW")
+
+# Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
   field(FLNK, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
 }
 
 
 record(fanout, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
 {
-  # Dynamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
+# Dynamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
   field(FLNK, "${DEVICENAME}:SensorFltTimsS")
 }
 

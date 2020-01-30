@@ -21,6 +21,7 @@ record(bo, "${DEVICENAME}:iRst")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto reset_interface ${ASYNPORT}")
+
   field(VAL,  "0")
   field(FLNK, "${DEVICENAME}:iModTypesR")
 
@@ -74,16 +75,21 @@ record(mbbi, "${DEVICENAME}:BaudrtR")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_baud ${ASYNPORT}")
-  field(ZRST, " 1200 baud")
+
   field(ZRVL, "1")
-  field(ONST, " 2400 baud")
+  field(ZRST, "1200 baud")
+
   field(ONVL, "2")
-  field(TWST, " 4800 baud")
+  field(ONST, "2400 baud")
+
   field(TWVL, "4")
-  field(THST, " 9600 baud")
+  field(TWST, "4800 baud")
+
   field(THVL, "9")
-  field(FRST, "19200 baud")
+  field(THST, "9600 baud")
+
   field(FRVL, "3")
+  field(FRST, "19200 baud")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -93,19 +99,25 @@ record(mbbi, "${DEVICENAME}:BaudrtR")
 
 record(mbbo, "${DEVICENAME}:BaudrtS")
 {
-  field(DISP, "1")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_baud ${ASYNPORT}")
-  field(ZRST, " 1200 baud")
+# Prevent accidental modifications
+  field(DISP, "1")
+
   field(ZRVL, "1")
-  field(ONST, " 2400 baud")
+  field(ZRST, "1200 baud")
+
   field(ONVL, "2")
-  field(TWST, " 4800 baud")
+  field(ONST, "2400 baud")
+
   field(TWVL, "4")
-  field(THST, " 9600 baud")
+  field(TWST, "4800 baud")
+
   field(THVL, "9")
-  field(FRST, "19200 baud")
+  field(THST, "9600 baud")
+
   field(FRVL, "3")
+  field(FRST, "19200 baud")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -117,6 +129,7 @@ record(bi, "${DEVICENAME}:UnderRngCtrl-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_puc ${ASYNPORT}")
+
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 
@@ -130,6 +143,7 @@ record(bo, "${DEVICENAME}:UnderRngCtrlS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_puc ${ASYNPORT}")
+
   field(ZNAM, "OFF")
   field(ONAM, "ON")
   field(FLNK, "${DEVICENAME}:UnderRngCtrl-RB")
@@ -144,12 +158,15 @@ record(mbbi, "${DEVICENAME}:Unit-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_units ${ASYNPORT}")
-  field(ZRST, "mBar")
+
   field(ZRVL, "1")
-  field(ONST, "Torr")
+  field(ZRST, "mBar")
+
   field(ONVL, "2")
-  field(TWST, "Pa")
+  field(ONST, "Torr")
+
   field(TWVL, "3")
+  field(TWST, "Pa")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -161,12 +178,16 @@ record(mbbo, "${DEVICENAME}:UnitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_units ${ASYNPORT}")
-  field(ZRST, "mBar")
+
   field(ZRVL, "1")
-  field(ONST, "Torr")
+  field(ZRST, "mBar")
+
   field(ONVL, "2")
-  field(TWST, "Pa")
+  field(ONST, "Torr")
+
   field(TWVL, "3")
+  field(TWST, "Pa")
+
   field(FLNK, "${DEVICENAME}:Unit-RB")
 
   field(DISV, "0")
@@ -179,10 +200,15 @@ record(mbbi, "${DEVICENAME}:SaveParams-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_save_params ${ASYNPORT}")
+
+  field(ZRVL, "0")
   field(ZRST, "Default")
+
+  field(ONVL, "1")
   field(ONST, "User-defined")
+
+  field(TWVL, "2")
   field(TWST, "User-defined w/ hot start")
-  field(ZRST, "User-defined w/ hot start")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -194,9 +220,16 @@ record(mbbo, "${DEVICENAME}:SaveParamsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_save_params ${ASYNPORT}")
+
+  field(ZRVL, "0")
   field(ZRST, "Default")
+
+  field(ONVL, "1")
   field(ONST, "User-defined")
+
+  field(TWVL, "2")
   field(TWST, "User-defined w/ hot start")
+
   field(FLNK, "${DEVICENAME}:SaveParams-RB")
 
   field(DISV, "0")
@@ -220,10 +253,12 @@ record(calcout, "${DEVICENAME}:SensorCtrlModesS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_modes() ${ASYNPORT}")
+
   field(INPA, "${DEVICENAME}:A1:CtrlModeS")
   field(INPB, "${DEVICENAME}:A2:CtrlModeS")
   field(INPC, "${DEVICENAME}:B1:CtrlModeS")
   field(INPD, "${DEVICENAME}:B2:CtrlModeS")
+
   field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
 
   field(DISV, "0")
@@ -236,20 +271,29 @@ record(mbbi, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:SensorCtrlModesS.E CP MSS")
+
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
+
   field(ONVL, "1")
   field(ONST, "SYNTAX ERROR")
   field(ONSV, "MAJOR")
+
   field(TWVL, "10")
   field(TWST, "INVALID PARAMETER")
   field(TWSV, "MAJOR")
+
   field(THVL, "100")
   field(THST, "NO HARDWARE")
   field(THSV, "MAJOR")
+
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
 
@@ -268,10 +312,12 @@ record(calcout, "${DEVICENAME}:SensorFltTimsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_filter() ${ASYNPORT}")
+
   field(INPA, "${DEVICENAME}:A1:FltTimS.RVAL")
   field(INPB, "${DEVICENAME}:A2:FltTimS.RVAL")
   field(INPC, "${DEVICENAME}:B1:FltTimS.RVAL")
   field(INPD, "${DEVICENAME}:B2:FltTimS.RVAL")
+
   field(FLNK, "${DEVICENAME}:iSensorFltTims-RB")
 
   field(DISV, "0")
@@ -284,20 +330,29 @@ record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${DEVICENAME}:SensorFltTimsS.E CP MSS")
+
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
+
   field(ONVL, "1")
   field(ONST, "SYNTAX ERROR")
   field(ONSV, "MAJOR")
+
   field(TWVL, "10")
   field(TWST, "INVALID PARAMETER")
   field(TWSV, "MAJOR")
+
   field(THVL, "100")
   field(THST, "NO HARDWARE")
   field(THSV, "MAJOR")
+
   field(FRVL, "1000")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${DEVICENAME}:CommsOK")
 }
 
 
@@ -438,7 +493,7 @@ record(scalcout, "${DEVICENAME}:iCommsStatR")
   field(OOPT, "On Change")
   field(OUT,  "${DEVICENAME}:CommsStatR PP")
   field(PINI, "YES")
-  field(VAL, "-1")
+  field(VAL,  "-1")
 }
 
 
