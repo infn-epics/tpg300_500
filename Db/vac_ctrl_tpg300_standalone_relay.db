@@ -9,40 +9,40 @@
 ################################################################################
 
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:NameR",          "${DEVICENAME}:Rly${n}:NameR")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:NameR",          "${P}${R}Rly${n}:NameR")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:DAQTrigR",       "${DEVICENAME}:Rly${n}:DAQTrigR")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:DAQTrigR",       "${P}${R}Rly${n}:DAQTrigR")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:ChanS",          "${DEVICENAME}:Rly${n}:ChanS")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:ChanS",          "${P}${R}Rly${n}:ChanS")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:LowSPS",         "${DEVICENAME}:Rly${n}:LowSPS")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:LowSPS",         "${P}${R}Rly${n}:LowSPS")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:HighSPS",        "${DEVICENAME}:Rly${n}:HighSPS")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:HighSPS",        "${P}${R}Rly${n}:HighSPS")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:CommitS",        "${DEVICENAME}:Rly${n}:CommitS")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:CommitS",        "${P}${R}Rly${n}:CommitS")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:CommitS-ErrorR", "${DEVICENAME}:Rly${n}:CommitS-ErrorR")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:CommitS-ErrorR", "${P}${R}Rly${n}:CommitS-ErrorR")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:LowSP-RB",       "${DEVICENAME}:Rly${n}:LowSP-RB")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:LowSP-RB",       "${P}${R}Rly${n}:LowSP-RB")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:HighSP-RB",      "${DEVICENAME}:Rly${n}:HighSP-RB")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:HighSP-RB",      "${P}${R}Rly${n}:HighSP-RB")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:Chan-RB",        "${DEVICENAME}:Rly${n}:Chan-RB")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:Chan-RB",        "${P}${R}Rly${n}:Chan-RB")
 
-alias("${CONTROLLERNAME}:Rly${RELAY}:StatR",          "${DEVICENAME}:Rly${n}:StatR")
+alias("${CONTROLLERNAME}${R}Rly${RELAY}:StatR",          "${P}${R}Rly${n}:StatR")
 
 
-record(calcout, "${DEVICENAME}:Rly${n}:iDAQTrigR")
+record(calcout, "${P}${R}Rly${n}:iDAQTrigR")
 {
-  field(INPA, "${DEVICENAME}:DAQRlySelectS CP")
+  field(INPA, "${P}${R}DAQRlySelectS CP")
   field(CALC, "A + 1 == ${n}")
-  field(OUT,  "${DEVICENAME}:Rly${n}:DAQTrigR PP")
+  field(OUT,  "${P}${R}Rly${n}:DAQTrigR PP")
 }
 
 
-record(stringout, "${DEVICENAME}:Rly${n}:iChanS")
+record(stringout, "${P}${R}Rly${n}:iChanS")
 {
-  field(OUT,  "${CONTROLLERNAME}:Rly${RELAY}:ChanS PP")
+  field(OUT,  "${CONTROLLERNAME}${R}Rly${RELAY}:ChanS PP")
   field(PINI, "YES")
   field(VAL,  "${CHANNEL}")
 }

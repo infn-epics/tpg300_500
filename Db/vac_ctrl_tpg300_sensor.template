@@ -1,11 +1,11 @@
-record(stringin, "${DEVICENAME}:${SENSOR}:DevNameR")
+record(stringin, "${P}${R}${SENSOR}:DevNameR")
 {
   field(DESC, "Devicename of gauge connected to channel")
   field(DISP, "1")
 }
 
 
-record(stringin, "${DEVICENAME}:${SENSOR}:ChanR")
+record(stringin, "${P}${R}${SENSOR}:ChanR")
 {
   field(DESC, "The channel this gauge is connected to")
   field(DISP, "1")
@@ -14,53 +14,53 @@ record(stringin, "${DEVICENAME}:${SENSOR}:ChanR")
 }
 
 
-record(longin, "${DEVICENAME}:${SENSOR}:NumOfRlysR")
+record(longin, "${P}${R}${SENSOR}:NumOfRlysR")
 {
   field(DESC, "Number of relays assigned to channel")
   field(DISP, "1")
 }
 
 
-record(scalcout, "${DEVICENAME}:${SENSOR}:iCheckModType")
+record(scalcout, "${P}${R}${SENSOR}:iCheckModType")
 {
-  field(INAA, "${DEVICENAME}:Mod${SLOT}:TypeR CP")
-  field(INPA, "${DEVICENAME}:CommsOK CP")
+  field(INAA, "${P}${R}Mod${SLOT}:TypeR CP")
+  field(INPA, "${P}${R}CommsOK CP")
   field(CALC, "'0'")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iCheckType")
+record(calcout, "${P}${R}${SENSOR}:iCheckType")
 {
-  field(INPA, "${DEVICENAME}:${SENSOR}:iCheckModType CP")
-  field(INPB, "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP")
+  field(INPA, "${P}${R}${SENSOR}:iCheckModType CP")
+  field(INPB, "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP")
   field(CALC, "A&&B")
   field(VAL,  "42")
   field(OOPT, "On Change")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:ValidR PP")
+  field(OUT,  "${P}${R}${SENSOR}:ValidR PP")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iSetType")
+record(calcout, "${P}${R}${SENSOR}:iSetType")
 {
-  field(INPA, "${DEVICENAME}:CommsOK CP")
-  field(INPB, "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP")
-  field(INPC, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(INPA, "${P}${R}CommsOK CP")
+  field(INPB, "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP")
+  field(INPC, "${P}${R}${SENSOR}:ValidR CP")
   field(CALC, "A ? (B ? (2 * C) : 1) : 0")
   field(VAL,  "42")
   field(OOPT, "On Change")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:iSensorType-FO PP")
+  field(OUT,  "${P}${R}${SENSOR}:iSensorType-FO PP")
 }
 
 
-record(dfanout, "${DEVICENAME}:${SENSOR}:iSensorType-FO")
+record(dfanout, "${P}${R}${SENSOR}:iSensorType-FO")
 {
   field(SELM, "All")
-  field(OUTA, "${DEVICENAME}:${SENSOR}:iSensorTypeR PP")
-  field(OUTB, "${DEVICENAME}:${SENSOR}:SensorTypeR.PROC")
+  field(OUTA, "${P}${R}${SENSOR}:iSensorTypeR PP")
+  field(OUTB, "${P}${R}${SENSOR}:SensorTypeR.PROC")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:iSensorTypeR")
+record(mbbi, "${P}${R}${SENSOR}:iSensorTypeR")
 {
   field(ZRVL, "0")
   field(ZRST, "N/A")
@@ -74,14 +74,14 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:iSensorTypeR")
 }
 
 
-record(stringin, "${DEVICENAME}:${SENSOR}:SensorTypeR")
+record(stringin, "${P}${R}${SENSOR}:SensorTypeR")
 {
   field(DISP, "1")
-  field(INP,  "${DEVICENAME}:${SENSOR}:iSensorTypeR")
+  field(INP,  "${P}${R}${SENSOR}:iSensorTypeR")
 }
 
 
-record(bi, "${DEVICENAME}:${SENSOR}:ValidR")
+record(bi, "${P}${R}${SENSOR}:ValidR")
 {
   field(ZNAM, "Incorrect Gauge Type")
   field(ONAM, "Correct Gauge Type")
@@ -89,7 +89,7 @@ record(bi, "${DEVICENAME}:${SENSOR}:ValidR")
 }
 
 
-record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR")
+record(scalcout, "${P}${R}${SENSOR}:iPrsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
@@ -97,49 +97,49 @@ record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
 }
 
 
-record(stringout, "${DEVICENAME}:${SENSOR}:iUnitChanged")
+record(stringout, "${P}${R}${SENSOR}:iUnitChanged")
 {
-  field(DOL,  "${DEVICENAME}:Unit-RB CPP")
+  field(DOL,  "${P}${R}Unit-RB CPP")
   field(OMSL, "closed_loop")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:PrsR.EGU NPP")
+  field(OUT,  "${P}${R}${SENSOR}:PrsR.EGU NPP")
 }
 
 
-record(ai, "${DEVICENAME}:${SENSOR}:PrsR")
+record(ai, "${P}${R}${SENSOR}:PrsR")
 {
-  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.BB CP MSS")
+  field(INP,  "${P}${R}${SENSOR}:iPrsR.BB CP MSS")
   field(PREC, "2")
   field(EGU,  "${EGU}")
 
   field(DISV, "-1")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
+  field(SDIS, "${P}${R}${SENSOR}:PrsStatR CP MSS")
 }
 
 
-record(scalcout, "${DEVICENAME}:${SENSOR}:iPrsR-STR")
+record(scalcout, "${P}${R}${SENSOR}:iPrsR-STR")
 {
-  field(INPA, "${DEVICENAME}:${SENSOR}:GaugeStatR CP")
-  field(INAA, "${DEVICENAME}:${SENSOR}:GaugeStatR")
-  field(INBB, "${DEVICENAME}:${SENSOR}:iPrsR.BB CP")
+  field(INPA, "${P}${R}${SENSOR}:GaugeStatR CP")
+  field(INAA, "${P}${R}${SENSOR}:GaugeStatR")
+  field(INBB, "${P}${R}${SENSOR}:iPrsR.BB CP")
   field(CALC, "A?AA:BB")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:PrsR-STR PP")
+  field(OUT,  "${P}${R}${SENSOR}:PrsR-STR PP")
 }
 
 
-record(stringin, "${DEVICENAME}:${SENSOR}:PrsR-STR")
+record(stringin, "${P}${R}${SENSOR}:PrsR-STR")
 {
   field(DISV, "-1")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:PrsStatR CP MSS")
+  field(SDIS, "${P}${R}${SENSOR}:PrsStatR CP MSS")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
+record(mbbi, "${P}${R}${SENSOR}:GaugeStatR")
 {
-  field(INP,  "${DEVICENAME}:${SENSOR}:iPrsR.A CP MSS")
+  field(INP,  "${P}${R}${SENSOR}:iPrsR.A CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "DATA OK")
@@ -161,26 +161,26 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:GaugeStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
 }
 
 
-record(calc, "${DEVICENAME}:${SENSOR}:iCalcStat")
+record(calc, "${P}${R}${SENSOR}:iCalcStat")
 {
 # Increase GaugeStat value if INVALID
-  field(INPA, "${DEVICENAME}:${SENSOR}:GaugeStatR CP")
-  field(INPB, "${DEVICENAME}:${SENSOR}:GaugeStatR.SEVR")
+  field(INPA, "${P}${R}${SENSOR}:GaugeStatR CP")
+  field(INPB, "${P}${R}${SENSOR}:GaugeStatR.SEVR")
   # SEVR == INVALID
   field(CALC, "C:=(B==3 ? 0 : A + 1);C")
 }
 
 
-record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
+record(mbbo, "${P}${R}${SENSOR}:iPrsStatS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(DOL,  "${DEVICENAME}:${SENSOR}:iCalcStat CP MSS")
+  field(DOL,  "${P}${R}${SENSOR}:iCalcStat CP MSS")
   field(OMSL, "closed_loop")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:PrsStatR MSS PP")
+  field(OUT,  "${P}${R}${SENSOR}:PrsStatR MSS PP")
 
   # INVALID
   #  -  0
@@ -210,7 +210,7 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:iPrsStatS")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
+record(mbbi, "${P}${R}${SENSOR}:PrsStatR")
 {
   field(DESC, "Status of channel ${SENSOR}")
 
@@ -235,11 +235,11 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:PrsStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
 }
 
 
-record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlMode")
+record(mbbo, "${P}${R}${SENSOR}:CtrlMode")
 {
   field(ZRVL, "0")
   field(ZRST, "NO SENSOR")
@@ -255,14 +255,14 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlMode")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR")
 }
 
 
-record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
+record(mbbo, "${P}${R}${SENSOR}:CtrlModeS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.A PP")
+  field(OUT,  "${P}${R}${SENSOR}:iCtrlModeCommitS.A PP")
 
   field(ZRVL, "1")
   field(ZRST, "OFF")
@@ -275,27 +275,27 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:CtrlModeS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS")
+record(calcout, "${P}${R}${SENSOR}:iCtrlModeCommitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
 
-  field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
+  field(FLNK, "${P}${R}iSensorCtrlModes-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlModeS-ErrorR")
+record(mbbi, "${P}${R}${SENSOR}:CtrlModeS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:${SENSOR}:iCtrlModeCommitS.E CP MSS")
+  field(INP,  "${P}${R}${SENSOR}:iCtrlModeCommitS.E CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -318,13 +318,13 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlModeS-ErrorR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
+record(mbbi, "${P}${R}${SENSOR}:CtrlMode-RB")
 {
-  field(INP,  "${DEVICENAME}:iSensorCtrlModes-RB.${SOURCE} CP MSS")
+  field(INP,  "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO SENSOR")
@@ -340,27 +340,27 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:CtrlMode-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iCtrlModeSInit")
+record(calcout, "${P}${R}${SENSOR}:iCtrlModeSInit")
 {
   field(DESC, "Initializes CtrlMode from CtrlMode-RB")
-  field(INPA, "${DEVICENAME}:${SENSOR}:CtrlMode-RB CP")
-  field(INPB, "${DEVICENAME}:${SENSOR}:CtrlMode-RB.STAT")
+  field(INPA, "${P}${R}${SENSOR}:CtrlMode-RB CP")
+  field(INPB, "${P}${R}${SENSOR}:CtrlMode-RB.STAT")
   field(CALC, "B==0")
   field(OOPT, "When Non-zero")
   field(DOPT, "Use OCAL")
   field(OCAL, "A")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:CtrlMode PP")
+  field(OUT,  "${P}${R}${SENSOR}:CtrlMode PP")
 }
 
 
-record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
+record(mbbi, "${P}${R}${SENSOR}:FltTim-RB")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:iSensorFltTims-RB.${SOURCE} CP MSS")
+  field(INP,  "${P}${R}iSensorFltTims-RB.${SOURCE} CP MSS")
 
   field(ZRVL, "1")
   field(ZRST, "FAST")
@@ -371,15 +371,15 @@ record(mbbi, "${DEVICENAME}:${SENSOR}:FltTim-RB")
   field(TWVL, "3")
   field(TWST, "SLOW")
 
-  field(FLNK, "${DEVICENAME}:${SENSOR}:iFltTimInit")
+  field(FLNK, "${P}${R}${SENSOR}:iFltTimInit")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:${SENSOR}:ValidR CP")
+  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
 }
 
 
-record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
+record(mbbo, "${P}${R}${SENSOR}:FltTimS")
 {
   field(DTYP, "Raw Soft Channel")
 
@@ -393,28 +393,28 @@ record(mbbo, "${DEVICENAME}:${SENSOR}:FltTimS")
   field(TWST, "SLOW")
 
 # Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
-  field(FLNK, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
+  field(FLNK, "${P}${R}${SENSOR}:FltTimCommitS")
 }
 
 
-record(fanout, "${DEVICENAME}:${SENSOR}:FltTimCommitS")
+record(fanout, "${P}${R}${SENSOR}:FltTimCommitS")
 {
 # Dynamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
-  field(FLNK, "${DEVICENAME}:SensorFltTimsS")
+  field(FLNK, "${P}${R}SensorFltTimsS")
 }
 
 
-record(seq, "${DEVICENAME}:${SENSOR}:iConnect-FltTim-FO")
+record(seq, "${P}${R}${SENSOR}:iConnect-FltTim-FO")
 {
   field(DOL1, "0")
-  field(LNK1, "${DEVICENAME}:${SENSOR}:iFltTimInit.PVAL")
+  field(LNK1, "${P}${R}${SENSOR}:iFltTimInit.PVAL")
 }
 
 
-record(calcout, "${DEVICENAME}:${SENSOR}:iFltTimInit")
+record(calcout, "${P}${R}${SENSOR}:iFltTimInit")
 {
-  field(INPA, "${DEVICENAME}:${SENSOR}:FltTim-RB MS")
-  field(OUT,  "${DEVICENAME}:${SENSOR}:iFltTimInit-FO PP")
+  field(INPA, "${P}${R}${SENSOR}:FltTim-RB MS")
+  field(OUT,  "${P}${R}${SENSOR}:iFltTimInit-FO PP")
   field(VAL,  "0")
   field(CALC, "1")
   field(OOPT, "Transition To Non-zero")
@@ -422,14 +422,14 @@ record(calcout, "${DEVICENAME}:${SENSOR}:iFltTimInit")
 }
 
 
-record(seq, "${DEVICENAME}:${SENSOR}:iFltTimInit-FO")
+record(seq, "${P}${R}${SENSOR}:iFltTimInit-FO")
 {
   field(DOL1, "1")
-  field(LNK1, "${DEVICENAME}:${SENSOR}:FltTimCommitS.DISA")
+  field(LNK1, "${P}${R}${SENSOR}:FltTimCommitS.DISA")
 
-  field(DOL2, "${DEVICENAME}:${SENSOR}:FltTim-RB")
-  field(LNK2, "${DEVICENAME}:${SENSOR}:FltTimS PP")
+  field(DOL2, "${P}${R}${SENSOR}:FltTim-RB")
+  field(LNK2, "${P}${R}${SENSOR}:FltTimS PP")
 
   field(DOL3, "0")
-  field(LNK3, "${DEVICENAME}:${SENSOR}:FltTimCommitS.DISA")
+  field(LNK3, "${P}${R}${SENSOR}:FltTimCommitS.DISA")
 }

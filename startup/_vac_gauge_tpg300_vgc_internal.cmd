@@ -18,6 +18,6 @@
 # @type INTEGER
 # Number of the second relay mapped to this gauge
 
-dbLoadRecords(vac_ctrl_tpg300_standalone_sensor.db, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL), BOARD = PE, GAUGE = CC")
-dbLoadRecords(vac_ctrl_tpg300_standalone_relay.db, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY1), n = 1")
-dbLoadRecords(vac_ctrl_tpg300_standalone_relay.db, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY2), n = 2")
+dbLoadRecords(vac_ctrl_tpg300_standalone_sensor.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL), BOARD = PE, GAUGE = CC")
+dbLoadRecords(vac_ctrl_tpg300_standalone_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY1), n = 1")
+dbLoadRecords(vac_ctrl_tpg300_standalone_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY2), n = 2")

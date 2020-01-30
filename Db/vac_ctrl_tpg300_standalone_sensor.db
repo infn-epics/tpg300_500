@@ -1,48 +1,48 @@
-alias("${CONTROLLERNAME}:${SENSOR}:ValidR",           "${DEVICENAME}:ValidR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:ValidR",           "${P}${R}ValidR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:ChanR",            "${DEVICENAME}:ChanR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:ChanR",            "${P}${R}ChanR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:SensorTypeR",      "${DEVICENAME}:SensorTypeR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:SensorTypeR",      "${P}${R}SensorTypeR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:PrsR",             "${DEVICENAME}:PrsR")
-alias("${CONTROLLERNAME}:${SENSOR}:PrsR-STR",         "${DEVICENAME}:PrsR-STR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR",             "${P}${R}PrsR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR-STR",         "${P}${R}PrsR-STR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:PrsStatR",         "${DEVICENAME}:PrsStatR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:PrsStatR",         "${P}${R}PrsStatR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:GaugeStatR",       "${DEVICENAME}:GaugeStatR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:GaugeStatR",       "${P}${R}GaugeStatR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:CtrlModeS",        "${DEVICENAME}:CtrlModeS")
+alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS",        "${P}${R}CtrlModeS")
 
-alias("${CONTROLLERNAME}:${SENSOR}:CtrlModeS-ErrorR", "${DEVICENAME}:CtrlModeS-ErrorR")
+alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS-ErrorR", "${P}${R}CtrlModeS-ErrorR")
 
-alias("${CONTROLLERNAME}:${SENSOR}:CtrlMode-RB",      "${DEVICENAME}:CtrlMode-RB")
+alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlMode-RB",      "${P}${R}CtrlMode-RB")
 
-alias("${CONTROLLERNAME}:${SENSOR}:FltTimS",          "${DEVICENAME}:FltTimS")
+alias("${CONTROLLERNAME}${R}${SENSOR}:FltTimS",          "${P}${R}FltTimS")
 
-alias("${CONTROLLERNAME}:${SENSOR}:FltTim-RB",        "${DEVICENAME}:FltTim-RB")
+alias("${CONTROLLERNAME}${R}${SENSOR}:FltTim-RB",        "${P}${R}FltTim-RB")
 
 
-record("*", "${CONTROLLERNAME}:${SENSOR}:DevNameR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}:DevNameR")
 {
   field(PINI, "YES")
-  field(VAL,  "${DEVICENAME}")
+  field(VAL,  "${P}")
 }
 
 
-record("*", "${CONTROLLERNAME}:${SENSOR}:NumOfRlysR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}:NumOfRlysR")
 {
   field(VAL,  "2")
   field(PINI, "YES")
 }
 
 
-record("*", "${CONTROLLERNAME}:${SENSOR}:iCheckModType")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}:iCheckModType")
 {
   field(CALC, "(A&&(AA[0,1]=='${BOARD}'||AA[0,1]=='CP'))?'1':'0'")
 }
 
 
-record("*", "${CONTROLLERNAME}:${SENSOR}:iSensorTypeR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
 {
   field(TWST, "${GAUGE}")
   field(TWVL, "2")

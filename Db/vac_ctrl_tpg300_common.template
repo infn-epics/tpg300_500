@@ -1,37 +1,37 @@
-record(stringin, "${DEVICENAME}:iUITypeR")
+record(stringin, "${P}${R}iUITypeR")
 {
-  alias("${DEVICENAME}:ModMain:TypeR")
+  alias("${P}${R}ModMain:TypeR")
   field(PINI, "YES")
   field(VAL,  "TPG-300")
 }
 
 
-record(stringin, "${DEVICENAME}:ModMain:FWVersionR")
+record(stringin, "${P}${R}ModMain:FWVersionR")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_version ${ASYNPORT}")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(bo, "${DEVICENAME}:iRst")
+record(bo, "${P}${R}iRst")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto reset_interface ${ASYNPORT}")
 
   field(VAL,  "0")
-  field(FLNK, "${DEVICENAME}:iModTypesR")
+  field(FLNK, "${P}${R}iModTypesR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:ConnectedR")
+  field(SDIS, "${P}${R}ConnectedR")
 }
 
 
-record(scalcout, "${DEVICENAME}:iModTypesR")
+record(scalcout, "${P}${R}iModTypesR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_slots() ${ASYNPORT}")
@@ -39,39 +39,39 @@ record(scalcout, "${DEVICENAME}:iModTypesR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:ConnectedR")
+  field(SDIS, "${P}${R}ConnectedR")
 }
 
 
-record(stringin, "${DEVICENAME}:ModA:TypeR")
+record(stringin, "${P}${R}ModA:TypeR")
 {
-  field(INP,  "${DEVICENAME}:iModTypesR.AA CP MSS")
+  field(INP,  "${P}${R}iModTypesR.AA CP MSS")
 
   field(DISV, "42")
-  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
+  field(SDIS, "${P}${R}iModTypesR CP MSS")
 }
 
 
-record(stringin, "${DEVICENAME}:ModB:TypeR")
+record(stringin, "${P}${R}ModB:TypeR")
 {
-  field(INP,  "${DEVICENAME}:iModTypesR.BB CP MSS")
+  field(INP,  "${P}${R}iModTypesR.BB CP MSS")
 
   field(DISV, "42")
-  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
+  field(SDIS, "${P}${R}iModTypesR CP MSS")
 }
 
 
-record(stringin, "${DEVICENAME}:ModComm:TypeR")
+record(stringin, "${P}${R}ModComm:TypeR")
 {
-  field(INP,  "${DEVICENAME}:iModTypesR.CC CP MSS")
-  field(FLNK, "${DEVICENAME}:iCommsStatR")
+  field(INP,  "${P}${R}iModTypesR.CC CP MSS")
+  field(FLNK, "${P}${R}iCommsStatR")
 
   field(DISV, "42")
-  field(SDIS, "${DEVICENAME}:iModTypesR CP MSS")
+  field(SDIS, "${P}${R}iModTypesR CP MSS")
 }
 
 
-record(mbbi, "${DEVICENAME}:BaudrtR")
+record(mbbi, "${P}${R}BaudrtR")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_baud ${ASYNPORT}")
@@ -93,11 +93,11 @@ record(mbbi, "${DEVICENAME}:BaudrtR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbo, "${DEVICENAME}:BaudrtS")
+record(mbbo, "${P}${R}BaudrtS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_baud ${ASYNPORT}")
@@ -121,11 +121,11 @@ record(mbbo, "${DEVICENAME}:BaudrtS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(bi, "${DEVICENAME}:UnderRngCtrl-RB")
+record(bi, "${P}${R}UnderRngCtrl-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_puc ${ASYNPORT}")
@@ -135,26 +135,26 @@ record(bi, "${DEVICENAME}:UnderRngCtrl-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(bo, "${DEVICENAME}:UnderRngCtrlS")
+record(bo, "${P}${R}UnderRngCtrlS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_puc ${ASYNPORT}")
 
   field(ZNAM, "OFF")
   field(ONAM, "ON")
-  field(FLNK, "${DEVICENAME}:UnderRngCtrl-RB")
+  field(FLNK, "${P}${R}UnderRngCtrl-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbi, "${DEVICENAME}:Unit-RB")
+record(mbbi, "${P}${R}Unit-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_units ${ASYNPORT}")
@@ -170,11 +170,11 @@ record(mbbi, "${DEVICENAME}:Unit-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbo, "${DEVICENAME}:UnitS")
+record(mbbo, "${P}${R}UnitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_units ${ASYNPORT}")
@@ -188,15 +188,15 @@ record(mbbo, "${DEVICENAME}:UnitS")
   field(TWVL, "3")
   field(TWST, "Pa")
 
-  field(FLNK, "${DEVICENAME}:Unit-RB")
+  field(FLNK, "${P}${R}Unit-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbi, "${DEVICENAME}:SaveParams-RB")
+record(mbbi, "${P}${R}SaveParams-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300.proto get_save_params ${ASYNPORT}")
@@ -212,11 +212,11 @@ record(mbbi, "${DEVICENAME}:SaveParams-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbo, "${DEVICENAME}:SaveParamsS")
+record(mbbo, "${P}${R}SaveParamsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_save_params ${ASYNPORT}")
@@ -230,47 +230,47 @@ record(mbbo, "${DEVICENAME}:SaveParamsS")
   field(TWVL, "2")
   field(TWST, "User-defined w/ hot start")
 
-  field(FLNK, "${DEVICENAME}:SaveParams-RB")
+  field(FLNK, "${P}${R}SaveParams-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(calcout, "${DEVICENAME}:iSensorCtrlModes-RB")
+record(calcout, "${P}${R}iSensorCtrlModes-RB")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_modes() ${ASYNPORT}")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(calcout, "${DEVICENAME}:SensorCtrlModesS")
+record(calcout, "${P}${R}SensorCtrlModesS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_modes() ${ASYNPORT}")
 
-  field(INPA, "${DEVICENAME}:A1:CtrlModeS")
-  field(INPB, "${DEVICENAME}:A2:CtrlModeS")
-  field(INPC, "${DEVICENAME}:B1:CtrlModeS")
-  field(INPD, "${DEVICENAME}:B2:CtrlModeS")
+  field(INPA, "${P}${R}A1:CtrlModeS")
+  field(INPB, "${P}${R}A2:CtrlModeS")
+  field(INPC, "${P}${R}B1:CtrlModeS")
+  field(INPD, "${P}${R}B2:CtrlModeS")
 
-  field(FLNK, "${DEVICENAME}:iSensorCtrlModes-RB")
+  field(FLNK, "${P}${R}iSensorCtrlModes-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbi, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
+record(mbbi, "${P}${R}SensorCtrlModesS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:SensorCtrlModesS.E CP MSS")
+  field(INP,  "${P}${R}SensorCtrlModesS.E CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -293,43 +293,43 @@ record(mbbi, "${DEVICENAME}:SensorCtrlModesS-ErrorR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(calcout, "${DEVICENAME}:iSensorFltTims-RB")
+record(calcout, "${P}${R}iSensorFltTims-RB")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_filter() ${ASYNPORT}")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(calcout, "${DEVICENAME}:SensorFltTimsS")
+record(calcout, "${P}${R}SensorFltTimsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_filter() ${ASYNPORT}")
 
-  field(INPA, "${DEVICENAME}:A1:FltTimS.RVAL")
-  field(INPB, "${DEVICENAME}:A2:FltTimS.RVAL")
-  field(INPC, "${DEVICENAME}:B1:FltTimS.RVAL")
-  field(INPD, "${DEVICENAME}:B2:FltTimS.RVAL")
+  field(INPA, "${P}${R}A1:FltTimS.RVAL")
+  field(INPB, "${P}${R}A2:FltTimS.RVAL")
+  field(INPC, "${P}${R}B1:FltTimS.RVAL")
+  field(INPD, "${P}${R}B2:FltTimS.RVAL")
 
-  field(FLNK, "${DEVICENAME}:iSensorFltTims-RB")
+  field(FLNK, "${P}${R}iSensorFltTims-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
+record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${DEVICENAME}:SensorFltTimsS.E CP MSS")
+  field(INP,  "${P}${R}SensorFltTimsS.E CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -352,59 +352,59 @@ record(mbbi, "${DEVICENAME}:SensorFltTimsS-ErrorR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(calcout, "${DEVICENAME}:iRlyStatsR")
+record(calcout, "${P}${R}iRlyStatsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() ${ASYNPORT}")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
-record(fanout, "${DEVICENAME}:iPressuresR-FO")
+record(fanout, "${P}${R}iPressuresR-FO")
 {
-  field(LNK1, "${DEVICENAME}:A1:iPrsR")
-  field(LNK2, "${DEVICENAME}:A2:iPrsR")
-  field(LNK3, "${DEVICENAME}:B1:iPrsR")
-  field(LNK4, "${DEVICENAME}:B2:iPrsR")
+  field(LNK1, "${P}${R}A1:iPrsR")
+  field(LNK2, "${P}${R}A2:iPrsR")
+  field(LNK3, "${P}${R}B1:iPrsR")
+  field(LNK4, "${P}${R}B2:iPrsR")
 }
 
 
-record(fanout, "${DEVICENAME}:iScan1")
+record(fanout, "${P}${R}iScan1")
 {
   field(SCAN, "1 second")
-  field(LNK1, "${DEVICENAME}:iPressuresR-FO")
-  field(LNK2, "${DEVICENAME}:iRlyStatsR")
+  field(LNK1, "${P}${R}iPressuresR-FO")
+  field(LNK2, "${P}${R}iRlyStatsR")
 }
 
 
-record(fanout, "${DEVICENAME}:iScan10")
+record(fanout, "${P}${R}iScan10")
 {
   field(SCAN, "10 second")
-  field(LNK1, "${DEVICENAME}:iModTypesR")
-  field(LNK2, "${DEVICENAME}:iSensorCtrlModes-RB")
-  field(LNK3, "${DEVICENAME}:Unit-RB")
-  field(FLNK, "${DEVICENAME}:iRereadScan")
+  field(LNK1, "${P}${R}iModTypesR")
+  field(LNK2, "${P}${R}iSensorCtrlModes-RB")
+  field(LNK3, "${P}${R}Unit-RB")
+  field(FLNK, "${P}${R}iRereadScan")
 }
 
 
-record(calcout, "${DEVICENAME}:iRereadScan")
+record(calcout, "${P}${R}iRereadScan")
 {
   field(DESC, "Re-read all values every minute or so")
-  field(INPA, "${DEVICENAME}:iRereadScan")
+  field(INPA, "${P}${R}iRereadScan")
   field(CALC, "A<5?A+1:0")
   field(OOPT, "When Zero")
-  field(OUT,  "${DEVICENAME}:iReadbacks-FO PP")
+  field(OUT,  "${P}${R}iReadbacks-FO PP")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${DEVICENAME}:CommsOK")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
@@ -414,14 +414,14 @@ record(calcout, "${DEVICENAME}:iRereadScan")
 # Reconnect logic                                                              #
 ################################################################################
 
-record(asyn,"${DEVICENAME}:iASYN")
+record(asyn,"${P}${R}iASYN")
 {
   field(DTYP, "asynRecordDevice")
   field(PORT, "${ASYNPORT}")
 }
 
 
-record(mbbo, "${DEVICENAME}:ASYNTrace")
+record(mbbo, "${P}${R}ASYNTrace")
 {
   field(DTYP, "Raw Soft Channel")
 
@@ -431,73 +431,73 @@ record(mbbo, "${DEVICENAME}:ASYNTrace")
   field(ONVL, "12")
   field(ONST, "Start tracing")
 
-  field(FLNK, "${DEVICENAME}:iASYNTrace")
+  field(FLNK, "${P}${R}iASYNTrace")
 }
 
 
-record(seq, "${DEVICENAME}:iASYNTrace")
+record(seq, "${P}${R}iASYNTrace")
 {
   field(SELM, "Mask")
-  field(SELL, "${DEVICENAME}:ASYNTrace.RVAL")
+  field(SELL, "${P}${R}ASYNTrace.RVAL")
 
   field(DOL1, "0")
-  field(LNK1, "${DEVICENAME}:iASYN.TIOM PP")
+  field(LNK1, "${P}${R}iASYN.TIOM PP")
 
   field(DOL2, "0")
-  field(LNK2, "${DEVICENAME}:iASYN.TMSK PP")
+  field(LNK2, "${P}${R}iASYN.TMSK PP")
 
   field(DOL3, "1")
-  field(LNK3, "${DEVICENAME}:iASYN.TIOM PP")
+  field(LNK3, "${P}${R}iASYN.TIOM PP")
 
   field(DOL4, "9")
-  field(LNK4, "${DEVICENAME}:iASYN.TMSK PP")
+  field(LNK4, "${P}${R}iASYN.TMSK PP")
 }
 
 
-record(bi, "${DEVICENAME}:ConnectedR")
+record(bi, "${P}${R}ConnectedR")
 {
-  field(INP,  "${DEVICENAME}:iASYN.CNCT CP")
+  field(INP,  "${P}${R}iASYN.CNCT CP")
   field(ONAM, "Connected")
   field(ZNAM, "Disconnected")
   field(ZSV,  "MAJOR")
-  field(FLNK, "${DEVICENAME}:iRst")
+  field(FLNK, "${P}${R}iRst")
 }
 
 
-record(calcout, "${DEVICENAME}:iCommsOK")
+record(calcout, "${P}${R}iCommsOK")
 {
-  field(INPA, "${DEVICENAME}:CommsStatR CP")
+  field(INPA, "${P}${R}CommsStatR CP")
   field(CALC, "A==3")
   field(PINI, "YES")
   field(OOPT, "On Change")
-  field(OUT,  "${DEVICENAME}:CommsOK PP")
+  field(OUT,  "${P}${R}CommsOK PP")
 }
 
 
-record(bi, "${DEVICENAME}:CommsOK")
+record(bi, "${P}${R}CommsOK")
 {
-  alias("${DEVICENAME}:ValidR")
+  alias("${P}${R}ValidR")
   field(ZNAM, "No communication")
   field(ONAM, "Communication is OK")
   field(ZSV,  "MINOR")
-  field(FLNK, "${DEVICENAME}:iInit-FO")
+  field(FLNK, "${P}${R}iInit-FO")
 }
 
 
-record(scalcout, "${DEVICENAME}:iCommsStatR")
+record(scalcout, "${P}${R}iCommsStatR")
 {
-  field(INPA, "${DEVICENAME}:ConnectedR CP")
-  field(INBB, "${DEVICENAME}:ModComm:TypeR")
-  field(INPC, "${DEVICENAME}:iModTypesR.STAT")
+  field(INPA, "${P}${R}ConnectedR CP")
+  field(INBB, "${P}${R}ModComm:TypeR")
+  field(INPC, "${P}${R}iModTypesR.STAT")
   field(CALC, "B:=BB[0,4]=='IF300';A?(C==0?(B==0?'2':'3'):'1'):'0'")
   field(OOPT, "On Change")
-  field(OUT,  "${DEVICENAME}:CommsStatR PP")
+  field(OUT,  "${P}${R}CommsStatR PP")
   field(PINI, "YES")
   field(VAL,  "-1")
 }
 
 
-record(mbbi, "${DEVICENAME}:CommsStatR")
+record(mbbi, "${P}${R}CommsStatR")
 {
   field(DESC, "Status of communication")
   field(ZRVL, "0")
@@ -514,56 +514,56 @@ record(mbbi, "${DEVICENAME}:CommsStatR")
 }
 
 
-record(fanout, "${DEVICENAME}:iInit-FO")
+record(fanout, "${P}${R}iInit-FO")
 {
-  field(LNK1, "${DEVICENAME}:iPressuresR-FO")
-  field(LNK2, "${DEVICENAME}:iRlyStatsR")
-  field(LNK3, "${DEVICENAME}:iConnect-FltTims-FO")
-  field(LNK4, "${DEVICENAME}:iConnect-Rlys-FO")
-  field(FLNK, "${DEVICENAME}:iReadbacks-FO")
+  field(LNK1, "${P}${R}iPressuresR-FO")
+  field(LNK2, "${P}${R}iRlyStatsR")
+  field(LNK3, "${P}${R}iConnect-FltTims-FO")
+  field(LNK4, "${P}${R}iConnect-Rlys-FO")
+  field(FLNK, "${P}${R}iReadbacks-FO")
 }
 
 
-record(fanout, "${DEVICENAME}:iConnect-FltTims-FO")
+record(fanout, "${P}${R}iConnect-FltTims-FO")
 {
-  field(LNK1, "${DEVICENAME}:A1:iConnect-FltTim-FO")
-  field(LNK2, "${DEVICENAME}:A2:iConnect-FltTim-FO")
-  field(LNK3, "${DEVICENAME}:B1:iConnect-FltTim-FO")
-  field(LNK4, "${DEVICENAME}:B2:iConnect-FltTim-FO")
+  field(LNK1, "${P}${R}A1:iConnect-FltTim-FO")
+  field(LNK2, "${P}${R}A2:iConnect-FltTim-FO")
+  field(LNK3, "${P}${R}B1:iConnect-FltTim-FO")
+  field(LNK4, "${P}${R}B2:iConnect-FltTim-FO")
 }
 
 
-record(fanout, "${DEVICENAME}:iConnect-Rlys-FO")
+record(fanout, "${P}${R}iConnect-Rlys-FO")
 {
-  field(LNK1, "${DEVICENAME}:Rly1:iConnect-FO")
-  field(LNK2, "${DEVICENAME}:Rly2:iConnect-FO")
-  field(LNK3, "${DEVICENAME}:Rly3:iConnect-FO")
-  field(LNK4, "${DEVICENAME}:Rly4:iConnect-FO")
-  field(LNK5, "${DEVICENAME}:RlyA:iConnect-FO")
-  field(LNK6, "${DEVICENAME}:RlyB:iConnect-FO")
+  field(LNK1, "${P}${R}Rly1:iConnect-FO")
+  field(LNK2, "${P}${R}Rly2:iConnect-FO")
+  field(LNK3, "${P}${R}Rly3:iConnect-FO")
+  field(LNK4, "${P}${R}Rly4:iConnect-FO")
+  field(LNK5, "${P}${R}RlyA:iConnect-FO")
+  field(LNK6, "${P}${R}RlyB:iConnect-FO")
 }
 
 
-record(fanout, "${DEVICENAME}:iReadbacks-FO")
+record(fanout, "${P}${R}iReadbacks-FO")
 {
-  field(LNK1, "${DEVICENAME}:iRlySPs-RB-FO")
-  field(LNK2, "${DEVICENAME}:iSensorFltTims-RB")
-  field(LNK3, "${DEVICENAME}:iSensorCtrlModes-RB")
-  field(LNK4, "${DEVICENAME}:Unit-RB")
-  field(LNK5, "${DEVICENAME}:UnderRngCtrl-RB")
-  field(LNK6, "${DEVICENAME}:SaveParams-RB")
-  field(LNK7, "${DEVICENAME}:ModMain:FWVersionR")
-  field(LNK8, "${DEVICENAME}:iModTypesR")
-  field(LNK9, "${DEVICENAME}:BaudrtR")
+  field(LNK1, "${P}${R}iRlySPs-RB-FO")
+  field(LNK2, "${P}${R}iSensorFltTims-RB")
+  field(LNK3, "${P}${R}iSensorCtrlModes-RB")
+  field(LNK4, "${P}${R}Unit-RB")
+  field(LNK5, "${P}${R}UnderRngCtrl-RB")
+  field(LNK6, "${P}${R}SaveParams-RB")
+  field(LNK7, "${P}${R}ModMain:FWVersionR")
+  field(LNK8, "${P}${R}iModTypesR")
+  field(LNK9, "${P}${R}BaudrtR")
 }
 
 
-record(fanout, "${DEVICENAME}:iRlySPs-RB-FO")
+record(fanout, "${P}${R}iRlySPs-RB-FO")
 {
-  field(LNK1, "${DEVICENAME}:Rly1:iGetR")
-  field(LNK2, "${DEVICENAME}:Rly2:iGetR")
-  field(LNK3, "${DEVICENAME}:Rly3:iGetR")
-  field(LNK4, "${DEVICENAME}:Rly4:iGetR")
-  field(LNK5, "${DEVICENAME}:RlyA:iGetR")
-  field(LNK6, "${DEVICENAME}:RlyB:iGetR")
+  field(LNK1, "${P}${R}Rly1:iGetR")
+  field(LNK2, "${P}${R}Rly2:iGetR")
+  field(LNK3, "${P}${R}Rly3:iGetR")
+  field(LNK4, "${P}${R}Rly4:iGetR")
+  field(LNK5, "${P}${R}RlyA:iGetR")
+  field(LNK6, "${P}${R}RlyB:iGetR")
 }

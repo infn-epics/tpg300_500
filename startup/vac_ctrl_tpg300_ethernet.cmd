@@ -32,7 +32,7 @@
 #-	noAutoConnect - Zero or missing indicates that portThread should automatically connect. Non-zero if explicit
 #-					connect command must be issued.
 #-	noProcessEos - If 0 then asynInterposeEosConfig is called specifying both processEosIn and processEosOut.
-drvAsynIPPortConfigure($(DEVICENAME)-asyn-port,$(IPADDR):$(PORT))
+drvAsynIPPortConfigure($(DEVICENAME),$(IPADDR):$(PORT))
 
 #-Load the database defining your EPICS records
-dbLoadRecords(vac_ctrl_tpg300.db, "DEVICENAME = $(DEVICENAME), ASYNPORT = $(DEVICENAME)-asyn-port")
+dbLoadRecords(vac_ctrl_tpg300.db, "P = $(DEVICENAME), R = :, ASYNPORT = $(DEVICENAME)")
