@@ -13,9 +13,12 @@ puc="0"
 units="1"
 baud="1"
 version="-- VERSION"
+# No boards at all
 tid="NO P,NO P,NO P"
-tid="NO P,NO P,IF 300"
-tid="PE 300,NO P,IF 300"
+# Interface board
+tid="NO P,NO P,IF300"
+# Cold cathode meas boards and interface board
+tid="PE300,PE300,IF300"
 sav="0"
 pressure="0,1.0E-11"
 mode="3,3,3,3"
