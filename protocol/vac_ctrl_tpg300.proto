@@ -10,32 +10,55 @@ InTerminator  = CR LF;
 # Larger LockTimeout due to increased ReplyTimeout in set_save_params protocol.
 LockTimeout = 10000;
 
-# Force disconnect on timeouts to achieve consistent behavior with respect to
-# readback updates when the device is power cycled and is connected through a MOXA.
+################################################################################
+# Shared "protocol"
+################################################################################
 reconnect {
     out ETX;
     disconnect;
     connect 1000;
 }
 
+
+################################################################################
+# Force disconnect on timeouts to achieve consistent behavior with respect to
+# readback updates when the device is power cycled and is connected through a MOXA.
+################################################################################
 @replytimeout {
     reconnect;
 }
 
+
+################################################################################
+# Force disconnect on timeouts to achieve consistent behavior with respect to
+# readback updates when the device is power cycled and is connected through a MOXA.
+################################################################################
 @readtimeout {
     reconnect;
 }
 
+
+################################################################################
 # General mismatch handler, basically a no-op
+################################################################################
 @mismatch {
     in  NAK;
 }
 
 
+################################################################################
+# Clear the input buffer of the controller
+################################################################################
 reset_interface {
     out ETX;
 }
 
+
+################################################################################
+# Retrieves the error code
+# PV: calcout / scalcout
+#  E: error code
+################################################################################
 get_error_code {
     out "ERR";
     in  ACK;
@@ -44,14 +67,22 @@ get_error_code {
 }
 
 
+################################################################################
 # Simple ACK/ENQ pair for protocols without further error processing
+# PV: <any>
+################################################################################
 enquery {
     in  ACK;
     out ENQ;
 }
 
+
+################################################################################
 # An ACK/ENQ pair that clears the field 'E' of the connected PV
 #  for protocols that do record the error code
+# PV: calcout / scalcout
+#  E: error code
+################################################################################
 enquery_with_error_reset {
     in  ACK "%(E)?d";
     out ENQ;
@@ -66,6 +97,10 @@ enquery_with_error_reset {
 }
 
 
+################################################################################
+# Get underrange control
+# PV: bi
+################################################################################
 get_puc {
     out "PUC";
     enquery;
@@ -73,6 +108,10 @@ get_puc {
 }
 
 
+################################################################################
+# Set underrange control
+# PV: bo
+################################################################################
 set_puc {
     out "PUC,%d";
     enquery;
@@ -80,6 +119,10 @@ set_puc {
 }
 
 
+################################################################################
+# Get unit of measurement
+# PV: mbbi
+################################################################################
 get_units {
     out "UNI";
     enquery;
@@ -87,6 +130,10 @@ get_units {
 }
 
 
+################################################################################
+# Set unit of measurement
+# PV: mbbo
+################################################################################
 set_units {
     out "UNI,%d";
     enquery;
@@ -94,6 +141,10 @@ set_units {
 }
 
 
+################################################################################
+# Get parameter storage
+# PV: mbbi
+################################################################################
 get_save_params {
     out "SAV";
     enquery;
@@ -101,7 +152,11 @@ get_save_params {
 }
 
 
+################################################################################
+# Set parameter storage and save parameters
+# PV: mbbo
 # Saving user defined parameters takes significantly longer (~3s).
+################################################################################
 set_save_params {
     ReplyTimeout = 5000;
 
@@ -111,6 +166,10 @@ set_save_params {
 }
 
 
+################################################################################
+# Get baud rate
+# PV: mbbi
+################################################################################
 get_baud {
     out "BAU";
     enquery;
@@ -118,13 +177,23 @@ get_baud {
 }
 
 
+################################################################################
+# Set baud rate
+# PV: mbbo
+################################################################################
 set_baud {
     out "BAU,%d";
     in  ACK;
+# After the baud rate is changed, we can no longer communicate with the device
+#  the MOXA needs to be reconfigured
     disconnect;
 }
 
 
+################################################################################
+# Retrieve program version
+# PV: stringin
+################################################################################
 get_version {
     out "PNR";
     enquery;
@@ -132,6 +201,13 @@ get_version {
 }
 
 
+################################################################################
+# Get plugin board configuration
+# PV: scalcout
+#  AA: first board
+#  BB: second board
+#  CC: third board
+#
 # A and B
 #  Pirani
 #             PI 300D
@@ -152,10 +228,13 @@ get_version {
 #             IF 300C
 #  Profibus-DP interface and Relays
 #             IF 300P
+################################################################################
 get_slots {
     out "TID";
     enquery_with_error_reset;
-    in  "%(AA)[^,],%(BB)[^,],%(CC)[^,]";
+    in  "%(AA)[^,],"
+        "%(BB)[^,],"
+        "%(CC)[^,]";
 
     @mismatch {
         in  NAK;
@@ -165,6 +244,14 @@ get_slots {
 }
 
 
+################################################################################
+# Get pressure
+# Protocol arguments:
+#  1. Sensor ID; A1, A2, B1, B2
+# PV: scalcout
+#   A: status
+#  BB: pressure
+################################################################################
 get_pressure {
     out "P\$1";
     enquery_with_error_reset;
@@ -178,15 +265,38 @@ get_pressure {
 }
 
 
+################################################################################
+# Get sensor modes
+# PV: calcout
+#  A: sensor A1
+#  B: sensor A2
+#  C: sensor B1
+#  D: sensor B2
+################################################################################
 get_modes {
     out "SEN";
     enquery;
-    in  "%(A)d,%(B)d,%(C)d,%(D)d";
+    in  "%(A)d,"
+        "%(B)d,"
+        "%(C)d,"
+        "%(D)d";
 }
 
 
+################################################################################
+# Control sensors
+# PV: calcout
+#  A: sensor A1
+#  B: sensor A2
+#  C: sensor B1
+#  D: sensor B2
+#  E: error
+################################################################################
 set_modes {
-    out "SEN,%(A)d,%(B)d,%(C)d,%(D)d";
+    out "SEN,%(A)d,"
+            "%(B)d,"
+            "%(C)d,"
+            "%(D)d";
     enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
 
@@ -198,6 +308,12 @@ set_modes {
 }
 
 
+################################################################################
+# Control sensor A1
+# PV: calcout
+#  A: sensor A1
+#  E: error
+################################################################################
 set_mode_A1 {
     out "SEN,%(A)d,0,0,0";
     enquery_with_error_reset;
@@ -211,6 +327,12 @@ set_mode_A1 {
 }
 
 
+################################################################################
+# Control sensor A2
+# PV: calcout
+#  A: sensor A2
+#  E: error
+################################################################################
 set_mode_A2 {
     out "SEN,0,%(A)d,0,0";
     enquery_with_error_reset;
@@ -224,6 +346,12 @@ set_mode_A2 {
 }
 
 
+################################################################################
+# Control sensor B1
+# PV: calcout
+#  A: sensor B1
+#  E: error
+################################################################################
 set_mode_B1 {
     out "SEN,0,0,%(A)d,0";
     enquery_with_error_reset;
@@ -237,6 +365,12 @@ set_mode_B1 {
 }
 
 
+################################################################################
+# Control sensor B2
+# PV: calcout
+#  A: sensor B2
+#  E: error
+################################################################################
 set_mode_B2 {
     out "SEN,0,0,0,%(A)d";
     enquery_with_error_reset;
@@ -250,15 +384,38 @@ set_mode_B2 {
 }
 
 
+################################################################################
+# Get filter time constant
+# PV: calcout
+#  A: sensor A1
+#  B: sensor A2
+#  C: sensor B1
+#  D: sensor B2
+################################################################################
 get_filter {
     out "FIL";
     enquery;
-    in  "%(A)d,%(B)d,%(C)d,%(D)d";
+    in  "%(A)d,"
+        "%(B)d,"
+        "%(C)d,"
+        "%(D)d";
 }
 
 
+################################################################################
+# Set filter time constant
+# PV: calcout
+#  A: sensor A1
+#  B: sensor A2
+#  C: sensor B1
+#  D: sensor B2
+#  E: error
+################################################################################
 set_filter {
-    out "FIL,%(A)d,%(B)d,%(C)d,%(D)d";
+    out "FIL,%(A)d,"
+            "%(B)d,"
+            "%(C)d,"
+            "%(D)d";
     enquery_with_error_reset;
     in  "%*d,%*d,%*d,%*d";
 
@@ -270,15 +427,38 @@ set_filter {
 }
 
 
+################################################################################
+# Get switching function thresholds and assingment
+# Protocol arguments:
+#  1. Function number: 1, 2, 3, 4, A, B
+# PV: calcout
+#  A: Lower threshold
+#  B: Upper threshold
+#  C: Switching function
+################################################################################
 get_function {
     out "SP\$1";
     enquery;
-    in  "%(A)E,%(B)E,%(C)d";
+    in  "%(A)E,"
+        "%(B)E,"
+        "%(C)d";
 }
 
 
+################################################################################
+# Set switching function thresholds and assingment
+# Protocol arguments:
+#  1. Function number: 1, 2, 3, 4, A, B
+# PV: calcout
+#  A: Lower threshold
+#  B: Upper threshold
+#  C: Switching function
+#  E: Error
+################################################################################
 set_function {
-    out "SP\$1,%(A)1.1E,%(B)1.1E,%(C)d";
+    out "SP\$1,%(A)1.1E,"
+              "%(B)1.1E,"
+              "%(C)d";
     enquery_with_error_reset;
     in  "%*E,%*E,%*d";
 
@@ -290,8 +470,23 @@ set_function {
 }
 
 
+################################################################################
+# Get switching function status
+# PV: calcout
+#  A: Switching function 1
+#  B: Switching function 2
+#  C: Switching function 3
+#  D: Switching function 4
+#  E: Switching function A
+#  F: Switching function B
+################################################################################
 get_func_stat {
     out "SPS";
     enquery;
-    in  "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
+    in  "%(A)d,"
+        "%(B)d,"
+        "%(C)d,"
+        "%(D)d,"
+        "%(E)d,"
+        "%(F)d";
 }
