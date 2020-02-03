@@ -2,6 +2,7 @@
 # or
 # Usage: nc -lC -p <port_number> --sh-exec 'tpg300sim.sh'
 
+ETX=$'\x03'
 ENQ=$'\x05'
 ACK=$'\x06'
 NAK=$'\x15'
@@ -31,6 +32,13 @@ state="$err"
 
 
 function cmd_handle {
+
+    if [[ $1 =~ $ETX ]]; then
+        echo "=====" 1>&2
+        echo "RESET" 1>&2
+        echo "=====" 1>&2
+        return
+    fi
 
     if [[ $1 =~ $ENQ ]]; then
         echo $state
@@ -127,7 +135,7 @@ function cmd_handle {
         state=$sav
 
     else
-        echo "unknown $cmd" 1>&2
+        echo "unknown command '$cmd'" 1>&2
         echo -e $NAK
         return
     fi
