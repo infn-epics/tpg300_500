@@ -45,9 +45,11 @@ record(calcout, "${P}${R}${SENSOR}:iSetType")
   field(INPA, "${P}${R}CommsOK CP")
   field(INPB, "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP")
   field(INPC, "${P}${R}${SENSOR}:ValidR CP")
-  field(CALC, "A ? (B ? (2 * C) : 1) : 0")
-  field(VAL,  "42")
+  field(CALC, "(A?4:0)+(B?2:0)+(C?1:0)")
   field(OOPT, "On Change")
+  field(DOPT, "Use OCAL")
+  field(OCAL, "A ? (B ? (2 * C) : 1) : 0")
+  field(VAL,  "42")
   field(OUT,  "${P}${R}${SENSOR}:iSensorType-FO PP")
 }
 
@@ -62,6 +64,7 @@ record(dfanout, "${P}${R}${SENSOR}:iSensorType-FO")
 
 record(mbbi, "${P}${R}${SENSOR}:iSensorTypeR")
 {
+# TWVL and TWST are set by vac_gauge_tpg300.db
   field(ZRVL, "0")
   field(ZRST, "N/A")
 
@@ -78,6 +81,10 @@ record(stringin, "${P}${R}${SENSOR}:SensorTypeR")
 {
   field(DISP, "1")
   field(INP,  "${P}${R}${SENSOR}:iSensorTypeR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
@@ -93,6 +100,8 @@ record(scalcout, "${P}${R}${SENSOR}:iPrsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-1")
   field(CALC, "42")
 
   field(DISV, "0")
@@ -284,7 +293,7 @@ record(calcout, "${P}${R}${SENSOR}:iCtrlModeCommitS")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
 
-  field(FLNK, "${P}${R}iSensorCtrlModes-RB")
+  field(FLNK, "${P}${R}iSensorCtrlModes-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -316,9 +325,8 @@ record(mbbi, "${P}${R}${SENSOR}:CtrlModeS-ErrorR")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
 
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}${SENSOR}:ValidR")
+  field(DISV, "42")
+  field(SDIS, "${P}${R}${SENSOR}:iCtrlModeCommitS CP MSS")
 }
 
 

@@ -54,7 +54,6 @@ record(ao, "${P}${R}Rly${FUNCTION}:LowSPS")
   field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
-  field(VAL,  "1.0e-11")
 }
 
 
@@ -64,7 +63,6 @@ record(ao, "${P}${R}Rly${FUNCTION}:HighSPS")
   field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
   field(DRVH, "9.9e+3")
-  field(VAL,  "9.9e+3")
 }
 
 
@@ -117,7 +115,7 @@ record(mbbi, "${P}${R}Rly${FUNCTION}:CommitS-ErrorR")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
 
-  field(FLNK, "${P}${R}Rly${FUNCTION}:iGetR")
+  field(FLNK, "${P}${R}Rly${FUNCTION}:iGetR.PROC CA")
 
   field(DISV, "42")
   field(SDIS, "${P}${R}Rly${FUNCTION}:iCommitS CP MSS")
@@ -128,6 +126,10 @@ record(calcout, "${P}${R}Rly${FUNCTION}:iGetR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_function(${FUNCTION}) ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(FLNK, "${P}${R}Rly${FUNCTION}:iGetR-FO")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -135,35 +137,48 @@ record(calcout, "${P}${R}Rly${FUNCTION}:iGetR")
 }
 
 
+record(fanout, "${P}${R}Rly${FUNCTION}:iGetR-FO")
+{
+  field(LNK1, "${P}${R}Rly${FUNCTION}:LowSP-RB")
+  field(LNK2, "${P}${R}Rly${FUNCTION}:HighSP-RB")
+  field(LNK3, "${P}${R}Rly${FUNCTION}:Chan-RB")
+
+  field(DISV, "42")
+  field(SDIS, "${P}${R}DisconnectTrigR CP")
+}
+
+
 record(ai, "${P}${R}Rly${FUNCTION}:LowSP-RB")
 {
-  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.A CP MSS")
+  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.A MSS")
 
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(FLNK, "${P}${R}Rly${FUNCTION}:iInitLowSPS")
 
-  field(DISV, "42")
-  field(SDIS, "${P}${R}Rly${FUNCTION}:iGetR CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
 record(ai, "${P}${R}Rly${FUNCTION}:HighSP-RB")
 {
-  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.B CP MSS")
+  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.B MSS")
 
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(FLNK, "${P}${R}Rly${FUNCTION}:iInitHighSPS")
 
-  field(DISV, "42")
-  field(SDIS, "${P}${R}Rly${FUNCTION}:iGetR CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
 record(mbbi, "${P}${R}Rly${FUNCTION}:Chan-RB")
 {
-  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.C CP MSS")
+  field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.C MSS")
 
   field(ZRVL, "0")
   field(ZRST, "N/A")
@@ -180,8 +195,9 @@ record(mbbi, "${P}${R}Rly${FUNCTION}:Chan-RB")
   field(FRVL, "4")
   field(FRST, "B2")
 
-  field(DISV, "42")
-  field(SDIS, "${P}${R}Rly${FUNCTION}:iGetR CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK")
 }
 
 
@@ -217,17 +233,6 @@ record(calcout, "${P}${R}Rly${FUNCTION}:iInitHighSPS")
 }
 
 
-record(calcout, "${P}${R}Rly${FUNCTION}:iInitS")
-{
-  field(INPA, "${P}${R}Rly${FUNCTION}:iGetR MS")
-  field(OUT,  "${P}${R}Rly${FUNCTION}:iInitS-FO PP")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
-  field(IVOA, "Don't drive outputs")
-}
-
-
 record(ao, "${P}${R}Rly${FUNCTION}:iInitLowSPS-FO")
 {
   field(OMSL, "closed_loop")
@@ -241,16 +246,6 @@ record(ao, "${P}${R}Rly${FUNCTION}:iInitHighSPS-FO")
   field(OMSL, "closed_loop")
   field(DOL,  "${P}${R}Rly${FUNCTION}:HighSP-RB")
   field(OUT,  "${P}${R}Rly${FUNCTION}:HighSPS PP")
-}
-
-
-record(seq, "${P}${R}Rly${FUNCTION}:iInitS-FO")
-{
-  field(DOL1, "${P}${R}Rly${FUNCTION}:LowSP-RB")
-  field(LNK1, "${P}${R}Rly${FUNCTION}:LowSPS PP")
-
-  field(DOL2, "${P}${R}Rly${FUNCTION}:HighSP-RB")
-  field(LNK2, "${P}${R}Rly${FUNCTION}:HighSPS PP")
 }
 
 
