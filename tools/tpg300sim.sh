@@ -38,14 +38,14 @@ function cmd_handle {
 
     if [[ $1 =~ $ETX ]]; then
         echo "=====" 1>&2
-        echo "RESET" 1>&2
+        echo "`date '+%H%M%S'` RESET" 1>&2
         echo "=====" 1>&2
         return
     fi
 
     if [[ $1 =~ $ENQ ]]; then
         echo $state
-        echo "reply   $state" 1>&2
+        echo -e "\treply   $state" 1>&2
         return
     fi
 
@@ -138,14 +138,14 @@ function cmd_handle {
         state=$sav
 
     else
-        echo "unknown command '$cmd'" 1>&2
+        echo "`date '+%H%M%S'`\tunknown command '$cmd'" 1>&2
         echo -e $NAK
         return
     fi
 
     echo $ACK
 
-    echo "command $cmd" 1>&2;
+    echo -e "`date '+%H%M%S'`\tcommand $cmd" 1>&2;
 }
 
 
