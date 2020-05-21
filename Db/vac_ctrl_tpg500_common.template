@@ -1,0 +1,643 @@
+record(longin, "${P}${R}42")
+{
+  field(DESC, "42")
+  field(DISP, "1")
+  field(VAL,  "42")
+  field(PINI, "YES")
+}
+
+
+record(stringin, "${P}${R}iTPG300")
+{
+  field(DESC, "TPG300")
+  field(DISP, "1")
+  field(VAL,  "TPG300")
+  field(PINI, "YES")
+}
+
+
+record(stringin, "${P}${R}iEvent")
+{
+  field(DESC, "Event")
+  field(DISP, "1")
+  field(VAL,  "Event")
+  field(PINI, "YES")
+}
+
+
+record(stringin, "${P}${R}iPassive")
+{
+  field(DESC, "Passive")
+  field(DISP, "1")
+  field(VAL,  "Passive")
+  field(PINI, "YES")
+}
+
+
+record(scalcout, "${P}${R}iIdn")
+{
+  field(DESC, "Device identification")
+  field(DTYP, "stream")
+  field(INPE, "${P}${R}42")
+  field(OUT,  "@vac_ctrl_tpg300.proto identify_device ${ASYNPORT}")
+  field(CALC, "42")
+
+  field(FLNK, "${P}${R}iIdnChk")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}InitialCommsOK")
+}
+
+
+record(calcout, "${P}${R}iIdnChk")
+{
+  field(DESC, "Check the result of iIdn")
+  field(INPA, "${P}${R}iIdn.STAT")
+  field(INPB, "${P}${R}iIdn.SEVR")
+  field(INPE, "${P}${R}iIdn.E")
+# STAT==CALC (12) and SEVR==INVALID (3)
+  field(CALC, "(E==42&&A==12&&B==3)?1:(E==0&&A==0&&B==0)?2:0")
+  field(OUT,  "${P}${R}iTypeEnumR PP")
+}
+
+
+record(mbbi, "${P}${R}iTypeEnumR")
+{
+  field(DESC, "Controller type")
+  field(ZRVL, "0")
+  field(ZRST, "N/A")
+
+  field(ONVL, "1")
+  field(ONST, "TPG300")
+
+  field(TWVL, "2")
+  field(TWST, "TPG500")
+
+  field(FLNK, "${P}${R}iUITypeDist")
+}
+
+
+record(stringout, "${P}${R}iUITypeDist")
+{
+  field(DESC, "Bridge between iTypeEnumR and iUITypeR")
+  field(DOL,  "${P}${R}iTypeEnumR")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}iUITypeR PP")
+
+  field(FLNK, "${P}${R}iIdnSeq")
+}
+
+
+record(sseq, "${P}${R}iIdnSeq")
+{
+  field(SELL, "${P}${R}iTypeEnumR")
+  field(SELM, "Specified")
+
+  field(LNK1, "${P}${R}iTPG300Helper PP")
+
+  field(LNK2, "${P}${R}iTPG500Helper PP")
+}
+
+
+record(fanout, "${P}${R}iTPG300Helper")
+{
+  field(LNK1, "${P}${R}iTPG300RlyChan-FO")
+  field(LNK2, "${P}${R}iTPG300RlyStatSseq")
+  field(LNK3, "${P}${R}iTPG300PrsSseq")
+  field(FLNK, "${P}${R}iTPG300TypeR")
+}
+
+
+record(fanout, "${P}${R}iTPG300RlyChan-FO")
+{
+  field(LNK1, "${P}${R}Rly1:iTPG300ChanSeq")
+  field(LNK2, "${P}${R}Rly2:iTPG300ChanSeq")
+  field(LNK3, "${P}${R}Rly3:iTPG300ChanSeq")
+  field(LNK4, "${P}${R}Rly4:iTPG300ChanSeq")
+}
+
+
+record(sseq, "${P}${R}iTPG300RlyStatSseq")
+{
+  field(DOL1, "${P}${R}iEvent")
+  field(LNK1, "${P}${R}iTPG300RlyStatsR.SCAN")
+
+  field(DOL2, "${P}${R}iPassive")
+  field(LNK2, "${P}${R}iTPG500RlyStatsR.SCAN")
+}
+
+
+record(sseq, "${P}${R}iTPG300PrsSseq")
+{
+  field(DOL1, "${P}${R}iEvent")
+  field(LNK1, "${P}${R}A1:iPrsR.SCAN")
+
+  field(DOL2, "${P}${R}iEvent")
+  field(LNK2, "${P}${R}A2:iPrsR.SCAN")
+
+  field(DOL3, "${P}${R}iEvent")
+  field(LNK3, "${P}${R}B1:iPrsR.SCAN")
+
+  field(DOL4, "${P}${R}iEvent")
+  field(LNK4, "${P}${R}B2:iPrsR.SCAN")
+
+  field(DOL5, "${P}${R}iPassive")
+  field(LNK5, "${P}${R}iPrsR.SCAN")
+}
+
+
+record(stringout, "${P}${R}iTPG300TypeR")
+{
+  field(DOL,  "${P}${R}iTPG300")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}ModMain:TypeR PP")
+
+  field(FLNK, "${P}${R}iIdn-FO")
+}
+
+
+record(fanout, "${P}${R}iTPG500Helper")
+{
+  field(LNK1, "${P}${R}iIdn-FO")
+  field(LNK2, "${P}${R}iTPG500UnitSeq")
+  field(LNK3, "${P}${R}iTPG500SensFlt-FO")
+  field(LNK4, "${P}${R}iTPG500RlyChan-FO")
+  field(LNK5, "${P}${R}iTPG500RlyStatSseq")
+  field(LNK6, "${P}${R}iTPG500PrsSseq")
+}
+
+
+record(fanout, "${P}${R}iTPG500SensFlt-FO")
+{
+  field(LNK1, "${P}${R}A1:iTPG500FltSeq")
+  field(LNK2, "${P}${R}A2:iTPG500FltSeq")
+  field(LNK3, "${P}${R}B1:iTPG500FltSeq")
+  field(LNK4, "${P}${R}B2:iTPG500FltSeq")
+}
+
+
+record(fanout, "${P}${R}iTPG500RlyChan-FO")
+{
+  field(LNK1, "${P}${R}Rly1:iTPG500ChanSeq")
+  field(LNK2, "${P}${R}Rly2:iTPG500ChanSeq")
+  field(LNK3, "${P}${R}Rly3:iTPG500ChanSeq")
+  field(LNK4, "${P}${R}Rly4:iTPG500ChanSeq")
+}
+
+
+record(sseq, "${P}${R}iTPG500RlyStatSseq")
+{
+  field(DOL1, "${P}${R}iPassive")
+  field(LNK1, "${P}${R}iTPG300RlyStatsR.SCAN")
+
+  field(DOL2, "${P}${R}iEvent")
+  field(LNK2, "${P}${R}iTPG500RlyStatsR.SCAN")
+}
+
+
+record(sseq, "${P}${R}iTPG500PrsSseq")
+{
+  field(DOL1, "${P}${R}iPassive")
+  field(LNK1, "${P}${R}A1:iPrsR.SCAN")
+
+  field(DOL2, "${P}${R}iPassive")
+  field(LNK2, "${P}${R}A2:iPrsR.SCAN")
+
+  field(DOL3, "${P}${R}iPassive")
+  field(LNK3, "${P}${R}B1:iPrsR.SCAN")
+
+  field(DOL4, "${P}${R}iPassive")
+  field(LNK4, "${P}${R}B2:iPrsR.SCAN")
+
+  field(DOL5, "${P}${R}iEvent")
+  field(LNK5, "${P}${R}iPrsR.SCAN")
+}
+
+
+record(seq, "${P}${R}iTPG500UnitSeq")
+{
+  field(DESC, "Update the UnitS mbbo")
+
+  field(DO1,  "0")
+  field(LNK1, "${P}${R}UnitS.ZRVL")
+
+  field(DO2,  "1")
+  field(LNK2, "${P}${R}UnitS.ONVL")
+
+  field(DO3,  "2")
+  field(LNK3, "${P}${R}UnitS.TWVL")
+
+  field(DO4,  "3")
+  field(LNK4, "${P}${R}UnitS.THVL")
+
+  field(DO5,  "4")
+  field(LNK5, "${P}${R}UnitS.FRVL")
+
+  field(DO6,  "5")
+  field(LNK6, "${P}${R}UnitS.FVVL")
+
+  field(DO7,  "6")
+  field(LNK7, "${P}${R}UnitS.SXVL")
+
+  field(FLNK, "${P}${R}iTPG500UnitSseq")
+}
+
+
+record(sseq, "${P}${R}iTPG500UnitSseq")
+{
+  field(DESC, "Update the UnitS mbbo")
+
+  field(STR1, "hPa")
+  field(LNK1, "${P}${R}UnitS.ZRST")
+
+  field(STR2, "mBar")
+  field(LNK2, "${P}${R}UnitS.ONST")
+
+  field(STR3, "Torr")
+  field(LNK3, "${P}${R}UnitS.TWST")
+
+  field(STR4, "Pa")
+  field(LNK4, "${P}${R}UnitS.THST")
+
+  field(STR5, "Micron")
+  field(LNK5, "${P}${R}UnitS.FRST")
+
+  field(STR6, "V")
+  field(LNK6, "${P}${R}UnitS.FVST")
+
+  field(STR7, "A")
+  field(LNK7, "${P}${R}UnitS.SXST")
+}
+
+
+record(fanout, "${P}${R}iIdn-FO")
+{
+field(TPRO, "1")
+  field(LNK1, "${P}${R}i500CommsOKCalc")
+  field(LNK2, "${P}${R}iMainTypeDist")
+  field(LNK3, "${P}${R}PartNrR")
+  field(LNK4, "${P}${R}SerNumR")
+  field(LNK5, "${P}${R}HWVerR")
+}
+
+
+record(calcout, "${P}${R}i500CommsOKCalc")
+{
+field(TPRO, "1")
+  field(INPA, "${P}${R}iTypeEnumR")
+  field(INPB, "${P}${R}InitialCommsOK")
+  field(CALC, "A==2&&B")
+  field(OUT,  "${P}${R}TPG500CommsOK PP")
+
+  field(DISV, "42")
+  field(SDIS, "${P}${R}DisconnectTrigR CP")
+}
+
+
+record(bi, "${P}${R}TPG500CommsOK")
+{
+# This PV is used to DISABLE input and output PVs that belong to TPG500
+  field(ZNAM, "Not TPG500")
+  field(ONAM, "TGP500")
+  field(ZSV,  "MINOR")
+}
+
+
+record(stringout, "${P}${R}iMainTypeDist")
+{
+  field(DESC, "Bridge between iIdn.AA and ModMain:TypeR")
+  field(DOL,  "${P}${R}iIdn.AA MSS")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}ModMain:TypeR PP MSS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(stringin, "${P}${R}PartNrR")
+{
+  field(DESC, "Part number")
+  field(INP,  "${P}${R}iIdn.BB")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(stringin, "${P}${R}SerNumR")
+{
+  alias("${P}${R}ModMain:SerNumR")
+  field(DESC, "Serial number")
+  field(INP,  "${P}${R}iIdn.CC")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(stringin, "${P}${R}HWVerR")
+{
+  alias("${P}${R}ModMain:HWVerR")
+  field(DESC, "Hardware version")
+  field(INP,  "${P}${R}iIdn.EE")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(ai, "${P}${R}CtrlTempR")
+{
+  field(DESC, "Controller temperature")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_temp() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-10")
+
+  field(EGU,  "C")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(ai, "${P}${R}BatVoltR")
+{
+  field(DESC, "Battery voltage")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_bat_voltage() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(EGU,  "mV")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(ai, "${P}${R}OperTimR")
+{
+  field(DESC, "Operating hours")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_oper_tim() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(EGU,  "h")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(stringin, "${P}${R}RecalibDateR")
+{
+  field(DESC, "Due date of next recalibration")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_recalibration_due_date() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(mbbi, "${P}${R}RlyErr:Mode-RB")
+{
+  field(DESC, "Error relay assignment")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_error_relay_assignment() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(ZRVL, "0")
+  field(ZRST, "On All Errors")
+
+  field(ONVL, "1")
+  field(ONST, "Only On Device Errors")
+
+  field(TWVL, "2")
+  field(TWST, "A1 and On Device Errors")
+
+  field(THVL, "3")
+  field(THST, "A2 and On Device Errors")
+
+  field(FRVL, "4")
+  field(FRST, "B1 and On Device Errors")
+
+  field(FVVL, "5")
+  field(FVST, "B2 and On Device Errors")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(mbbo, "${P}${R}RlyErr:ModeS")
+{
+  field(DESC, "Error relay assignment")
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_error_relay_assignment() ${ASYNPORT}")
+
+  field(ZRVL, "0")
+  field(ZRST, "On All Errors")
+
+  field(ONVL, "1")
+  field(ONST, "Only On Device Errors")
+
+  field(TWVL, "2")
+  field(TWST, "A1 and On Device Errors")
+
+  field(THVL, "3")
+  field(THST, "A2 and On Device Errors")
+
+  field(FRVL, "4")
+  field(FRST, "B1 and On Device Errors")
+
+  field(FVVL, "5")
+  field(FVST, "B2 and On Device Errors")
+
+  field(FLNK, "${P}${R}RlyErr:Mode-RB.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(mbbi, "${P}${R}AOMode-RB")
+{
+  field(DESC, "Analog output mode")
+  field(DTYP, "stream")
+  field(INP,  "@vac_ctrl_tpg300.proto get_ao_mode() ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(ZRVL, "0")
+  field(ZRST, "Off")
+
+  field(ONVL, "1")
+  field(ONST, "0..5V")
+
+  field(TWVL, "2")
+  field(TWST, "0..10V")
+
+  field(THVL, "3")
+  field(THST, "4-20mA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(mbbo, "${P}${R}AOModeS")
+{
+  field(DESC, "Analog output mode")
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_ao_mode() ${ASYNPORT}")
+
+  field(ZRVL, "0")
+  field(ZRST, "Off")
+
+  field(ONVL, "1")
+  field(ONST, "0..5V")
+
+  field(TWVL, "2")
+  field(TWST, "0..10V")
+
+  field(THVL, "3")
+  field(THST, "4-20mA")
+
+  field(FLNK, "${P}${R}AOMode-RB.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(scalcout, "${P}${R}iSensorNames-RB")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_gauge_names() ${ASYNPORT}")
+  field(CALC, "42")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-RB")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(scalcout, "${P}${R}SensorNamesS")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_gauge_names() ${ASYNPORT}")
+  field(CALC, "42")
+
+  field(INPA, "${P}${R}A1:NameS")
+  field(INPB, "${P}${R}A2:NameS")
+  field(INPC, "${P}${R}B1:NameS")
+  field(INPD, "${P}${R}B2:NameS")
+
+  field(FLNK, "${P}${R}iSensorFltTims-RB.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(mbbi, "${P}${R}SensorNamesS-ErrorR")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "${P}${R}SensorNamesS.E CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+
+  field(DISV, "42")
+  field(SDIS, "${P}${R}SensorNamesS CP MSS")
+}
+
+
+record(fanout, "${P}${R}iConnect-Names-FO")
+{
+  field(LNK1, "${P}${R}A1:iConnect-Name-FO")
+  field(LNK2, "${P}${R}A2:iConnect-Name-FO")
+  field(LNK3, "${P}${R}B1:iConnect-Name-FO")
+  field(LNK4, "${P}${R}B2:iConnect-Name-FO")
+}
+
+
+record(calcout, "${P}${R}iTPG500RlyStatsR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat_tpg500() ${ASYNPORT}")
+# Set by iTPG500RlyStatSseq
+#  field(SCAN, "Event")
+  field(EVNT, "${P}-1")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}TPG500CommsOK")
+}
+
+
+record(sel, "${P}${R}RlyCommsOK")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}${R}iTypeEnumR")
+
+  field(INPA, "0")
+  field(INPB, "${P}${R}CommsOK CP")
+  field(INPC, "${P}${R}TPG500CommsOK CP")
+}
+
+
+record(scalcout, "${P}${R}:iPrsR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_pressures ${ASYNPORT}")
+# Set by iTPG500PrsSseq
+#  field(SCAN, "Event")
+  field(EVNT, "${P}-1")
+  field(CALC, "42")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+

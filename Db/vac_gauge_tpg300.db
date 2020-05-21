@@ -47,3 +47,5 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
   field(TWST, "${GAUGE}")
   field(TWVL, "2")
 }
+
+include "vac_gauge_tpg500.db"

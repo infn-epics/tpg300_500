@@ -7,6 +7,9 @@
 OutTerminator = LF;
 InTerminator  = CR LF;
 
+ReplyTimeout = 5000;
+ReadTimeout  = 2500;
+
 # Larger LockTimeout due to increased ReplyTimeout in set_save_params protocol.
 LockTimeout = 10000;
 
@@ -428,7 +431,7 @@ set_filter {
 
 
 ################################################################################
-# Get switching function thresholds and assingment
+# Get switching function thresholds and assignment
 # Protocol arguments:
 #  1. Function number: 1, 2, 3, 4, A, B
 # PV: calcout
@@ -446,7 +449,7 @@ get_function {
 
 
 ################################################################################
-# Set switching function thresholds and assingment
+# Set switching function thresholds and assignment
 # Protocol arguments:
 #  1. Function number: 1, 2, 3, 4, A, B
 # PV: calcout
@@ -471,7 +474,7 @@ set_function {
 
 
 ################################################################################
-# Get switching function status
+# Get switching function status. TPG300 only!
 # PV: calcout
 #  A: Switching function 1
 #  B: Switching function 2
@@ -489,4 +492,219 @@ get_func_stat {
         "%(D)d,"
         "%(E)d,"
         "%(F)d";
+}
+
+
+
+################################################################################
+################################################################################
+##
+## Protocols specific for Pfeiffer TPG-500 gauge controller
+##
+################################################################################
+################################################################################
+
+
+################################################################################
+# Get device identification strings
+# PV: scalcout
+#  AA: Device type
+#  BB: Article number / Part number
+#  CC: Serial number
+#  DD: Firmware version (the same as get_version())
+#  EE: Hardware version
+#   E: is special. It is set to 42 by EPICS and will be reset to zero on error
+################################################################################
+identify_device {
+    out "AYT";
+    enquery_with_error_reset;
+    in  "%(AA)[^,],"
+        "%(BB)[^,],"
+        "%(CC)[^,],"
+        "%(DD)[^,],"
+        "%(EE)[^,]";
+}
+
+
+################################################################################
+# Get device temperature
+# PV: ai
+# EGU: C
+################################################################################
+get_temp {
+    out "TMP";
+    enquery;
+    in  "%E";
+}
+
+
+################################################################################
+# Get battery voltage
+# PV: ai
+# EGU: mV
+################################################################################
+get_bat_voltage {
+    out "VBT";
+    enquery;
+    in  "%E";
+}
+
+
+################################################################################
+# Get operating hours
+# PV: ai
+# EGU: h
+################################################################################
+get_oper_tim {
+    out "RHR";
+    enquery;
+    in  "%E";
+}
+
+
+################################################################################
+# Get due date of next recalibration
+# PV: stringin
+################################################################################
+get_recalibration_due_date {
+    out "CDA";
+    enquery;
+    in  "%s";
+}
+
+
+################################################################################
+# Get error relay assignment
+# PV: mbbi
+################################################################################
+get_error_relay_assignment {
+    out "ERA";
+    enquery;
+    in  "%d";
+}
+
+
+################################################################################
+# Set error relay assignment
+# PV: mbbo
+################################################################################
+set_error_relay_assignment {
+    out "ERA,%d";
+    enquery;
+    in  "%*d";
+}
+
+
+################################################################################
+# Get analog output mode
+# PV: mbbi
+################################################################################
+get_ao_mode {
+    out "AOM";
+    enquery;
+    in  "%d";
+}
+
+
+################################################################################
+# Set analog output mode
+# PV: mbbo
+################################################################################
+set_ao_mode {
+    out "AOM,%d";
+    enquery;
+    in  "%*d";
+}
+
+
+################################################################################
+# Get gauge names
+# PV: scalcout
+#  AA: Gauge on A1
+#  BB: Gauge on A2
+#  CC: Gauge on B1
+#  DD: Gauge on B2
+################################################################################
+get_gauge_names {
+    out "CID";
+    enquery;
+    in  "%(AA)[^,],"
+        "%(BB)[^,],"
+        "%(CC)[^,],"
+        "%(DD)[^,]";
+}
+
+
+################################################################################
+# Set gauge names
+# PV: scalcout
+#  AA: Gauge on A1
+#  BB: Gauge on A2
+#  CC: Gauge on B1
+#  DD: Gauge on B2
+#   E: error code
+################################################################################
+set_gauge_names {
+    out "CID,"
+        "%(AA)s,"
+        "%(BB)s,"
+        "%(CC)s,"
+        "%(DD)s";
+    enquery_with_error_reset;
+    in  "%*[^,],"
+        "%*[^,],"
+        "%*[^,],"
+        "%*[^,]";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
+}
+
+
+################################################################################
+# Get switching function status of TPG500
+# PV: calcout
+#  A: Switching function 1
+#  B: Switching function 2
+#  C: Switching function 3
+#  D: Switching function 4
+################################################################################
+get_func_stat_tpg500 {
+    out "SPS";
+    enquery;
+    in  "%(A)d,"
+        "%(B)d,"
+        "%(C)d,"
+        "%(D)d";
+}
+
+
+################################################################################
+# Get pressure values from all gauges
+# PV: scalcout
+#   A: status of gauge A1
+#  AA: pressure of gauge A1
+#   B: status of gauge A2
+#  BB: pressure of gauge A2
+#   C: status of gauge B1
+#  CC: pressure of gauge B1
+#   D: status of gauge B2
+#  DD: pressure of gauge B2
+################################################################################
+get_pressures {
+    out "PRX";
+    enquery_with_error_reset;
+    in  "%(A)d,%(AA)[^,],"
+        "%(B)d,%(BB)[^,],"
+        "%(C)d,%(CC)[^,],"
+        "%(D)d,%(DD)";
+
+    @mismatch {
+        in  NAK;
+        out ENQ;
+        in  "%(E)d";
+    }
 }

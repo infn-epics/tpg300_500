@@ -1,0 +1,22 @@
+alias("${CONTROLLERNAME}${R}${SENSOR}:Name-RB",          "${P}${R}Name-RB")
+
+alias("${CONTROLLERNAME}${R}${SENSOR}:NameS",            "${P}${R}NameS")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:SensorTypeR",      "${P}${R}SensorTypeR")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR",             "${P}${R}PrsR")
+#alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR-STR",         "${P}${R}PrsR-STR")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:PrsStatR",         "${P}${R}PrsStatR")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:GaugeStatR",       "${P}${R}GaugeStatR")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS",        "${P}${R}CtrlModeS")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS-ErrorR", "${P}${R}CtrlModeS-ErrorR")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlMode-RB",      "${P}${R}CtrlMode-RB")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:FltTimS",          "${P}${R}FltTimS")
+
+#alias("${CONTROLLERNAME}${R}${SENSOR}:FltTim-RB",        "${P}${R}FltTim-RB")

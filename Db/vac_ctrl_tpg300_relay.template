@@ -181,7 +181,7 @@ record(mbbi, "${P}${R}Rly${FUNCTION}:Chan-RB")
   field(INP,  "${P}${R}Rly${FUNCTION}:iGetR.C MSS")
 
   field(ZRVL, "0")
-  field(ZRST, "N/A")
+  field(ZRST, "None")
 
   field(ONVL, "1")
   field(ONST, "A1")
@@ -249,13 +249,58 @@ record(ao, "${P}${R}Rly${FUNCTION}:iInitHighSPS-FO")
 }
 
 
+record(sel, "${P}${R}Rly${FUNCTION}:iStatR")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}${R}iTypeEnumR")
+
+  field(INPB, "${P}${R}iTPG300RlyStatsR.${SOURCE} CP MSS")
+  field(INPC, "${P}${R}iTPG500RlyStatsR.${SOURCE} CP MSS")
+}
+
+
 record(bi, "${P}${R}Rly${FUNCTION}:StatR")
 {
-  field(INP,  "${P}${R}iRlyStatsR.${SOURCE} CP MSS")
+  field(INP,  "${P}${R}Rly${FUNCTION}:iStatR CP MSS")
 
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 
-  field(DISV, "42")
-  field(SDIS, "${P}${R}iRlyStatsR CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}RlyCommsOK CP")
+}
+
+
+record(seq, "${P}${R}Rly${FUNCTION}:iTPG300ChanSeq")
+{
+  field(DO1,  "5")
+  field(LNK1, "${P}${R}Rly${FUNCTION}:Chan-RB.FVVL")
+
+  field(DO2,  "6")
+  field(LNK2, "${P}${R}Rly${FUNCTION}:Chan-RB.SXVL")
+
+  field(DO3,  "7")
+  field(LNK3, "${P}${R}Rly${FUNCTION}:Chan-RB.SVVL")
+
+  field(DO4,  "8")
+  field(LNK4, "${P}${R}Rly${FUNCTION}:Chan-RB.EIVL")
+
+  field(FLNK, "${P}${R}Rly${FUNCTION}:iTPG300ChanSseq")
+}
+
+
+record(sseq, "${P}${R}Rly${FUNCTION}:iTPG300ChanSseq")
+{
+  field(STR1, "A1*")
+  field(LNK1, "${P}${R}Rly${FUNCTION}:Chan-RB.FVST")
+
+  field(STR2, "A2*")
+  field(LNK2, "${P}${R}Rly${FUNCTION}:Chan-RB.SXST")
+
+  field(STR3, "B1*")
+  field(LNK3, "${P}${R}Rly${FUNCTION}:Chan-RB.SVST")
+
+  field(STR4, "B2*")
+  field(LNK4, "${P}${R}Rly${FUNCTION}:Chan-RB.EIST")
 }

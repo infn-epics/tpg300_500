@@ -1,8 +1,15 @@
+record(stringin, "${P}${R}ModMain:TypeR")
+{
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK CP")
+}
+
+
 record(stringin, "${P}${R}iUITypeR")
 {
-  alias("${P}${R}ModMain:TypeR")
   field(PINI, "YES")
-  field(VAL,  "TPG-300")
+  field(VAL,  "TPG300")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -195,14 +202,28 @@ record(mbbi, "${P}${R}Unit-RB")
   field(SCAN, "Event")
   field(EVNT, "${P}-10")
 
-  field(ZRVL, "1")
-  field(ZRST, "mBar")
+# This is TPG500 specific
+  field(ZRVL, "0")
+  field(ZRST, "hPa")
 
-  field(ONVL, "2")
-  field(ONST, "Torr")
+  field(ONVL, "1")
+  field(ONST, "mBar")
 
-  field(TWVL, "3")
-  field(TWST, "Pa")
+  field(TWVL, "2")
+  field(TWST, "Torr")
+
+  field(THVL, "3")
+  field(THST, "Pa")
+
+# These are TPG500 specific
+  field(FRVL, "4")
+  field(FRST, "Micron")
+
+  field(FVVL, "5")
+  field(FVST, "V")
+
+  field(SXVL, "6")
+  field(SXST, "A")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -397,11 +418,12 @@ record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
 }
 
 
-record(calcout, "${P}${R}iRlyStatsR")
+record(calcout, "${P}${R}iTPG300RlyStatsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() ${ASYNPORT}")
-  field(SCAN, "Event")
+# Set by iTPG300RlyStatSseq
+#  field(SCAN, "Event")
   field(EVNT, "${P}-1")
 
   field(DISV, "0")
@@ -428,8 +450,6 @@ record(fanout, "${P}${R}iConnect-Rlys-FO")
   field(LNK2, "${P}${R}Rly2:iConnect-FO")
   field(LNK3, "${P}${R}Rly3:iConnect-FO")
   field(LNK4, "${P}${R}Rly4:iConnect-FO")
-  field(LNK5, "${P}${R}RlyA:iConnect-FO")
-  field(LNK6, "${P}${R}RlyB:iConnect-FO")
 }
 
 
@@ -586,6 +606,8 @@ record(fanout, "${P}${R}iInitialCommsOK-FO")
 # Can be used to trigger inital setup
   field(LNK1, "${P}${R}iConnect-FltTims-FO")
   field(LNK2, "${P}${R}iConnect-Rlys-FO")
+  field(LNK3, "${P}${R}iConnect-Names-FO")
+  field(LNK4, "${P}${R}iIdn")
 
   field(FLNK, "${P}${R}iCommsOK")
 }

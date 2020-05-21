@@ -100,7 +100,8 @@ record(scalcout, "${P}${R}${SENSOR}:iPrsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
-  field(SCAN, "Event")
+# Set by iTPG300PrsSseq
+#  field(SCAN, "Event")
   field(EVNT, "${P}-1")
   field(CALC, "42")
 
@@ -370,14 +371,22 @@ record(mbbi, "${P}${R}${SENSOR}:FltTim-RB")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${P}${R}iSensorFltTims-RB.${SOURCE} CP MSS")
 
-  field(ZRVL, "1")
-  field(ZRST, "FAST")
+# The entries in Hz are TPG500 specific, the entries in ms are from TPG300
+# The ms entries are changed to Hz entries by iTPG500FltSseq
+  field(ZRVL, "0")
+  field(ZRST, "1000 Hz")
 
-  field(ONVL, "2")
-  field(ONST, "MEDIUM")
+  field(ONVL, "1")
+  field(ONST, "16 ms")
 
-  field(TWVL, "3")
-  field(TWST, "SLOW")
+  field(TWVL, "2")
+  field(TWST, "160 ms")
+
+  field(THVL, "3")
+  field(THST, "1600 ms")
+
+  field(FRVL, "4")
+  field(FRST, "0.1 Hz")
 
   field(FLNK, "${P}${R}${SENSOR}:iFltTimInit")
 
@@ -392,13 +401,13 @@ record(mbbo, "${P}${R}${SENSOR}:FltTimS")
   field(DTYP, "Raw Soft Channel")
 
   field(ZRVL, "1")
-  field(ZRST, "FAST")
+  field(ZRST, "16 ms")
 
   field(ONVL, "2")
-  field(ONST, "MEDIUM")
+  field(ONST, "160 ms")
 
   field(TWVL, "3")
-  field(TWST, "SLOW")
+  field(TWST, "1600 ms")
 
 # Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
   field(FLNK, "${P}${R}${SENSOR}:FltTimCommitS")
