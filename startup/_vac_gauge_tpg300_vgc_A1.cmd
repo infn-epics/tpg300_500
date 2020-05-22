@@ -6,4 +6,4 @@
 # @type STRING
 # Name of the head unit
 
-requireSnippet(_vac_gauge_tpg300_vgc_internal.cmd, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = A1, RELAY1 = 1, RELAY2 = 2")
+requireSnippet(_vac_gauge_tpg300_vgc_internal.cmd, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = A1, SOURCE = A, RELAY1 = 1, RELAY2 = 2")

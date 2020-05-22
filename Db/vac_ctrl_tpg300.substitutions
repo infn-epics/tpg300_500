@@ -7,22 +7,20 @@ file vac_ctrl_tpg300_common.template
 
 file vac_ctrl_tpg300_sensor.template
 {
-	pattern { SENSOR,  SLOT,  SOURCE,  EGU }
+	pattern { SENSOR,  SLOT,  SOURCE }
 
-		{ A1,      A,     A,       mBar }
-		{ A2,      A,     B,       mBar }
-		{ B1,      B,     C,       mBar }
-		{ B2,      B,     D,       mBar }
+		{ A1,      A,     A }
+		{ A2,      A,     B }
+		{ B1,      B,     C }
+		{ B2,      B,     D }
 }
 
 file vac_ctrl_tpg300_relay.template
 {
-	pattern { FUNCTION,  SOURCE,  EGU }
+	pattern { FUNCTION }
 
-		{ 1,         A,       mBar }
-		{ 2,         B,       mBar }
-		{ 3,         C,       mBar }
-		{ 4,         D,       mBar }
-		{ A,         E,       mBar }
-		{ B,         F,       mBar }
+		{ 1 }
+		{ 2 }
+		{ 3 }
+		{ 4 }
 }

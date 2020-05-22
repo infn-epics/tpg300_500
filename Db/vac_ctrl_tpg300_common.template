@@ -289,54 +289,6 @@ record(calcout, "${P}${R}iSensorCtrlModes-RB")
 }
 
 
-record(calcout, "${P}${R}SensorCtrlModesS")
-{
-  field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_modes() ${ASYNPORT}")
-
-  field(INPA, "${P}${R}A1:CtrlModeS")
-  field(INPB, "${P}${R}A2:CtrlModeS")
-  field(INPC, "${P}${R}B1:CtrlModeS")
-  field(INPD, "${P}${R}B2:CtrlModeS")
-
-  field(FLNK, "${P}${R}iSensorCtrlModes-RB.PROC CA")
-
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
-}
-
-
-record(mbbi, "${P}${R}SensorCtrlModesS-ErrorR")
-{
-  field(DTYP, "Raw Soft Channel")
-  field(INP,  "${P}${R}SensorCtrlModesS.E CP MSS")
-
-  field(ZRVL, "0")
-  field(ZRST, "NO ERROR")
-
-  field(ONVL, "1")
-  field(ONST, "SYNTAX ERROR")
-  field(ONSV, "MAJOR")
-
-  field(TWVL, "10")
-  field(TWST, "INVALID PARAMETER")
-  field(TWSV, "MAJOR")
-
-  field(THVL, "100")
-  field(THST, "NO HARDWARE")
-  field(THSV, "MAJOR")
-
-  field(FRVL, "1000")
-  field(FRST, "TPG ERROR")
-  field(FRSV, "MAJOR")
-
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
-}
-
-
 record(calcout, "${P}${R}iSensorFltTims-RB")
 {
   field(DTYP, "stream")
@@ -368,10 +320,28 @@ record(calcout, "${P}${R}SensorFltTimsS")
 }
 
 
+record(calc, "${P}${R}iSensorFltTimsStat")
+{
+  field(INPA, "${P}${R}SensorFltTimsS.STAT")
+# CALC_ALARM == 12
+  field(CALC, "A==12")
+}
+
+
+record(sel, "${P}${R}iSensorFltTimError")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}${R}iSensorFltTimsStat PP")
+
+  field(INPA, "${P}${R}SensorFltTimsS.E CP MSS")
+  field(INPB, "${P}${R}SensorFltTimsS.E")
+}
+
+
 record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${P}${R}SensorFltTimsS.E CP MSS")
+  field(INP,  "${P}${R}iSensorFltTimError CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -392,8 +362,9 @@ record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
   field(FRST, "TPG ERROR")
   field(FRSV, "MAJOR")
 
-  field(DISV, "42")
-  field(SDIS, "${P}${R}SensorFltTimsS CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}CommsOK CP")
 }
 
 
@@ -428,8 +399,6 @@ record(fanout, "${P}${R}iConnect-Rlys-FO")
   field(LNK2, "${P}${R}Rly2:iConnect-FO")
   field(LNK3, "${P}${R}Rly3:iConnect-FO")
   field(LNK4, "${P}${R}Rly4:iConnect-FO")
-  field(LNK5, "${P}${R}RlyA:iConnect-FO")
-  field(LNK6, "${P}${R}RlyB:iConnect-FO")
 }
 
 

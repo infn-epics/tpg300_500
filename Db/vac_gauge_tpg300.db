@@ -1,21 +1,316 @@
-alias("${CONTROLLERNAME}${R}${SENSOR}:ValidR",           "${P}${R}ValidR")
+################################################################################
+# Database for TPG gauges for
+# TPG300 Gauge Controller
+# CONTROLLERNAME = devicename of the TPG controller
+# SENSOR         = devicename of the gauge
+# CHANNEL        = the channel of the gauge
+# SOURCE         = the calcout field this gauge is assigned to
+################################################################################
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:ChanR",            "${P}${R}ChanR")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:SensorTypeR",      "${P}${R}SensorTypeR")
+record(stringin, "${P}${R}ChanR")
+{
+  field(DESC, "The channel this gauge is connected to")
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(VAL,  "${SENSOR}")
+}
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR",             "${P}${R}PrsR")
-alias("${CONTROLLERNAME}${R}${SENSOR}:PrsR-STR",         "${P}${R}PrsR-STR")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:PrsStatR",         "${P}${R}PrsStatR")
+record(bi, "${P}${R}ValidR")
+{
+  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}:ValidR CP")
+  field(ZNAM, "Incorrect Gauge Type")
+  field(ONAM, "Correct Gauge Type")
+  field(ZSV,  "MAJOR")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:GaugeStatR",       "${P}${R}GaugeStatR")
+  field(FLNK, "${P}${R}iDisconnectTrigR")
+}
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS",        "${P}${R}CtrlModeS")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlModeS-ErrorR", "${P}${R}CtrlModeS-ErrorR")
+record(calcout, "${P}${R}iDisconnectTrigR")
+{
+  field(DESC, "Trigger DisconnectTrigR when ! valid")
+  field(INPA, "${P}${R}ValidR")
+  field(INPB, "${P}${R}DisconnectTrigR")
+  field(CALC, "A?0:(B<10?B+1:1)")
+  field(OOPT, "When Non-zero")
+  field(OUT,  "${P}${R}DisconnectTrigR PP")
+}
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:CtrlMode-RB",      "${P}${R}CtrlMode-RB")
+
+record(longin, "${P}${R}DisconnectTrigR")
+{
+# This PV is a special ValidR: it changes value when a disconnect occurs
+  field(DESC, "PV is processed on disconnects")
+}
+
+
+record(stringin, "${P}${R}SensorTypeR")
+{
+  field(DISP, "1")
+  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${CONTROLLERNAME}${R}CommsOK")
+}
+
+
+record(scalcout, "${P}${R}iPrsR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${CONTROLLERNAME}-1")
+  field(CALC, "42")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(stringout, "${P}${R}iUnitChanged")
+{
+  field(DOL,  "${CONTROLLERNAME}${R}Unit-RB CPP")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}PrsR.EGU NPP")
+}
+
+
+record(ai, "${P}${R}PrsR")
+{
+  field(INP,  "${P}${R}iPrsR.BB CP MSS")
+  field(PREC, "2")
+  field(EGU,  "${EGU=mBar}")
+
+  field(DISV, "-1")
+  field(SDIS, "${P}${R}PrsStatR CP MSS")
+}
+
+
+record(scalcout, "${P}${R}iPrsR-STR")
+{
+  field(INPA, "${P}${R}GaugeStatR CP")
+  field(INAA, "${P}${R}GaugeStatR")
+  field(INBB, "${P}${R}iPrsR.BB CP")
+  field(CALC, "A?AA:BB")
+  field(OUT,  "${P}${R}PrsR-STR PP")
+}
+
+
+record(stringin, "${P}${R}PrsR-STR")
+{
+  field(DISV, "-1")
+  field(SDIS, "${P}${R}PrsStatR CP MSS")
+}
+
+
+record(mbbi, "${P}${R}GaugeStatR")
+{
+  field(INP,  "${P}${R}iPrsR.A CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "DATA OK")
+
+  field(ONVL, "1")
+  field(ONST, "UNDERRANGE")
+
+  field(TWVL, "2")
+  field(TWST, "OVERRANGE")
+
+  field(THVL, "3")
+  field(THST, "MEASUREMENT CIRCUIT ERROR")
+
+  field(FRVL, "4")
+  field(FRST, "MEASUREMENT CIRCUIT OFF")
+
+  field(FVVL, "5")
+  field(FVST, "NO HARDWARE")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(calc, "${P}${R}iCalcStat")
+{
+# Increase GaugeStat value if INVALID
+  field(INPA, "${P}${R}GaugeStatR CP")
+  field(INPB, "${P}${R}GaugeStatR.SEVR")
+  # SEVR == INVALID
+  field(CALC, "C:=(B==3 ? 0 : A + 1);C")
+}
+
+
+record(mbbo, "${P}${R}iPrsStatS")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(DOL,  "${P}${R}iCalcStat CP MSS")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}PrsStatR MSS PP")
+
+  # INVALID
+  #  -  0
+  field(ZRVL, "0")
+
+  # ON:
+  #  -  1 -- DATA OK
+  field(ONVL, "1")
+
+  # OFF:
+  #  -  5 -- MEASUREMENT CIRCUIT OFF
+  field(FVVL, "2")
+
+  # ERROR:
+  #  -  4 -- MEASUREMENT CIRCUIT ERROR
+  #  -  6 -- NO HARDWARE
+  field(FRVL, "3")
+  field(SXVL, "3")
+
+  # OVER-RANGE:
+  #  -  3 -- OVERRANGE
+  field(THVL, "4")
+
+  # UNDER-RANGE:
+  #  -  2 -- UNDERRANGE
+  field(TWVL, "5")
+}
+
+
+record(mbbi, "${P}${R}PrsStatR")
+{
+  field(DESC, "Status of channel ${SENSOR}")
+
+  field(ZRVL, "0")
+  field(ZRST, "INVALID")
+
+  field(ONVL, "1")
+  field(ONST, "ON")
+
+  field(TWVL, "2")
+  field(TWST, "OFF")
+
+  field(THVL, "3")
+  field(THST, "ERROR")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "4")
+  field(FRST, "OVER-RANGE")
+
+  field(FVVL, "5")
+  field(FVST, "UNDER-RANGE")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(mbbi, "${P}${R}CtrlMode-RB")
+{
+  field(INP,  "${CONTROLLERNAME}${R}iSensorCtrlModes-RB.${SOURCE} CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "NO SENSOR")
+
+  field(ONVL, "1")
+  field(ONST, "OFF")
+
+  field(TWVL, "2")
+  field(TWST, "AUTO")
+
+  field(THVL, "3")
+  field(THST, "ON")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(mbbo, "${P}${R}CtrlModeS")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(OUT,  "${P}${R}iCtrlModeCommitS.A PP")
+
+  field(ZRVL, "1")
+  field(ZRST, "OFF")
+
+  field(ONVL, "2")
+  field(ONST, "AUTO")
+
+  field(TWVL, "3")
+  field(TWST, "ON")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(calcout, "${P}${R}iCtrlModeCommitS")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
+
+  field(FLNK, "${CONTROLLERNAME}${R}iSensorCtrlModes-RB.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(calc, "${P}${R}iCtrlModeCommitStat")
+{
+  field(INPA, "${P}${R}iCtrlModeCommitS.STAT")
+# CALC_ALARM == 12
+  field(CALC, "A==12")
+}
+
+
+record(sel, "${P}${R}iCtrlModeError")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}${R}iCtrlModeCommitStat PP")
+
+  field(INPA, "${P}${R}iCtrlModeCommitS.E CP MSS")
+  field(INPB, "${P}${R}iCtrlModeCommitS.E")
+}
+
+
+record(mbbi, "${P}${R}CtrlModeS-ErrorR")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "${P}${R}iCtrlModeError CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
 
 alias("${CONTROLLERNAME}${R}${SENSOR}:FltTimS",          "${P}${R}FltTimS")
 
@@ -24,6 +319,7 @@ alias("${CONTROLLERNAME}${R}${SENSOR}:FltTim-RB",        "${P}${R}FltTim-RB")
 
 record("*", "${CONTROLLERNAME}${R}${SENSOR}:DevNameR")
 {
+  alias("${P}${R}DevNameR")
   field(PINI, "YES")
   field(VAL,  "${P}")
 }
@@ -31,6 +327,7 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:DevNameR")
 
 record("*", "${CONTROLLERNAME}${R}${SENSOR}:NumOfRlysR")
 {
+  alias("${P}${R}NumOfRlysR")
   field(VAL,  "2")
   field(PINI, "YES")
 }
@@ -46,4 +343,10 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
 {
   field(TWST, "${GAUGE}")
   field(TWVL, "2")
+}
+
+
+record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorType-FO")
+{
+  field(OUTC, "${P}${R}SensorTypeR.PROC")
 }

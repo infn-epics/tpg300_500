@@ -2,34 +2,25 @@
 # Database for TPG gauge relays for
 # TPG300 Gauge Controller
 # CONTROLLERNAME = devicename of the TPG controller
-# GAUGE          = devicename of the gauge
 # CHANNEL        = the channel of the gauge
 # RELAY          = the ID of the relay that is mapped to this gauge; 1..4
-# n              = 1,2,3,4 if gauge is VGC
+# n              = 1,2
 ################################################################################
 
 
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:NameR",          "${P}${R}Rly${n}:NameR")
+record(stringin, "${P}${R}Rly${n}:NameR")
+{
+  field(PINI, "YES")
+  field(DISP, "1")
+  field(VAL,  "Relay${RELAY}")
+}
 
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:DAQTrigR",       "${P}${R}Rly${n}:DAQTrigR")
 
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:ChanS",          "${P}${R}Rly${n}:ChanS")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:LowSPS",         "${P}${R}Rly${n}:LowSPS")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:HighSPS",        "${P}${R}Rly${n}:HighSPS")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:CommitS",        "${P}${R}Rly${n}:CommitS")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:CommitS-ErrorR", "${P}${R}Rly${n}:CommitS-ErrorR")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:LowSP-RB",       "${P}${R}Rly${n}:LowSP-RB")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:HighSP-RB",      "${P}${R}Rly${n}:HighSP-RB")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:Chan-RB",        "${P}${R}Rly${n}:Chan-RB")
-
-alias("${CONTROLLERNAME}${R}Rly${RELAY}:StatR",          "${P}${R}Rly${n}:StatR")
+record(bi, "${P}${R}Rly${n}:DAQTrigR")
+{
+  field(DESC, "Relay is set to trigger DAQ post mortem")
+  field(ONAM, "Triggers DAQ")
+}
 
 
 record(calcout, "${P}${R}Rly${n}:iDAQTrigR")
@@ -42,7 +33,282 @@ record(calcout, "${P}${R}Rly${n}:iDAQTrigR")
 
 record(stringout, "${P}${R}Rly${n}:iChanS")
 {
-  field(OUT,  "${CONTROLLERNAME}${R}Rly${RELAY}:ChanS PP")
+  field(OUT,  "${P}${R}Rly${n}:ChanS PP")
   field(PINI, "YES")
   field(VAL,  "${CHANNEL}")
+}
+
+
+record(sseq, "${P}${R}Rly${n}:iUnitChanged")
+{
+  field(DOL1, "${CONTROLLERNAME}${R}Unit-RB CPP")
+  field(LNK1, "${P}${R}Rly${n}:LowSP-RB.EGU NPP")
+
+  field(DOL2, "${P}${R}Rly${n}:iUnitChanged.STR1")
+  field(LNK2, "${P}${R}Rly${n}:HighSP-RB.EGU NPP")
+
+  field(DOL3, "${P}${R}Rly${n}:iUnitChanged.STR1")
+  field(LNK3, "${P}${R}Rly${n}:LowSPS.EGU NPP")
+
+  field(DOL4, "${P}${R}Rly${n}:iUnitChanged.STR1")
+  field(LNK4, "${P}${R}Rly${n}:HighSPS.EGU NPP")
+}
+
+
+record(mbbo, "${P}${R}Rly${n}:ChanS")
+{
+  field(ZRVL, "0")
+  field(ZRST, "N/A")
+
+  field(ONVL, "1")
+  field(ONST, "A1")
+
+  field(TWVL, "2")
+  field(TWST, "A2")
+
+  field(THVL, "3")
+  field(THST, "B1")
+
+  field(FRVL, "4")
+  field(FRST, "B2")
+}
+
+
+record(ao, "${P}${R}Rly${n}:LowSPS")
+{
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+}
+
+
+record(ao, "${P}${R}Rly${n}:HighSPS")
+{
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+}
+
+
+record(bo, "${P}${R}Rly${n}:CommitS")
+{
+  field(OUT,  "${P}${R}Rly${n}:iCommitS PP")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(calcout, "${P}${R}Rly${n}:iCommitS")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto set_function(${RELAY}) ${ASYNPORT}")
+
+  field(INPA, "${P}${R}Rly${n}:LowSPS")
+  field(INPB, "${P}${R}Rly${n}:HighSPS")
+  field(INPC, "${P}${R}Rly${n}:ChanS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(calc, "${P}${R}Rly${n}:iCommitStat")
+{
+  field(INPA, "${P}${R}Rly${n}:iCommitS.STAT")
+# CALC_ALARM == 12
+  field(CALC, "A==12")
+}
+
+
+record(sel, "${P}${R}Rly${n}:iCommitError")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}${R}Rly${n}:iCommitStat PP")
+
+  field(INPA, "${P}${R}Rly${n}:iCommitS.E CP MSS")
+  field(INPB, "${P}${R}Rly${n}:iCommitS.E")
+}
+
+
+record(mbbi, "${P}${R}Rly${n}:CommitS-ErrorR")
+{
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "${P}${R}Rly${n}:iCommitError CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+
+  field(FLNK, "${P}${R}Rly${n}:iGetR.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(calcout, "${P}${R}Rly${n}:iGetR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300.proto get_function(${RELAY}) ${ASYNPORT}")
+  field(SCAN, "Event")
+  field(EVNT, "${CONTROLLERNAME}-RB")
+
+  field(FLNK, "${P}${R}Rly${n}:iGetR-FO")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+# by the time ValidR is calculated ${CONTROLLERNAME}-RB is already triggered leaving this PV disabled for about a minute
+# let's fix that with ValidR CP
+  field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(fanout, "${P}${R}Rly${n}:iGetR-FO")
+{
+  field(LNK1, "${P}${R}Rly${n}:LowSP-RB")
+  field(LNK2, "${P}${R}Rly${n}:HighSP-RB")
+  field(LNK3, "${P}${R}Rly${n}:Chan-RB")
+
+  field(DISV, "42")
+  field(SDIS, "${P}${R}DisconnectTrigR CP")
+}
+
+
+record(ai, "${P}${R}Rly${n}:LowSP-RB")
+{
+  field(INP,  "${P}${R}Rly${n}:iGetR.A MSS")
+
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(FLNK, "${P}${R}Rly${n}:iInitLowSPS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(ai, "${P}${R}Rly${n}:HighSP-RB")
+{
+  field(INP,  "${P}${R}Rly${n}:iGetR.B MSS")
+
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(FLNK, "${P}${R}Rly${n}:iInitHighSPS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record(mbbi, "${P}${R}Rly${n}:Chan-RB")
+{
+  field(INP,  "${P}${R}Rly${n}:iGetR.C MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "N/A")
+
+  field(ONVL, "1")
+  field(ONST, "A1")
+
+  field(TWVL, "2")
+  field(TWST, "A2")
+
+  field(THVL, "3")
+  field(THST, "B1")
+
+  field(FRVL, "4")
+  field(FRST, "B2")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
+record("*", "${CONTROLLERNAME}${R}Rly${RELAY}:iConnect-FO")
+{
+  field(FLNK, "${P}${R}Rly${n}:iConnect-FO")
+}
+
+
+record(seq, "${P}${R}Rly${n}:iConnect-FO")
+{
+  field(DOL1, "0")
+  field(LNK1, "${P}${R}Rly${n}:iInitLowSPS.PVAL")
+
+  field(DOL2, "0")
+  field(LNK2, "${P}${R}Rly${n}:iInitHighSPS.PVAL")
+}
+
+
+record(calcout, "${P}${R}Rly${n}:iInitLowSPS")
+{
+  field(INPA, "${P}${R}Rly${n}:iGetR MS")
+  field(OUT,  "${P}${R}Rly${n}:iInitLowSPS-FO PP")
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+record(calcout, "${P}${R}Rly${n}:iInitHighSPS")
+{
+  field(INPA, "${P}${R}Rly${n}:iGetR MS")
+  field(OUT,  "${P}${R}Rly${n}:iInitHighSPS-FO PP")
+  field(VAL,  "0")
+  field(CALC, "1")
+  field(OOPT, "Transition To Non-zero")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+record(ao, "${P}${R}Rly${n}:iInitLowSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${P}${R}Rly${n}:LowSP-RB")
+  field(OUT,  "${P}${R}Rly${n}:LowSPS PP")
+}
+
+
+record(ao, "${P}${R}Rly${n}:iInitHighSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${P}${R}Rly${n}:HighSP-RB")
+  field(OUT,  "${P}${R}Rly${n}:HighSPS PP")
+}
+
+
+record(bi, "${P}${R}Rly${n}:StatR")
+{
+  field(INP,  "${CONTROLLERNAME}${R}iRlyStatsR.${SOURCE} CP MSS")
+
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+
+  field(DISV, "42")
+  field(SDIS, "${CONTROLLERNAME}${R}iRlyStatsR CP MSS")
 }

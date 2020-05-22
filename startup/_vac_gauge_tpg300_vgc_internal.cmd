@@ -10,6 +10,10 @@
 # @type STRING
 # Channel on the head unit where the gauge is connected to (A1, B1)
 
+# @field SOURCE
+# @type STRING
+# The calcout field this channel belongs to (A, C)
+
 # @field RELAY1
 # @type INTEGER
 # Number of the first relay mapped to this gauge
@@ -18,6 +22,6 @@
 # @type INTEGER
 # Number of the second relay mapped to this gauge
 
-dbLoadRecords(vac_gauge_tpg300.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL), BOARD = PE, GAUGE = CC")
-dbLoadRecords(vac_gauge_tpg300_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY1), n = 1")
-dbLoadRecords(vac_gauge_tpg300_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), RELAY = $(RELAY2), n = 2")
+dbLoadRecords(vac_gauge_tpg300.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), SENSOR = $(CHANNEL), SOURCE = $(SOURCE), ASYNPORT = $(CONTROLLERNAME), BOARD = PE, GAUGE = CC, EGU = mBar")
+dbLoadRecords(vac_gauge_tpg300_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), SOURCE = $(SOURCE), RELAY = $(RELAY1), ASYNPORT = $(CONTROLLERNAME), n = 1, EGU = mBar")
+dbLoadRecords(vac_gauge_tpg300_relay.db, "P = $(DEVICENAME), R = :, CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = $(CHANNEL), SOURCE = $(SOURCE), RELAY = $(RELAY2), ASYNPORT = $(CONTROLLERNAME), n = 2, EGU = mBar")
