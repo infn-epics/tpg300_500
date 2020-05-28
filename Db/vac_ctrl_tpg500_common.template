@@ -277,9 +277,9 @@ record(fanout, "${P}${R}iIdn-FO")
 {
   field(LNK1, "${P}${R}i500CommsOKCalc")
   field(LNK2, "${P}${R}iMainTypeDist")
-  field(LNK3, "${P}${R}PartNrR")
-  field(LNK4, "${P}${R}SerNumR")
-  field(LNK5, "${P}${R}HWVerR")
+  field(LNK3, "${P}${R}ModMain:PartNumR")
+  field(LNK4, "${P}${R}ModMain:SerNumR")
+  field(LNK5, "${P}${R}ModMain:HWVerR")
 }
 
 
@@ -329,7 +329,7 @@ record(stringout, "${P}${R}iMainTypeDist")
 }
 
 
-record(stringin, "${P}${R}PartNrR")
+record(stringin, "${P}${R}ModMain:PartNumR")
 {
   field(DESC, "Part number")
   field(INP,  "${P}${R}iIdn.BB")
@@ -340,9 +340,8 @@ record(stringin, "${P}${R}PartNrR")
 }
 
 
-record(stringin, "${P}${R}SerNumR")
+record(stringin, "${P}${R}ModMain:SerNumR")
 {
-  alias("${P}${R}ModMain:SerNumR")
   field(DESC, "Serial number")
   field(INP,  "${P}${R}iIdn.CC")
 
@@ -352,9 +351,8 @@ record(stringin, "${P}${R}SerNumR")
 }
 
 
-record(stringin, "${P}${R}HWVerR")
+record(stringin, "${P}${R}ModMain:HWVerR")
 {
-  alias("${P}${R}ModMain:HWVerR")
   field(DESC, "Hardware version")
   field(INP,  "${P}${R}iIdn.EE")
 
