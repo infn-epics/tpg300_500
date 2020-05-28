@@ -5,6 +5,13 @@ file vac_ctrl_tpg300_common.template
 		{ "" }
 }
 
+file vac_ctrl_tpg500_common.template
+{
+	pattern { NULL }
+
+		{ "" }
+}
+
 file vac_ctrl_tpg300_sensor.template
 {
 	pattern { SENSOR,  SLOT,  SOURCE }
@@ -15,7 +22,27 @@ file vac_ctrl_tpg300_sensor.template
 		{ B2,      B,     D }
 }
 
+file vac_ctrl_tpg500_sensor.template
+{
+	pattern { SENSOR,  SLOT,  SOURCE,  EGU }
+
+		{ A1,      A,     A,       mBar }
+		{ A2,      A,     B,       mBar }
+		{ B1,      B,     C,       mBar }
+		{ B2,      B,     D,       mBar }
+}
+
 file vac_ctrl_tpg300_relay.template
+{
+	pattern { FUNCTION }
+
+		{ 1 }
+		{ 2 }
+		{ 3 }
+		{ 4 }
+}
+
+file vac_ctrl_tpg500_relay.template
 {
 	pattern { FUNCTION }
 

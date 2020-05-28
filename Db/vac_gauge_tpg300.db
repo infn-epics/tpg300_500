@@ -350,3 +350,6 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorType-FO")
 {
   field(OUTC, "${P}${R}SensorTypeR.PROC")
 }
+
+
+include "vac_gauge_tpg500.db"

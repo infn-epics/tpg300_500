@@ -12,7 +12,7 @@ sim_state="tpg300sim_state"
 puc="0"
 units="1"
 baud="1"
-version="-- VERSION"
+version="SIMULATOR"
 # No boards at all
 tid="NO P,NO P,NO P"
 # Interface board

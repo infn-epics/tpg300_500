@@ -25,13 +25,16 @@ record(scalcout, "${P}${R}${SENSOR}:iCheckModType")
 {
   field(INAA, "${P}${R}Mod${SLOT}:TypeR CP")
   field(INPA, "${P}${R}CommsOK CP")
+# CALC is specialized in vac_gauge_tpg300.db
   field(CALC, "'0'")
+
+  field(FLNK, "${P}${R}${SENSOR}:iCheckType")
 }
 
 
 record(calcout, "${P}${R}${SENSOR}:iCheckType")
 {
-  field(INPA, "${P}${R}${SENSOR}:iCheckModType CP")
+  field(INPA, "${P}${R}${SENSOR}:iCheckModType")
   field(INPB, "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP")
   field(CALC, "A&&B")
   field(VAL,  "42")
@@ -96,41 +99,19 @@ record(bi, "${P}${R}${SENSOR}:ValidR")
 }
 
 
-record(mbbi, "${P}${R}${SENSOR}:CtrlMode-RB")
-{
-  field(INP,  "${P}${R}iSensorCtrlModes-RB.${SOURCE} CP MSS")
-
-  field(ZRVL, "0")
-  field(ZRST, "NO SENSOR")
-
-  field(ONVL, "1")
-  field(ONST, "OFF")
-
-  field(TWVL, "2")
-  field(TWST, "AUTO")
-
-  field(THVL, "3")
-  field(THST, "ON")
-
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}${SENSOR}:ValidR CP")
-}
-
-
 record(mbbi, "${P}${R}${SENSOR}:FltTim-RB")
 {
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${P}${R}iSensorFltTims-RB.${SOURCE} CP MSS")
 
   field(ZRVL, "1")
-  field(ZRST, "FAST")
+  field(ZRST, "16 ms")
 
   field(ONVL, "2")
-  field(ONST, "MEDIUM")
+  field(ONST, "160 ms")
 
   field(TWVL, "3")
-  field(TWST, "SLOW")
+  field(TWST, "1600 ms")
 
   field(FLNK, "${P}${R}${SENSOR}:iFltTimInit")
 
@@ -145,13 +126,13 @@ record(mbbo, "${P}${R}${SENSOR}:FltTimS")
   field(DTYP, "Raw Soft Channel")
 
   field(ZRVL, "1")
-  field(ZRST, "FAST")
+  field(ZRST, "16 ms")
 
   field(ONVL, "2")
-  field(ONST, "MEDIUM")
+  field(ONST, "160 ms")
 
   field(TWVL, "3")
-  field(TWST, "SLOW")
+  field(TWST, "1600 ms")
 
 # Cannot go directly to SensorFltTimsS as this PV needs to be processed when updated from -RB
   field(FLNK, "${P}${R}${SENSOR}:FltTimCommitS")
@@ -168,21 +149,41 @@ record(fanout, "${P}${R}${SENSOR}:FltTimCommitS")
 record(seq, "${P}${R}${SENSOR}:iConnect-FltTim-FO")
 {
   field(DOL1, "0")
-  field(LNK1, "${P}${R}${SENSOR}:iFltTimInit.PVAL")
+  field(LNK1, "${P}${R}${SENSOR}:iFltTimInit2.PVAL")
 }
 
 
+# if FltTim-RB is valid
 record(calcout, "${P}${R}${SENSOR}:iFltTimInit")
 {
   field(INPA, "${P}${R}${SENSOR}:FltTim-RB MS")
-  field(OUT,  "${P}${R}${SENSOR}:iFltTimInit-FO PP")
-  field(VAL,  "0")
-  field(CALC, "1")
-  field(OOPT, "Transition To Non-zero")
+  field(OUT,  "${P}${R}${SENSOR}:iFltTimInit2.PROC")
   field(IVOA, "Don't drive outputs")
 }
 
 
+# and FltTim-RB is different from iPrevFltTim
+record(calcout, "${P}${R}${SENSOR}:iFltTimInit2")
+{
+  field(INPA, "${P}${R}${SENSOR}:FltTim-RB")
+  field(INPB, "${P}${R}${SENSOR}:iPrevFltTim")
+  field(OUT,  "${P}${R}${SENSOR}:iPrevFltTim.PROC PP")
+  field(VAL,  "0")
+  field(CALC, "A!=B")
+  field(OOPT, "Transition To Non-zero")
+}
+
+
+# then update iPrevFltTim
+record(longin, "${P}${R}${SENSOR}:iPrevFltTim")
+{
+  field(INP,  "${P}${R}${SENSOR}:FltTim-RB")
+  field(VAL,  "-1")
+  field(FLNK, "${P}${R}${SENSOR}:iFltTimInit-FO")
+}
+
+
+# and update FltTimS too
 record(seq, "${P}${R}${SENSOR}:iFltTimInit-FO")
 {
   field(DOL1, "1")

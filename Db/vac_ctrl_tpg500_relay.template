@@ -1,0 +1,13 @@
+record(seq, "${P}${R}Rly${FUNCTION}:iTPG500ChanSeq")
+{
+# Set by vac_gauge_tpg300_relay.db
+  field(FLNK, "${P}${R}Rly${FUNCTION}:iTPG500ChanSseq")
+}
+
+
+record(sseq, "${P}${R}Rly${FUNCTION}:iTPG500ChanSseq")
+{
+# Set by vac_gauge_tpg300_relay.db
+}
+
+
