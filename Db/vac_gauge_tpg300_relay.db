@@ -39,6 +39,27 @@ record(stringout, "${P}${R}Rly${n}:iChanS")
 }
 
 
+record(calcout, "${P}${R}Rly${n}:iValidCalc")
+{
+  field(INPA, "${P}${R}Rly${n}:ChanS")
+  field(INPB, "${P}${R}Rly${n}:Chan-RB CP")
+  field(CALC, "A==B")
+  field(OUT,  "${P}${R}Rly${n}:ValidR PP")
+}
+
+
+record(bi, "${P}${R}Rly${n}:ValidR")
+{
+  field(ZNAM, "Invalid Relay Assignment")
+  field(ONAM, "Correct Relay Assignment")
+  field(ZSV,  "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
 record(sseq, "${P}${R}Rly${n}:iUnitChanged")
 {
   field(DOL1, "${CONTROLLERNAME}${R}Unit-RB CPP")

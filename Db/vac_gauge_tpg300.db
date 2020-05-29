@@ -28,6 +28,27 @@ record(bi, "${P}${R}ValidR")
 }
 
 
+record(calcout, "${P}${R}Rly:iValidCalc")
+{
+  field(INPA, "${P}${R}Rly1:ValidR CP")
+  field(INPB, "${P}${R}Rly2:ValidR CP")
+  field(CALC, "A&&B")
+  field(OUT,  "${P}${R}Rly:ValidR PP")
+}
+
+
+record(bi, "${P}${R}Rly:ValidR")
+{
+  field(ZNAM, "Invalid Relay Assignment")
+  field(ONAM, "Correct Relay Assignment")
+  field(ZSV,  "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
+}
+
+
 record(calcout, "${P}${R}iDisconnectTrigR")
 {
   field(DESC, "Trigger DisconnectTrigR when ! valid")
