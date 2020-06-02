@@ -249,7 +249,7 @@ record(mbbi, "${P}${R}Rly${n}:Chan-RB")
   field(INP,  "${P}${R}Rly${n}:iGetR.C MSS")
 
   field(ZRVL, "0")
-  field(ZRST, "None")
+  field(ZRST, "Disabled")
 
   field(ONVL, "1")
   field(ONST, "A1")
@@ -379,8 +379,8 @@ record(bi, "${P}${R}Rly${n}:StatR")
 {
   field(INP,  "${P}${R}Rly${n}:iStatR CP MSS")
 
-  field(ZNAM, "OFF")
-  field(ONAM, "ON")
+  field(ZNAM, "Cleared")
+  field(ONAM, "Set")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -438,7 +438,7 @@ record(seq, "${CONTROLLERNAME}${R}Rly${RELAY}:iTPG500ChanSeq")
 
 record(sseq, "${CONTROLLERNAME}${R}Rly${RELAY}:iTPG500ChanSseq")
 {
-  field(STR1, "Always On")
+  field(STR1, "Forced")
   field(LNK1, "${P}${R}Rly${n}:Chan-RB.FVST")
 
   field(STR2, "")
