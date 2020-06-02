@@ -28,16 +28,16 @@ record(bi, "${P}${R}ValidR")
 }
 
 
-record(calcout, "${P}${R}Rly:iValidCalc")
+record(calcout, "${P}${R}iRlyValidCalc")
 {
   field(INPA, "${P}${R}Rly1:ValidR CP")
   field(INPB, "${P}${R}Rly2:ValidR CP")
   field(CALC, "A&&B")
-  field(OUT,  "${P}${R}Rly:ValidR PP")
+  field(OUT,  "${P}${R}RlyValidR PP")
 }
 
 
-record(bi, "${P}${R}Rly:ValidR")
+record(bi, "${P}${R}RlyValidR")
 {
   field(ZNAM, "Invalid Relay Assignment")
   field(ONAM, "Correct Relay Assignment")
