@@ -8,6 +8,16 @@
 ################################################################################
 
 
+#
+# Measurement ranges for cold cathode from 5E-3 to
+#  PE 300DC9   1E-9
+#  CP 300C9    5E-9
+#  CP 300C10   1E-10
+#  CP 300T11   1E-11
+#  CP 300T11L  1E-11
+#
+
+
 record(stringin, "${P}${R}ChanR")
 {
   field(DESC, "The channel this gauge is connected to")
@@ -78,7 +88,7 @@ record(stringin, "${P}${R}SensorTypeR")
 }
 
 
-record(scalcout, "${P}${R}iPrsR")
+record(scalcout, "${P}${R}iPrsInR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
@@ -86,9 +96,27 @@ record(scalcout, "${P}${R}iPrsR")
   field(EVNT, "${CONTROLLERNAME}-1")
   field(CALC, "42")
 
+  field(FLNK, "${P}${R}iPrs-FO")
+
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}ValidR CP")
+}
+
+
+record(fanout, "${P}${R}iPrs-FO")
+{
+# Parse the pressure value as a double. Takes care of changing the value to 1000 mBar if the gauge is switched off or is in error
+  field(LNK1, "${P}${R}iPrsR")
+# Parse the gauge status as mbbi
+  field(LNK2, "${P}${R}GaugeStatR")
+# Store either the pressure value or the gauge status as string
+  field(LNK3, "${P}${R}iPrsR-STR")
+# Convert the gauge status to pressure status
+  field(LNK4, "${P}${R}iPrsStatS")
+
+  field(DISV, "42")
+  field(SDIS, "${P}${R}DisconnectTrigR CP")
 }
 
 
@@ -100,22 +128,50 @@ record(stringout, "${P}${R}iUnitChanged")
 }
 
 
-record(ai, "${P}${R}PrsR")
+# Predefined pressure value of invalid status
+record(ao, "${P}${R}InvPrsS")
 {
-  field(INP,  "${P}${R}iPrsR.BB CP MSS")
+  field(VAL,  "1000")
+  field(PINI, "YES")
+}
+
+
+record(ai, "${P}${R}iPrsR")
+{
+  field(INP,  "${P}${R}iPrsInR.BB MSS")
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
 
-  field(DISV, "-1")
-  field(SDIS, "${P}${R}PrsStatR CP MSS")
+  field(FLNK, "${P}${R}iPrsCalc")
+}
+
+
+record(calcout, "${P}${R}iPrsCalc")
+{
+  field(INPA, "${P}${R}iPrsInR.A")
+  field(INPB, "${P}${R}iPrsR MSS")
+  field(INPC, "${P}${R}InvPrsS")
+  field(CALC, "A<3?B:C")
+  field(OUT,  "${P}${R}PrsR PP MSS")
+}
+
+
+record(ai, "${P}${R}PrsR")
+{
+  field(PREC, "2")
+  field(EGU,  "${EGU=mBar}")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
 }
 
 
 record(scalcout, "${P}${R}iPrsR-STR")
 {
-  field(INPA, "${P}${R}GaugeStatR CP")
+  field(INPA, "${P}${R}GaugeStatR")
   field(INAA, "${P}${R}GaugeStatR")
-  field(INBB, "${P}${R}iPrsR.BB CP")
+  field(INBB, "${P}${R}iPrsInR.BB")
   field(CALC, "A?AA:BB")
   field(OUT,  "${P}${R}PrsR-STR PP")
 }
@@ -123,14 +179,15 @@ record(scalcout, "${P}${R}iPrsR-STR")
 
 record(stringin, "${P}${R}PrsR-STR")
 {
-  field(DISV, "-1")
-  field(SDIS, "${P}${R}PrsStatR CP MSS")
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}${R}ValidR")
 }
 
 
 record(mbbi, "${P}${R}GaugeStatR")
 {
-  field(INP,  "${P}${R}iPrsR.A CP MSS")
+  field(INP,  "${P}${R}iPrsInR.A MSS")
 
   field(ZRVL, "0")
   field(ZRST, "DATA OK")
@@ -152,14 +209,14 @@ record(mbbi, "${P}${R}GaugeStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}${R}ValidR")
 }
 
 
 record(calc, "${P}${R}iCalcStat")
 {
 # Increase GaugeStat value if INVALID
-  field(INPA, "${P}${R}GaugeStatR CP")
+  field(INPA, "${P}${R}GaugeStatR")
   field(INPB, "${P}${R}GaugeStatR.SEVR")
   # SEVR == INVALID
   field(CALC, "C:=(B==3 ? 0 : A + 1);C")
@@ -169,7 +226,7 @@ record(calc, "${P}${R}iCalcStat")
 record(mbbo, "${P}${R}iPrsStatS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(DOL,  "${P}${R}iCalcStat CP MSS")
+  field(DOL,  "${P}${R}iCalcStat PP MSS")
   field(OMSL, "closed_loop")
   field(OUT,  "${P}${R}PrsStatR MSS PP")
 
@@ -226,7 +283,7 @@ record(mbbi, "${P}${R}PrsStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}${R}ValidR")
 }
 
 
