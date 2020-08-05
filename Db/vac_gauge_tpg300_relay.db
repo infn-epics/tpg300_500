@@ -5,6 +5,7 @@
 # CHANNEL        = the channel of the gauge
 # RELAY          = the ID of the relay that is mapped to this gauge; 1..4
 # n              = 1,2
+# SOURCE         = the calcout field this relay is assigned to; A..D
 ################################################################################
 
 
