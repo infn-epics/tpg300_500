@@ -275,6 +275,23 @@ record(mbbi, "${P}${R}SaveParams-RB")
 }
 
 
+record(longin, "${P}${R}iTwo")
+{
+  field(DESC, "Constant 2")
+  field(PINI, "YES")
+  field(VAL,  "2")
+  field(DISP, "1")
+}
+
+
+record(longout, "${P}${R}iSetSaveParams")
+{
+  field(DOL,  "${P}${R}iTwo")
+  field(OMSL, "closed_loop")
+  field(OUT,  "${P}${R}SaveParamsS PP")
+}
+
+
 record(mbbo, "${P}${R}SaveParamsS")
 {
   field(DTYP, "stream")
@@ -293,7 +310,8 @@ record(mbbo, "${P}${R}SaveParamsS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+# Needs InitialCommsOK because written to by iSetSaveParams on connection
+  field(SDIS, "${P}${R}InitialCommsOK")
 }
 
 
@@ -579,6 +597,7 @@ record(fanout, "${P}${R}iInitialCommsOK-FO")
   field(LNK2, "${P}${R}iConnect-Rlys-FO")
   field(LNK3, "${P}${R}iConnect-Names-FO")
   field(LNK4, "${P}${R}iIdn")
+  field(LNK5, "${P}${R}iSetSaveParams")
 
   field(FLNK, "${P}${R}iCommsOK")
 }
