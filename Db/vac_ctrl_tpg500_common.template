@@ -300,7 +300,7 @@ record(bi, "${P}${R}TPG500CommsOK")
 # This PV is used to DISABLE input and output PVs that belong to TPG500
   field(ZNAM, "Not TPG500")
   field(ONAM, "TGP500")
-  field(ZSV,  "MINOR")
+  field(ZSV,  "MAJOR")
 
   field(FLNK, "${P}${R}TPG500CommsOK-FO")
 }

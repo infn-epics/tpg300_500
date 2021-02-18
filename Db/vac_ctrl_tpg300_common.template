@@ -584,7 +584,7 @@ record(bi, "${P}${R}InitialCommsOK")
   field(DESC, "PV to enable/disable communication")
   field(ZNAM, "No communication")
   field(ONAM, "Communication is OK")
-  field(ZSV,  "MINOR")
+  field(ZSV,  "MAJOR")
 
   field(FLNK, "${P}${R}iInitialCommsOK-FO")
 }
@@ -618,7 +618,7 @@ record(bi, "${P}${R}CommsOK")
 # This PV is used to DISABLE input and output PVs
   field(ZNAM, "No communication")
   field(ONAM, "Communication is OK")
-  field(ZSV,  "MINOR")
+  field(ZSV,  "MAJOR")
 
   field(FLNK, "${P}${R}CommsOK-FO")
 }
