@@ -1,14 +1,14 @@
-# @field DEVICENAME
-# @type STRING
-# Device name, should be the same as the name in CCDB
+#- @field DEVICENAME
+#- @type STRING
+#- Device name, should be the same as the name in CCDB
 
-# @field IPADDR
-# @type STRING
-# Device IP address (Ethernet2Serial converter)
+#- @field IPADDR
+#- @type STRING
+#- Device IP address (Ethernet2Serial converter)
 
-# @field PORT
-# @type INTEGER
-# Comms port on Ethernet2Serial converter
+#- @field PORT
+#- @type INTEGER
+#- Comms port on Ethernet2Serial converter
 
 
 #-######### Set up comms driver ##########
@@ -35,4 +35,4 @@
 drvAsynIPPortConfigure($(DEVICENAME),$(IPADDR):$(PORT))
 
 #-Load the database defining your EPICS records
-dbLoadRecords(vac_ctrl_tpg300.db, "P = $(DEVICENAME), R = :, ASYNPORT = $(DEVICENAME)")
+dbLoadRecords(vac_ctrl_tpg300_500.db, "P = $(DEVICENAME), R = :, ASYNPORT = $(DEVICENAME)")

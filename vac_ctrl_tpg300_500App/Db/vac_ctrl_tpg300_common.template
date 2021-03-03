@@ -20,7 +20,7 @@ record(stringin, "${P}${R}iUITypeR")
 record(stringin, "${P}${R}ModMain:FWVersionR")
 {
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_version ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_version ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-RB")
 
@@ -34,7 +34,7 @@ record(bo, "${P}${R}iRst")
 {
   field(DESC, "Clear the input buffer of the controller")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto reset_interface ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto reset_interface ${ASYNPORT}")
 
   field(VAL,  "0")
   field(FLNK, "${P}${R}iModTypesR.PROC CA")
@@ -49,7 +49,7 @@ record(bo, "${P}${R}iRst")
 record(scalcout, "${P}${R}iModTypesR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_slots() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_slots() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-10")
   field(CALC, "1")
@@ -110,7 +110,7 @@ record(stringin, "${P}${R}ModComm:TypeR")
 record(mbbi, "${P}${R}BaudrtR")
 {
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_baud ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_baud ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-RB")
 
@@ -138,7 +138,7 @@ record(mbbi, "${P}${R}BaudrtR")
 record(mbbo, "${P}${R}BaudrtS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_baud ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_baud ${ASYNPORT}")
 # Prevent accidental modifications
   field(DISP, "1")
 
@@ -166,7 +166,7 @@ record(mbbo, "${P}${R}BaudrtS")
 record(bi, "${P}${R}UnderRngCtrl-RB")
 {
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_puc ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_puc ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-RB")
 
@@ -182,7 +182,7 @@ record(bi, "${P}${R}UnderRngCtrl-RB")
 record(bo, "${P}${R}UnderRngCtrlS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_puc ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_puc ${ASYNPORT}")
 
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -198,7 +198,7 @@ record(bo, "${P}${R}UnderRngCtrlS")
 record(mbbi, "${P}${R}Unit-RB")
 {
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_units ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_units ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-10")
 
@@ -234,7 +234,7 @@ record(mbbi, "${P}${R}Unit-RB")
 record(mbbo, "${P}${R}UnitS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_units ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_units ${ASYNPORT}")
 
   field(ZRVL, "1")
   field(ZRST, "mBar")
@@ -256,7 +256,7 @@ record(mbbo, "${P}${R}UnitS")
 record(mbbi, "${P}${R}SaveParams-RB")
 {
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_save_params ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_save_params ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-RB")
 
@@ -295,7 +295,7 @@ record(longout, "${P}${R}iSetSaveParams")
 record(mbbo, "${P}${R}SaveParamsS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_save_params ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_save_params ${ASYNPORT}")
 
   field(ZRVL, "0")
   field(ZRST, "Default")
@@ -318,7 +318,7 @@ record(mbbo, "${P}${R}SaveParamsS")
 record(calcout, "${P}${R}iSensorCtrlModes-RB")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_modes() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_modes() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-10")
 
@@ -331,7 +331,7 @@ record(calcout, "${P}${R}iSensorCtrlModes-RB")
 record(calcout, "${P}${R}iSensorFltTims-RB")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_filter() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_filter() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}-RB")
 
@@ -344,7 +344,7 @@ record(calcout, "${P}${R}iSensorFltTims-RB")
 record(calcout, "${P}${R}SensorFltTimsS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_filter() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_filter() ${ASYNPORT}")
 
   field(INPA, "${P}${R}A1:FltTimS.RVAL")
   field(INPB, "${P}${R}A2:FltTimS.RVAL")
@@ -410,7 +410,7 @@ record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
 record(calcout, "${P}${R}iTPG300RlyStatsR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_func_stat() ${ASYNPORT}")
 # Set by iTPG300RlyStatSseq
 #  field(SCAN, "Event")
   field(EVNT, "${P}-1")

@@ -91,7 +91,7 @@ record(stringin, "${P}${R}SensorTypeR")
 record(scalcout, "${P}${R}iPrsInR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_pressure(${SENSOR}) ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_pressure(${SENSOR}) ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${CONTROLLERNAME}-1")
   field(CALC, "42")
@@ -332,7 +332,7 @@ record(mbbo, "${P}${R}CtrlModeS")
 record(calcout, "${P}${R}iCtrlModeCommitS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_mode_${SENSOR} ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_mode_${SENSOR} ${ASYNPORT}")
 
   field(FLNK, "${CONTROLLERNAME}${R}iSensorCtrlModes-RB.PROC CA")
 

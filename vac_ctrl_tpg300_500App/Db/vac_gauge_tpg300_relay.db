@@ -127,7 +127,7 @@ record(bo, "${P}${R}Rly${n}:CommitS")
 record(calcout, "${P}${R}Rly${n}:iCommitS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_function(${RELAY}) ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_function(${RELAY}) ${ASYNPORT}")
 
   field(INPA, "${P}${R}Rly${n}:LowSPS")
   field(INPB, "${P}${R}Rly${n}:HighSPS")
@@ -192,7 +192,7 @@ record(mbbi, "${P}${R}Rly${n}:CommitS-ErrorR")
 record(calcout, "${P}${R}Rly${n}:iGetR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_function(${RELAY}) ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_function(${RELAY}) ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${CONTROLLERNAME}-RB")
 

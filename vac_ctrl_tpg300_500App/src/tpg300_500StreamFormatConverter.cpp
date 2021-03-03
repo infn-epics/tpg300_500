@@ -28,10 +28,10 @@ private:
 	StreamFormatConverter* old_registered;
 
 public:
-	void provides(const char* name, const char* provided);
-	int  parse(const StreamFormat &fmt, StreamBuffer &into, const char*& source, bool scanFormat);
-	bool printDouble(const StreamFormat &fmt, StreamBuffer &output, double value);
-	int  scanDouble(const StreamFormat &fmt, const char* input, double &value);
+	void    provides(const char* name, const char* provided);
+	int     parse(const StreamFormat &fmt, StreamBuffer &into, const char*& source, bool scanFormat);
+	bool    printDouble(const StreamFormat &fmt, StreamBuffer &output, double value);
+	ssize_t scanDouble(const StreamFormat &fmt, const char* input, double &value);
 };
 
 
@@ -79,7 +79,7 @@ bool TPG300Format::printDouble(const StreamFormat &fmt, StreamBuffer &output, do
 }
 
 
-int TPG300Format::scanDouble(const StreamFormat &fmt, const char* input, double &value)
+ssize_t TPG300Format::scanDouble(const StreamFormat &fmt, const char* input, double &value)
 {
 	return old_registered->scanDouble(fmt, input, value);
 }

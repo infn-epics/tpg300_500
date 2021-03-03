@@ -1,0 +1,9 @@
+#- @field DEVICENAME
+#- @type STRING
+#- Device name, should be the same as the name in CCDB
+
+#- @field CONTROLLERNAME
+#- @type STRING
+#- Name of the head unit
+
+iocshLoad($(vac_ctrl_tpg300_500_DIR)/_vac_gauge_tpg300_vgc_internal.iocsh, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), CHANNEL = B1, SOURCE = C, RELAY1 = 3, RELAY1_SOURCE = C, RELAY2 = 4, RELAY2_SOURCE = D")

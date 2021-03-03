@@ -39,7 +39,7 @@ record(scalcout, "${P}${R}iIdn")
   field(DESC, "Device identification")
   field(DTYP, "stream")
   field(INPE, "${P}${R}42")
-  field(OUT,  "@vac_ctrl_tpg300.proto identify_device ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto identify_device ${ASYNPORT}")
   field(CALC, "42")
 
   field(FLNK, "${P}${R}iIdnChk")
@@ -366,7 +366,7 @@ record(ai, "${P}${R}CtrlTempR")
 {
   field(DESC, "Controller temperature")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_temp() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_temp() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-10")
 
@@ -382,7 +382,7 @@ record(ai, "${P}${R}BatVoltR")
 {
   field(DESC, "Battery voltage")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_bat_voltage() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_bat_voltage() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
 
@@ -398,7 +398,7 @@ record(ai, "${P}${R}OperTimR")
 {
   field(DESC, "Operating hours")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_oper_tim() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_oper_tim() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
 
@@ -414,7 +414,7 @@ record(stringin, "${P}${R}RecalibDateR")
 {
   field(DESC, "Due date of next recalibration")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_recalibration_due_date() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_recalibration_due_date() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
 
@@ -428,7 +428,7 @@ record(mbbi, "${P}${R}RlyErr:Mode-RB")
 {
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_error_relay_assignment() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_error_relay_assignment() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
 
@@ -460,7 +460,7 @@ record(mbbo, "${P}${R}RlyErr:ModeS")
 {
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_error_relay_assignment() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_error_relay_assignment() ${ASYNPORT}")
 
   field(ZRVL, "0")
   field(ZRST, "On All Errors")
@@ -492,7 +492,7 @@ record(mbbi, "${P}${R}AOMode-RB")
 {
   field(DESC, "Analog output mode")
   field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300.proto get_ao_mode() ${ASYNPORT}")
+  field(INP,  "@vac_ctrl_tpg300_500.proto get_ao_mode() ${ASYNPORT}")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
 
@@ -518,7 +518,7 @@ record(mbbo, "${P}${R}AOModeS")
 {
   field(DESC, "Analog output mode")
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_ao_mode() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_ao_mode() ${ASYNPORT}")
 
   field(ZRVL, "0")
   field(ZRST, "Off")
@@ -543,7 +543,7 @@ record(mbbo, "${P}${R}AOModeS")
 record(scalcout, "${P}${R}iSensorNames-RB")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_gauge_names() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_gauge_names() ${ASYNPORT}")
   field(CALC, "42")
   field(SCAN, "Event")
   field(EVNT, "${P}TPG500-RB")
@@ -557,7 +557,7 @@ record(scalcout, "${P}${R}iSensorNames-RB")
 record(scalcout, "${P}${R}SensorNamesS")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto set_gauge_names() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_gauge_names() ${ASYNPORT}")
   field(CALC, "42")
 
   field(INAA, "${P}${R}A1:NameS")
@@ -614,7 +614,7 @@ record(fanout, "${P}${R}iConnect-Names-FO")
 record(calcout, "${P}${R}iTPG500RlyStatsR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_func_stat_tpg500() ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_func_stat_tpg500() ${ASYNPORT}")
 # Set by iTPG500RlyStatSseq
 #  field(SCAN, "Event")
   field(EVNT, "${P}TPG500-1")
@@ -628,7 +628,7 @@ record(calcout, "${P}${R}iTPG500RlyStatsR")
 record(scalcout, "${P}${R}:iPrsR")
 {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300.proto get_pressures ${ASYNPORT}")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_pressures ${ASYNPORT}")
 # Set by iTPG500PrsSseq
 #  field(SCAN, "Event")
   field(EVNT, "${P}TPG500-1")
