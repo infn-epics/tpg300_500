@@ -29,9 +29,9 @@ private:
 
 public:
 	void    provides(const char* name, const char* provided);
-	int     parse(const StreamFormat &fmt, StreamBuffer &into, const char*& source, bool scanFormat);
-	bool    printDouble(const StreamFormat &fmt, StreamBuffer &output, double value);
-	ssize_t scanDouble(const StreamFormat &fmt, const char* input, double &value);
+	int     parse(const StreamFormat &fmt, StreamBuffer &into, const char*& source, bool scanFormat) override;
+	bool    printDouble(const StreamFormat &fmt, StreamBuffer &output, double value) override;
+	ssize_t scanDouble(const StreamFormat &fmt, const char* input, double &value) override;
 };
 
 
