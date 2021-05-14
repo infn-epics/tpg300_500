@@ -1,133 +1,135 @@
-record(seq, "${P}${R}${SENSOR}:iTPG300FltSeq")
+record(seq, "${P}${R}${SENSOR}_iTPG300FltSeq")
 {
   field(DO1,  "1")
-  field(LNK1, "${P}${R}${SENSOR}:FltTim-RB.ZRVL")
+  field(LNK1, "${P}${R}${SENSOR}_FltTim-RB.ZRVL")
 
   field(DO2,  "2")
-  field(LNK2, "${P}${R}${SENSOR}:FltTim-RB.ONVL")
+  field(LNK2, "${P}${R}${SENSOR}_FltTim-RB.ONVL")
 
   field(DO3,  "3")
-  field(LNK3, "${P}${R}${SENSOR}:FltTim-RB.TWVL")
+  field(LNK3, "${P}${R}${SENSOR}_FltTim-RB.TWVL")
 
   field(DO4,  "1")
-  field(LNK4, "${P}${R}${SENSOR}:FltTimS.ZRVL")
+  field(LNK4, "${P}${R}${SENSOR}_FltTimS.ZRVL")
 
   field(DO5,  "2")
-  field(LNK5, "${P}${R}${SENSOR}:FltTimS.ONVL")
+  field(LNK5, "${P}${R}${SENSOR}_FltTimS.ONVL")
 
   field(DO6,  "3")
-  field(LNK6, "${P}${R}${SENSOR}:FltTimS.TWVL")
+  field(LNK6, "${P}${R}${SENSOR}_FltTimS.TWVL")
 
-  field(FLNK, "${P}${R}${SENSOR}:iTPG300FltSseq")
+  field(FLNK, "${P}${R}${SENSOR}_iTPG300FltSseq")
 }
 
 
-record(sseq, "${P}${R}${SENSOR}:iTPG300FltSseq")
+record(sseq, "${P}${R}${SENSOR}_iTPG300FltSseq")
 {
   field(STR1, "16 ms")
-  field(LNK1, "${P}${R}${SENSOR}:FltTim-RB.ZRST")
+  field(LNK1, "${P}${R}${SENSOR}_FltTim-RB.ZRST")
 
   field(STR2, "160 ms")
-  field(LNK2, "${P}${R}${SENSOR}:FltTim-RB.ONST")
+  field(LNK2, "${P}${R}${SENSOR}_FltTim-RB.ONST")
 
   field(STR3, "1600 ms")
-  field(LNK3, "${P}${R}${SENSOR}:FltTim-RB.TWST")
+  field(LNK3, "${P}${R}${SENSOR}_FltTim-RB.TWST")
 
   field(STR4, "16 ms")
-  field(LNK4, "${P}${R}${SENSOR}:FltTimS.ONST")
+  field(LNK4, "${P}${R}${SENSOR}_FltTimS.ONST")
 
   field(STR5, "160 ms")
-  field(LNK5, "${P}${R}${SENSOR}:FltTimS.TWST")
+  field(LNK5, "${P}${R}${SENSOR}_FltTimS.TWST")
 
   field(STR6, "1600 ms")
-  field(LNK6, "${P}${R}${SENSOR}:FltTimS.THST")
+  field(LNK6, "${P}${R}${SENSOR}_FltTimS.THST")
 }
 
 
-record(seq, "${P}${R}${SENSOR}:iTPG500FltSeq")
+record(seq, "${P}${R}${SENSOR}_iTPG500FltSeq")
 {
   field(DO1,  "0")
-  field(LNK1, "${P}${R}${SENSOR}:FltTim-RB.ZRVL")
+  field(LNK1, "${P}${R}${SENSOR}_FltTim-RB.ZRVL")
 
   field(DO2,  "1")
-  field(LNK2, "${P}${R}${SENSOR}:FltTim-RB.ONVL")
+  field(LNK2, "${P}${R}${SENSOR}_FltTim-RB.ONVL")
 
   field(DO3,  "2")
-  field(LNK3, "${P}${R}${SENSOR}:FltTim-RB.TWVL")
+  field(LNK3, "${P}${R}${SENSOR}_FltTim-RB.TWVL")
 
   field(DO4,  "3")
-  field(LNK4, "${P}${R}${SENSOR}:FltTim-RB.THVL")
+  field(LNK4, "${P}${R}${SENSOR}_FltTim-RB.THVL")
 
   field(DO5,  "4")
-  field(LNK5, "${P}${R}${SENSOR}:FltTim-RB.FRVL")
+  field(LNK5, "${P}${R}${SENSOR}_FltTim-RB.FRVL")
 
   field(DO6,  "0")
-  field(LNK6, "${P}${R}${SENSOR}:FltTimS.ZRVL")
+  field(LNK6, "${P}${R}${SENSOR}_FltTimS.ZRVL")
 
   field(DO7,  "1")
-  field(LNK7, "${P}${R}${SENSOR}:FltTimS.ONVL")
+  field(LNK7, "${P}${R}${SENSOR}_FltTimS.ONVL")
 
   field(DO8,  "2")
-  field(LNK8, "${P}${R}${SENSOR}:FltTimS.TWVL")
+  field(LNK8, "${P}${R}${SENSOR}_FltTimS.TWVL")
 
   field(DO9,  "3")
-  field(LNK9, "${P}${R}${SENSOR}:FltTimS.THVL")
+  field(LNK9, "${P}${R}${SENSOR}_FltTimS.THVL")
 
   field(DOA,  "4")
-  field(LNKA, "${P}${R}${SENSOR}:FltTimS.FRVL")
+  field(LNKA, "${P}${R}${SENSOR}_FltTimS.FRVL")
 
-  field(FLNK, "${P}${R}${SENSOR}:iTPG500FltSseq")
+  field(FLNK, "${P}${R}${SENSOR}_iTPG500FltSseq")
 }
 
 
-record(sseq, "${P}${R}${SENSOR}:iTPG500FltSseq")
+record(sseq, "${P}${R}${SENSOR}_iTPG500FltSseq")
 {
   field(STR1, "1000 Hz")
-  field(LNK1, "${P}${R}${SENSOR}:FltTim-RB.ZRST")
+  field(LNK1, "${P}${R}${SENSOR}_FltTim-RB.ZRST")
 
   field(STR2, "100 Hz")
-  field(LNK2, "${P}${R}${SENSOR}:FltTim-RB.ONST")
+  field(LNK2, "${P}${R}${SENSOR}_FltTim-RB.ONST")
 
   field(STR3, "10 Hz")
-  field(LNK3, "${P}${R}${SENSOR}:FltTim-RB.TWST")
+  field(LNK3, "${P}${R}${SENSOR}_FltTim-RB.TWST")
 
   field(STR4, "1 Hz")
-  field(LNK4, "${P}${R}${SENSOR}:FltTim-RB.THST")
+  field(LNK4, "${P}${R}${SENSOR}_FltTim-RB.THST")
 
   field(STR5, "0.1 Hz")
-  field(LNK5, "${P}${R}${SENSOR}:FltTim-RB.FRST")
+  field(LNK5, "${P}${R}${SENSOR}_FltTim-RB.FRST")
 
   field(STR6, "1000 Hz")
-  field(LNK6, "${P}${R}${SENSOR}:FltTimS.ZRST")
+  field(LNK6, "${P}${R}${SENSOR}_FltTimS.ZRST")
 
   field(STR7, "100 Hz")
-  field(LNK7, "${P}${R}${SENSOR}:FltTimS.ONST")
+  field(LNK7, "${P}${R}${SENSOR}_FltTimS.ONST")
 
   field(STR8, "10 Hz")
-  field(LNK8, "${P}${R}${SENSOR}:FltTimS.TWST")
+  field(LNK8, "${P}${R}${SENSOR}_FltTimS.TWST")
 
   field(STR9, "1 Hz")
-  field(LNK9, "${P}${R}${SENSOR}:FltTimS.THST")
+  field(LNK9, "${P}${R}${SENSOR}_FltTimS.THST")
 
   field(STRA, "0.1 Hz")
-  field(LNKA, "${P}${R}${SENSOR}:FltTimS.FRST")
+  field(LNKA, "${P}${R}${SENSOR}_FltTimS.FRST")
 }
 
 
-record(seq, "${P}${R}${SENSOR}:iConnect-Name-FO")
+record(seq, "${P}${R}${SENSOR}_iConnect-Name-FO")
 {
 # DOL1 and LNK1 is set in vac_gauge_tpg500.db
   field(DOL1, "0")
-  field(LNK1, "${P}${R}${SENSOR}:iNameInit2.PVAL")
+  field(LNK1, "${P}${R}${SENSOR}_iNameInit2.PVAL")
 }
 
 
-record(stringin, "${P}${R}${SENSOR}:Name-RB")
+record(stringin, "${P}${R}${SENSOR}_Name-RB")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}${SENSOR}:Name-RB")
   field(DESC, "Sensor name")
   field(INP,  "${P}${R}iSensorNames-RB.${SOURCE}${SOURCE} CP MSS")
 
-  field(FLNK, "${P}${R}${SENSOR}:iNameInit")
+  field(FLNK, "${P}${R}${SENSOR}_iNameInit")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -135,29 +137,31 @@ record(stringin, "${P}${R}${SENSOR}:Name-RB")
 }
 
 
-record(stringout, "${P}${R}${SENSOR}:NameS")
+record(stringout, "${P}${R}${SENSOR}_NameS")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}${SENSOR}:NameS")
 # This is just a placeholder, it should not initiate a name change
   field(DESC, "Sensor name")
 }
 
 
 # if Name-RB is valid
-record(scalcout, "${P}${R}${SENSOR}:iNameInit")
+record(scalcout, "${P}${R}${SENSOR}_iNameInit")
 {
-  field(INAA, "${P}${R}${SENSOR}:Name-RB MS")
-  field(OUT,  "${P}${R}${SENSOR}:iNameInit2.PROC PP")
+  field(INAA, "${P}${R}${SENSOR}_Name-RB MS")
+  field(OUT,  "${P}${R}${SENSOR}_iNameInit2.PROC PP")
   field(CALC, "42")
   field(IVOA, "Don't drive outputs")
 }
 
 
 # and Name-RB is different from iPrevName
-record(scalcout, "${P}${R}${SENSOR}:iNameInit2")
+record(scalcout, "${P}${R}${SENSOR}_iNameInit2")
 {
-  field(INAA, "${P}${R}${SENSOR}:Name-RB")
-  field(INBB, "${P}${R}${SENSOR}:iPrevName")
-  field(OUT,  "${P}${R}${SENSOR}:iPrevName.PROC PP")
+  field(INAA, "${P}${R}${SENSOR}_Name-RB")
+  field(INBB, "${P}${R}${SENSOR}_iPrevName")
+  field(OUT,  "${P}${R}${SENSOR}_iPrevName.PROC PP")
   field(VAL,  "0")
   field(CALC, "AA!=BB")
   field(OOPT, "Transition To Non-zero")
@@ -165,17 +169,17 @@ record(scalcout, "${P}${R}${SENSOR}:iNameInit2")
 
 
 # then update iPrevName
-record(stringin, "${P}${R}${SENSOR}:iPrevName")
+record(stringin, "${P}${R}${SENSOR}_iPrevName")
 {
-  field(INP,  "${P}${R}${SENSOR}:Name-RB")
+  field(INP,  "${P}${R}${SENSOR}_Name-RB")
   field(VAL,  "-1")
-  field(FLNK, "${P}${R}${SENSOR}:iNameInit-FO")
+  field(FLNK, "${P}${R}${SENSOR}_iNameInit-FO")
 }
 
 
 # and update NameS too
-record(sseq, "${P}${R}${SENSOR}:iNameInit-FO")
+record(sseq, "${P}${R}${SENSOR}_iNameInit-FO")
 {
-  field(DOL2, "${P}${R}${SENSOR}:Name-RB")
-  field(LNK2, "${P}${R}${SENSOR}:NameS PP")
+  field(DOL2, "${P}${R}${SENSOR}_Name-RB")
+  field(LNK2, "${P}${R}${SENSOR}_NameS PP")
 }

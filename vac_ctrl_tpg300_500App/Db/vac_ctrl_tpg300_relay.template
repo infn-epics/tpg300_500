@@ -1,17 +1,17 @@
-record(fanout, "${P}${R}Rly${FUNCTION}:iConnect-FO")
+record(fanout, "${P}${R}Rly${FUNCTION}_iConnect-FO")
 {
 # FLNK is set in vac_gauge_tpg300_relay.db
 }
 
 
-record(seq, "${P}${R}Rly${FUNCTION}:iTPG300ChanSeq")
+record(seq, "${P}${R}Rly${FUNCTION}_iTPG300ChanSeq")
 {
 # Set by vac_gauge_tpg300_relay.db
-  field(FLNK, "${P}${R}Rly${FUNCTION}:iTPG300ChanSseq")
+  field(FLNK, "${P}${R}Rly${FUNCTION}_iTPG300ChanSseq")
 }
 
 
-record(sseq, "${P}${R}Rly${FUNCTION}:iTPG300ChanSseq")
+record(sseq, "${P}${R}Rly${FUNCTION}_iTPG300ChanSseq")
 {
 # Set by vac_gauge_tpg300_relay.db
 }

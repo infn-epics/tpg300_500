@@ -1,13 +1,18 @@
-record(stringin, "${P}${R}ModMain:TypeR")
+record(stringin, "${P}${R}ModMain_TypeR")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}ModMain:TypeR")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}CommsOK CP")
 }
 
 
-record(stringin, "${P}${R}iUITypeR")
+record(stringin, "${P}${R}UITypeR")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}iUITypeR")
+  field(DESC, "Type of gauge controller")
   field(PINI, "YES")
   field(VAL,  "TPG300")
 
@@ -17,8 +22,10 @@ record(stringin, "${P}${R}iUITypeR")
 }
 
 
-record(stringin, "${P}${R}ModMain:FWVersionR")
+record(stringin, "${P}${R}ModMain_FWVersionR")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}ModMain:FWVersionR")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_version ${ASYNPORT}")
   field(SCAN, "Event")
@@ -65,10 +72,10 @@ record(scalcout, "${P}${R}iModTypesR")
 
 record(fanout, "${P}${R}iModTypesR-FO")
 {
-  field(LNK1, "${P}${R}ModComm:TypeR")
+  field(LNK1, "${P}${R}ModComm_TypeR")
   field(LNK2, "${P}${R}iCommsStatCalc")
-  field(LNK3, "${P}${R}ModA:TypeR")
-  field(LNK4, "${P}${R}ModB:TypeR")
+  field(LNK3, "${P}${R}ModA_TypeR")
+  field(LNK4, "${P}${R}ModB_TypeR")
 
 # Do not disable this PV
   field(DISV, "42")
@@ -76,8 +83,10 @@ record(fanout, "${P}${R}iModTypesR-FO")
 }
 
 
-record(stringin, "${P}${R}ModA:TypeR")
+record(stringin, "${P}${R}ModA_TypeR")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}ModA:TypeR")
   field(INP,  "${P}${R}iModTypesR.AA MSS")
 
   field(DISV, "0")
@@ -86,8 +95,10 @@ record(stringin, "${P}${R}ModA:TypeR")
 }
 
 
-record(stringin, "${P}${R}ModB:TypeR")
+record(stringin, "${P}${R}ModB_TypeR")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}ModB:TypeR")
   field(INP,  "${P}${R}iModTypesR.BB MSS")
 
   field(DISV, "0")
@@ -96,8 +107,10 @@ record(stringin, "${P}${R}ModB:TypeR")
 }
 
 
-record(stringin, "${P}${R}ModComm:TypeR")
+record(stringin, "${P}${R}ModComm_TypeR")
 {
+# FIXME: remove this once the OPIs are updated
+#  alias("${P}${R}ModComm:TypeR")
   field(INP,  "${P}${R}iModTypesR.CC MSS")
 
 # Must not disable with CommsOK, since CommsOK is calculated from this
@@ -346,10 +359,10 @@ record(calcout, "${P}${R}SensorFltTimsS")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_filter() ${ASYNPORT}")
 
-  field(INPA, "${P}${R}A1:FltTimS.RVAL")
-  field(INPB, "${P}${R}A2:FltTimS.RVAL")
-  field(INPC, "${P}${R}B1:FltTimS.RVAL")
-  field(INPD, "${P}${R}B2:FltTimS.RVAL")
+  field(INPA, "${P}${R}A1_FltTimS.RVAL")
+  field(INPB, "${P}${R}A2_FltTimS.RVAL")
+  field(INPC, "${P}${R}B1_FltTimS.RVAL")
+  field(INPD, "${P}${R}B2_FltTimS.RVAL")
 
   field(FLNK, "${P}${R}iSensorFltTims-RB.PROC CA")
 
@@ -426,19 +439,19 @@ record(calcout, "${P}${R}iTPG300RlyStatsR")
 ################################################################################
 record(fanout, "${P}${R}iConnect-FltTims-FO")
 {
-  field(LNK1, "${P}${R}A1:iConnect-FltTim-FO")
-  field(LNK2, "${P}${R}A2:iConnect-FltTim-FO")
-  field(LNK3, "${P}${R}B1:iConnect-FltTim-FO")
-  field(LNK4, "${P}${R}B2:iConnect-FltTim-FO")
+  field(LNK1, "${P}${R}A1_iConnect-FltTim-FO")
+  field(LNK2, "${P}${R}A2_iConnect-FltTim-FO")
+  field(LNK3, "${P}${R}B1_iConnect-FltTim-FO")
+  field(LNK4, "${P}${R}B2_iConnect-FltTim-FO")
 }
 
 
 record(fanout, "${P}${R}iConnect-Rlys-FO")
 {
-  field(LNK1, "${P}${R}Rly1:iConnect-FO")
-  field(LNK2, "${P}${R}Rly2:iConnect-FO")
-  field(LNK3, "${P}${R}Rly3:iConnect-FO")
-  field(LNK4, "${P}${R}Rly4:iConnect-FO")
+  field(LNK1, "${P}${R}Rly1_iConnect-FO")
+  field(LNK2, "${P}${R}Rly2_iConnect-FO")
+  field(LNK3, "${P}${R}Rly3_iConnect-FO")
+  field(LNK4, "${P}${R}Rly4_iConnect-FO")
 }
 
 
@@ -533,7 +546,7 @@ record(seq, "${P}${R}iConnectedSeq")
 record(scalcout, "${P}${R}iCommsStatCalc")
 {
   field(INPA, "${P}${R}ConnectedR")
-  field(INBB, "${P}${R}ModComm:TypeR")
+  field(INBB, "${P}${R}ModComm_TypeR")
   field(INPC, "${P}${R}iModTypesR.STAT")
   field(CALC, "B:=BB[0,4]=='IF300';A?(C==0?(B==0?'2':'3'):'1'):'0'")
   field(OOPT, "On Change")
