@@ -49,6 +49,7 @@ record(calcout, "${P}${R}iRlyValidCalc")
 
 record(bi, "${P}${R}RlyValidR")
 {
+  field(DESC, "Gauge-relay assignment status")
   field(ZNAM, "Invalid Relay Assignment")
   field(ONAM, "Correct Relay Assignment")
   field(ZSV,  "MAJOR")
@@ -56,6 +57,19 @@ record(bi, "${P}${R}RlyValidR")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}ValidR")
+}
+
+
+# Fixed to valid as TPG modules does not have serial numbers
+record(bi, "${P}${R}ModuleValidR")
+{
+  field(DESC, "Module is the same as commissioned")
+  field(ZNAM, "Invalid")
+  field(ONAM, "Valid")
+
+  field(VAL,  "1")
+  field(PINI, "YES")
+  field(DISP, "1")
 }
 
 
