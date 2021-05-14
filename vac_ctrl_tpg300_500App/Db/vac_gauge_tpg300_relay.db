@@ -19,6 +19,15 @@ record(stringin, "${P}${R}Rly${n}_NameR")
 }
 
 
+record(lsi, "${P}${R}Rly${n}_Description")
+{
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(SIZV, "255")
+  field(INP,  {const:"${RELAY_DESC}"})
+}
+
+
 record(bi, "${P}${R}Rly${n}_DAQTrigR")
 {
 # FIXME: remove this once the OPIs are updated
