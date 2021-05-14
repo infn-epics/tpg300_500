@@ -12,7 +12,7 @@
 record(stringin, "${P}${R}Rly${n}_NameR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:NameR")
+  alias("${P}${R}Rly${n}:NameR")
   field(PINI, "YES")
   field(DISP, "1")
   field(VAL,  "Relay${RELAY}")
@@ -22,7 +22,7 @@ record(stringin, "${P}${R}Rly${n}_NameR")
 record(bi, "${P}${R}Rly${n}_DAQTrigR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:DAQTrigR")
+  alias("${P}${R}Rly${n}:DAQTrigR")
   field(DESC, "Relay is set to trigger DAQ post mortem")
   field(ONAM, "Triggers DAQ")
 }
@@ -56,7 +56,7 @@ record(calcout, "${P}${R}Rly${n}_iValidCalc")
 record(bi, "${P}${R}Rly${n}_ValidR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:ValidR")
+  alias("${P}${R}Rly${n}:ValidR")
   field(ZNAM, "Invalid Relay Assignment")
   field(ONAM, "Correct Relay Assignment")
   field(ZSV,  "MAJOR")
@@ -86,7 +86,7 @@ record(sseq, "${P}${R}Rly${n}_iUnitChanged")
 record(mbbo, "${P}${R}Rly${n}_ChanS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:ChanS")
+  alias("${P}${R}Rly${n}:ChanS")
   field(ZRVL, "0")
   field(ZRST, "N/A")
 
@@ -107,7 +107,7 @@ record(mbbo, "${P}${R}Rly${n}_ChanS")
 record(ao, "${P}${R}Rly${n}_LowSPS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:LowSPS")
+  alias("${P}${R}Rly${n}:LowSPS")
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
@@ -118,7 +118,7 @@ record(ao, "${P}${R}Rly${n}_LowSPS")
 record(ao, "${P}${R}Rly${n}_HighSPS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:HighSPS")
+  alias("${P}${R}Rly${n}:HighSPS")
   field(PREC, "2")
   field(EGU,  "${EGU}")
   field(DRVL, "1.0e-11")
@@ -129,7 +129,7 @@ record(ao, "${P}${R}Rly${n}_HighSPS")
 record(bo, "${P}${R}Rly${n}_CommitS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:CommitS")
+  alias("${P}${R}Rly${n}:CommitS")
   field(OUT,  "${P}${R}Rly${n}_iCommitS PP")
 
   field(DISV, "0")
@@ -174,7 +174,7 @@ record(sel, "${P}${R}Rly${n}_iCommitError")
 record(mbbi, "${P}${R}Rly${n}_CommitS-ErrorR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:CommitS-ErrorR")
+  alias("${P}${R}Rly${n}:CommitS-ErrorR")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${P}${R}Rly${n}_iCommitError CP MSS")
 
@@ -236,7 +236,7 @@ record(fanout, "${P}${R}Rly${n}_iGetR-FO")
 record(ai, "${P}${R}Rly${n}_LowSP-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:LowSP-RB")
+  alias("${P}${R}Rly${n}:LowSP-RB")
   field(INP,  "${P}${R}Rly${n}_iGetR.A MSS")
 
   field(PREC, "2")
@@ -252,7 +252,7 @@ record(ai, "${P}${R}Rly${n}_LowSP-RB")
 record(ai, "${P}${R}Rly${n}_HighSP-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:HighSP-RB")
+  alias("${P}${R}Rly${n}:HighSP-RB")
   field(INP,  "${P}${R}Rly${n}_iGetR.B MSS")
 
   field(PREC, "2")
@@ -268,7 +268,7 @@ record(ai, "${P}${R}Rly${n}_HighSP-RB")
 record(mbbi, "${P}${R}Rly${n}_Chan-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:Chan-RB")
+  alias("${P}${R}Rly${n}:Chan-RB")
   field(INP,  "${P}${R}Rly${n}_iGetR.C MSS")
 
   field(ZRVL, "0")
@@ -401,7 +401,7 @@ record(sel, "${P}${R}Rly${n}_iStatR")
 record(bi, "${P}${R}Rly${n}_StatR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}Rly${n}:StatR")
+  alias("${P}${R}Rly${n}:StatR")
   field(INP,  "${P}${R}Rly${n}_iStatR CP MSS")
 
   field(ZNAM, "Cleared")

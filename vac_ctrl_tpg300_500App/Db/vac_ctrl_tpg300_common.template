@@ -1,7 +1,7 @@
 record(stringin, "${P}${R}ModMain_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModMain:TypeR")
+  alias("${P}${R}ModMain:TypeR")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}CommsOK CP")
@@ -25,7 +25,7 @@ record(stringin, "${P}${R}UITypeR")
 record(stringin, "${P}${R}ModMain_FWVersionR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModMain:FWVersionR")
+  alias("${P}${R}ModMain:FWVersionR")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_version ${ASYNPORT}")
   field(SCAN, "Event")
@@ -86,7 +86,7 @@ record(fanout, "${P}${R}iModTypesR-FO")
 record(stringin, "${P}${R}ModA_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModA:TypeR")
+  alias("${P}${R}ModA:TypeR")
   field(INP,  "${P}${R}iModTypesR.AA MSS")
 
   field(DISV, "0")
@@ -98,7 +98,7 @@ record(stringin, "${P}${R}ModA_TypeR")
 record(stringin, "${P}${R}ModB_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModB:TypeR")
+  alias("${P}${R}ModB:TypeR")
   field(INP,  "${P}${R}iModTypesR.BB MSS")
 
   field(DISV, "0")
@@ -110,7 +110,7 @@ record(stringin, "${P}${R}ModB_TypeR")
 record(stringin, "${P}${R}ModComm_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModComm:TypeR")
+  alias("${P}${R}ModComm:TypeR")
   field(INP,  "${P}${R}iModTypesR.CC MSS")
 
 # Must not disable with CommsOK, since CommsOK is calculated from this

@@ -332,7 +332,7 @@ record(stringout, "${P}${R}iMainTypeDist")
 record(stringin, "${P}${R}ModMain_PartNumR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModMain:PartNumR")
+  alias("${P}${R}ModMain:PartNumR")
   field(DESC, "Part number")
   field(INP,  "${P}${R}iIdn.BB")
 
@@ -345,7 +345,7 @@ record(stringin, "${P}${R}ModMain_PartNumR")
 record(stringin, "${P}${R}ModMain_SerNumR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModMain:SerNumR")
+  alias("${P}${R}ModMain:SerNumR")
   field(DESC, "Serial number")
   field(INP,  "${P}${R}iIdn.CC")
 
@@ -358,7 +358,7 @@ record(stringin, "${P}${R}ModMain_SerNumR")
 record(stringin, "${P}${R}ModMain_HWVerR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}ModMain:HWVerR")
+  alias("${P}${R}ModMain:HWVerR")
   field(DESC, "Hardware version")
   field(INP,  "${P}${R}iIdn.EE")
 
@@ -433,7 +433,7 @@ record(stringin, "${P}${R}RecalibDateR")
 record(mbbi, "${P}${R}RlyErr_Mode-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}RlyErr:Mode-RB")
+  alias("${P}${R}RlyErr:Mode-RB")
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_error_relay_assignment() ${ASYNPORT}")
@@ -467,7 +467,7 @@ record(mbbi, "${P}${R}RlyErr_Mode-RB")
 record(mbbo, "${P}${R}RlyErr_ModeS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}RlyErr:ModeS")
+  alias("${P}${R}RlyErr:ModeS")
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_error_relay_assignment() ${ASYNPORT}")

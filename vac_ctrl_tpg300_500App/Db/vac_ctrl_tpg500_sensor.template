@@ -125,7 +125,7 @@ record(seq, "${P}${R}${SENSOR}_iConnect-Name-FO")
 record(stringin, "${P}${R}${SENSOR}_Name-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:Name-RB")
+  alias("${P}${R}${SENSOR}:Name-RB")
   field(DESC, "Sensor name")
   field(INP,  "${P}${R}iSensorNames-RB.${SOURCE}${SOURCE} CP MSS")
 
@@ -140,7 +140,7 @@ record(stringin, "${P}${R}${SENSOR}_Name-RB")
 record(stringout, "${P}${R}${SENSOR}_NameS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:NameS")
+  alias("${P}${R}${SENSOR}:NameS")
 # This is just a placeholder, it should not initiate a name change
   field(DESC, "Sensor name")
 }

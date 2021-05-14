@@ -1,7 +1,7 @@
 record(stringin, "${P}${R}${SENSOR}_DevNameR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:DevNameR")
+  alias("${P}${R}${SENSOR}:DevNameR")
   field(DESC, "Devicename of gauge connected to channel")
   field(DISP, "1")
 }
@@ -10,7 +10,7 @@ record(stringin, "${P}${R}${SENSOR}_DevNameR")
 record(stringin, "${P}${R}${SENSOR}_ChanR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:ChanR")
+  alias("${P}${R}${SENSOR}:ChanR")
   field(DESC, "The channel this gauge is connected to")
   field(DISP, "1")
   field(PINI, "YES")
@@ -21,7 +21,7 @@ record(stringin, "${P}${R}${SENSOR}_ChanR")
 record(longin, "${P}${R}${SENSOR}_NumOfRlysR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:NumOfRlysR")
+  alias("${P}${R}${SENSOR}:NumOfRlysR")
   field(DESC, "Number of relays assigned to channel")
   field(DISP, "1")
 }
@@ -89,7 +89,7 @@ record(mbbi, "${P}${R}${SENSOR}_iSensorTypeR")
 record(stringin, "${P}${R}${SENSOR}_SensorTypeR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:SensorTypeR")
+  alias("${P}${R}${SENSOR}:SensorTypeR")
   field(DISP, "1")
   field(INP,  "${P}${R}${SENSOR}_iSensorTypeR")
 
@@ -102,7 +102,7 @@ record(stringin, "${P}${R}${SENSOR}_SensorTypeR")
 record(bi, "${P}${R}${SENSOR}_ValidR")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:ValidR")
+  alias("${P}${R}${SENSOR}:ValidR")
   field(ZNAM, "Incorrect Gauge Type")
   field(ONAM, "Correct Gauge Type")
   field(ZSV,  "MAJOR")
@@ -112,7 +112,7 @@ record(bi, "${P}${R}${SENSOR}_ValidR")
 record(mbbi, "${P}${R}${SENSOR}_FltTim-RB")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:FltTim-RB")
+  alias("${P}${R}${SENSOR}:FltTim-RB")
   field(DTYP, "Raw Soft Channel")
   field(INP,  "${P}${R}iSensorFltTims-RB.${SOURCE} CP MSS")
 
@@ -136,7 +136,7 @@ record(mbbi, "${P}${R}${SENSOR}_FltTim-RB")
 record(mbbo, "${P}${R}${SENSOR}_FltTimS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:FltTimS")
+  alias("${P}${R}${SENSOR}:FltTimS")
   field(DTYP, "Raw Soft Channel")
 
   field(ZRVL, "1")
@@ -156,7 +156,7 @@ record(mbbo, "${P}${R}${SENSOR}_FltTimS")
 record(fanout, "${P}${R}${SENSOR}_FltTimCommitS")
 {
 # FIXME: remove this once the OPIs are updated
-#  alias("${P}${R}${SENSOR}:FltTimCommitS")
+  alias("${P}${R}${SENSOR}:FltTimCommitS")
 # Dynamically disabled by iFltTimInit-FO when FltTimS is updated from its -RB
   field(FLNK, "${P}${R}SensorFltTimsS")
 }
