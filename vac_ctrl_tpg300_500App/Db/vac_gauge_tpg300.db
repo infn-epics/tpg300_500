@@ -175,6 +175,10 @@ record(ai, "${P}${R}PrsR")
 {
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
+# Archive every data point
+  field(MDEL, "-1")
+  field(ADEL, "-1")
+
 
   field(DISV, "0")
   field(DISS, "INVALID")
