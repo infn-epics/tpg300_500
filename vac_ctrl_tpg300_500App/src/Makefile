@@ -26,7 +26,7 @@ vac_ctrl_tpg300_500Support_SRCS += tpg300_500StreamFormatConverter.cpp
 # Link in the code from our support library
 vac_ctrl_tpg300_500_LIBS += vac_ctrl_tpg300_500Support
 
-PROD_LIBS += stream
+USR_LIBS += stream
 
 
 # Finally link IOC to the EPICS Base libraries
