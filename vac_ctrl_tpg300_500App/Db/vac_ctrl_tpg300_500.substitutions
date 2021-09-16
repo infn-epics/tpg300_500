@@ -1,8 +1,8 @@
 file vac_ctrl_tpg300_common.template
 {
-	pattern { NULL }
+	pattern { IS_ETH_INTERFACE }
 
-		{ "" }
+		{ "\${IS_ETH_INTERFACE=0}" }
 }
 
 file vac_ctrl_tpg500_common.template
