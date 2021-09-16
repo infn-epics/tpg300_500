@@ -636,7 +636,7 @@ record(scalcout, "${P}${R}:iPrsR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}${R}TPG500CommsOK")
 }
 
 
