@@ -235,10 +235,12 @@ record(mbbi, "${P}${R}GaugeStatR")
 record(calc, "${P}${R}iCalcStat")
 {
 # Increase GaugeStat value if INVALID
+# Set to ERROR if not ValidR
   field(INPA, "${P}${R}GaugeStatR")
   field(INPB, "${P}${R}GaugeStatR.SEVR")
+  field(INPC, "${P}${R}ValidR")
   # SEVR == INVALID
-  field(CALC, "C:=(B==3 ? 0 : A + 1);C")
+  field(CALC, "D:=(C ? (B==3 ? 0 : A + 1) : 4);D")
 }
 
 
@@ -247,7 +249,7 @@ record(mbbo, "${P}${R}iPrsStatS")
   field(DTYP, "Raw Soft Channel")
   field(DOL,  "${P}${R}iCalcStat PP MSS")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}PrsStatR MSS PP")
+  field(OUT,  "${P}${R}#PrsStat MSS PP")
 
   # INVALID
   #  -  0
@@ -277,9 +279,68 @@ record(mbbo, "${P}${R}iPrsStatS")
 }
 
 
+record(longin, "${P}${R}#PrsStat")
+{
+  field(FLNK, "${P}${R}#ChkValidChanged")
+}
+
+
+record(calcout, "${P}${R}#ChkValidChanged")
+{
+# Check if ValidR or RlyValidR changed and process #ValidChanged if yes
+    field(INPA, "${P}${R}ValidR")
+    field(INPB, "${P}${R}RlyValidR")
+    field(CALC, "A && B")
+# Force change on first processing
+    field(VAL,  "42")
+    field(OOPT, "On Change")
+    field(OUT,  "${P}${R}#ValidChanged PP")
+
+# Set PrsStatR
+    field(FLNK, "${P}${R}PrsStatR")
+}
+
+
+record(seq, "${P}${R}#ValidChanged") {
+    field(SELL, "${P}${R}#ChkValidChanged")
+    field(SELM, "Specified")
+    field(OFFS, "0")
+
+# Invalid, let's do the SDIS dance
+    field(DOL0, "1")
+    field(LNK0, "${P}${R}#PrsStatMagic.PROC PP")
+
+# Valid, set #PrsStatValid to 1
+    field(DOL1, "1")
+    field(LNK1, "${P}${R}#PrsStatValid PP")
+}
+
+
+record(seq, "${P}${R}#PrsStatMagic") {
+    field(SELM, "All")
+
+# Set #PrsStatValid to 1 temporarily so that PrsStatR is enabled
+    field(DOL1, "1")
+    field(LNK1, "${P}${R}#PrsStatValid PP")
+
+# Process PrsStatR
+    field(DOL2, "1")
+    field(LNK2, "${P}${R}PrsStatR.PROC PP")
+
+# Set #PrsStatValid to 0 (the correct value). #ChkValidChanged will process PrsStatR again and it will pick up the disabled state
+    field(DOL3, "0")
+    field(LNK3, "${P}${R}#PrsStatValid PP")
+}
+
+
+record(bi, "${P}${R}#PrsStatValid") {
+# Helper PV so that we can change the value of PrsStatR based on ValidR
+}
+
 record(mbbi, "${P}${R}PrsStatR")
 {
   field(DESC, "Status of channel ${SENSOR}")
+  field(INP,  "${P}${R}#PrsStat MSS")
 
   field(ZRVL, "0")
   field(ZRST, "INVALID")
@@ -302,7 +363,7 @@ record(mbbi, "${P}${R}PrsStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}${R}#PrsStatValid")
 }
 
 
