@@ -173,6 +173,7 @@ record(calcout, "${P}${R}iPrsCalc")
 
 record(ai, "${P}${R}PrsR")
 {
+  field(TSEL, "${P}${R}iPrsInR.TIME")
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
 # Archive every data point
@@ -198,6 +199,7 @@ record(scalcout, "${P}${R}iPrsR-STR")
 
 record(stringin, "${P}${R}PrsR-STR")
 {
+  field(TSEL, "${P}${R}iPrsInR.TIME")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}ValidR")
@@ -207,6 +209,7 @@ record(stringin, "${P}${R}PrsR-STR")
 record(mbbi, "${P}${R}GaugeStatR")
 {
   field(INP,  "${P}${R}iPrsInR.A MSS")
+  field(TSEL, "${P}${R}iPrsInR.TIME")
 
   field(ZRVL, "0")
   field(ZRST, "DATA OK")
@@ -341,6 +344,7 @@ record(mbbi, "${P}${R}PrsStatR")
 {
   field(DESC, "Status of channel ${SENSOR}")
   field(INP,  "${P}${R}#PrsStat MSS")
+  field(TSEL, "${P}${R}iPrsInR.TIME")
 
   field(ZRVL, "0")
   field(ZRST, "INVALID")
