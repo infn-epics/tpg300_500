@@ -18,4 +18,4 @@
 #- @type STRING
 #- Description of relay 2
 
-iocshLoad($(vac_ctrl_tpg300_500_DIR)/_vac_gauge_tpg300_vgc_$(CHANNEL).iocsh, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), RELAY1_DESC = $(RELAY1_DESC=), RELAY2_DESC = $(RELAY2_DESC=)")
+iocshLoad($(vac_ctrl_tpg300_500_DIR)/_vac_gauge_tpg300_vgc_$(CHANNEL).iocsh, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), RELAY1_DESC = '$(RELAY1_DESC=)', RELAY2_DESC = '$(RELAY2_DESC=)'")
