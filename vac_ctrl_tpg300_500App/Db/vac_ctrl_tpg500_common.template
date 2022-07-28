@@ -80,10 +80,10 @@ record(mbbi, "${P}${R}iTypeEnumR")
 
 record(stringout, "${P}${R}iUITypeDist")
 {
-  field(DESC, "Bridge between iTypeEnumR and iUITypeR")
+  field(DESC, "Bridge between iTypeEnumR and UITypeR")
   field(DOL,  "${P}${R}iTypeEnumR")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}iUITypeR PP")
+  field(OUT,  "${P}${R}UITypeR PP")
 
   field(FLNK, "${P}${R}iIdnSeq")
 }
@@ -112,10 +112,10 @@ record(fanout, "${P}${R}iTPG300Helper")
 
 record(fanout, "${P}${R}iTPG300RlyChan-FO")
 {
-  field(LNK1, "${P}${R}Rly1:iTPG300ChanSeq")
-  field(LNK2, "${P}${R}Rly2:iTPG300ChanSeq")
-  field(LNK3, "${P}${R}Rly3:iTPG300ChanSeq")
-  field(LNK4, "${P}${R}Rly4:iTPG300ChanSeq")
+  field(LNK1, "${P}${R}Rly1_iTPG300ChanSeq")
+  field(LNK2, "${P}${R}Rly2_iTPG300ChanSeq")
+  field(LNK3, "${P}${R}Rly3_iTPG300ChanSeq")
+  field(LNK4, "${P}${R}Rly4_iTPG300ChanSeq")
 }
 
 
@@ -132,16 +132,16 @@ record(sseq, "${P}${R}iTPG300RlyStatSseq")
 record(sseq, "${P}${R}iTPG300PrsSseq")
 {
   field(DOL1, "${P}${R}iEvent")
-  field(LNK1, "${P}${R}A1:iPrsR.SCAN")
+  field(LNK1, "${P}${R}A1_iPrsInR.SCAN")
 
   field(DOL2, "${P}${R}iEvent")
-  field(LNK2, "${P}${R}A2:iPrsR.SCAN")
+  field(LNK2, "${P}${R}A2_iPrsInR.SCAN")
 
   field(DOL3, "${P}${R}iEvent")
-  field(LNK3, "${P}${R}B1:iPrsR.SCAN")
+  field(LNK3, "${P}${R}B1_iPrsInR.SCAN")
 
   field(DOL4, "${P}${R}iEvent")
-  field(LNK4, "${P}${R}B2:iPrsR.SCAN")
+  field(LNK4, "${P}${R}B2_iPrsInR.SCAN")
 
   field(DOL5, "${P}${R}iPassive")
   field(LNK5, "${P}${R}iPrsR.SCAN")
@@ -152,7 +152,7 @@ record(stringout, "${P}${R}iTPG300TypeR")
 {
   field(DOL,  "${P}${R}iTPG300")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}ModMain:TypeR PP")
+  field(OUT,  "${P}${R}ModMain_TypeR PP")
 
   field(FLNK, "${P}${R}iIdn-FO")
 }
@@ -172,19 +172,19 @@ record(fanout, "${P}${R}iTPG500Helper")
 
 record(fanout, "${P}${R}iTPG500SensFlt-FO")
 {
-  field(LNK1, "${P}${R}A1:iTPG500FltSeq")
-  field(LNK2, "${P}${R}A2:iTPG500FltSeq")
-  field(LNK3, "${P}${R}B1:iTPG500FltSeq")
-  field(LNK4, "${P}${R}B2:iTPG500FltSeq")
+  field(LNK1, "${P}${R}A1_iTPG500FltSeq")
+  field(LNK2, "${P}${R}A2_iTPG500FltSeq")
+  field(LNK3, "${P}${R}B1_iTPG500FltSeq")
+  field(LNK4, "${P}${R}B2_iTPG500FltSeq")
 }
 
 
 record(fanout, "${P}${R}iTPG500RlyChan-FO")
 {
-  field(LNK1, "${P}${R}Rly1:iTPG500ChanSeq")
-  field(LNK2, "${P}${R}Rly2:iTPG500ChanSeq")
-  field(LNK3, "${P}${R}Rly3:iTPG500ChanSeq")
-  field(LNK4, "${P}${R}Rly4:iTPG500ChanSeq")
+  field(LNK1, "${P}${R}Rly1_iTPG500ChanSeq")
+  field(LNK2, "${P}${R}Rly2_iTPG500ChanSeq")
+  field(LNK3, "${P}${R}Rly3_iTPG500ChanSeq")
+  field(LNK4, "${P}${R}Rly4_iTPG500ChanSeq")
 }
 
 
@@ -201,16 +201,16 @@ record(sseq, "${P}${R}iTPG500RlyStatSseq")
 record(sseq, "${P}${R}iTPG500PrsSseq")
 {
   field(DOL1, "${P}${R}iPassive")
-  field(LNK1, "${P}${R}A1:iPrsR.SCAN")
+  field(LNK1, "${P}${R}A1_iPrsInR.SCAN")
 
   field(DOL2, "${P}${R}iPassive")
-  field(LNK2, "${P}${R}A2:iPrsR.SCAN")
+  field(LNK2, "${P}${R}A2_iPrsInR.SCAN")
 
   field(DOL3, "${P}${R}iPassive")
-  field(LNK3, "${P}${R}B1:iPrsR.SCAN")
+  field(LNK3, "${P}${R}B1_iPrsInR.SCAN")
 
   field(DOL4, "${P}${R}iPassive")
-  field(LNK4, "${P}${R}B2:iPrsR.SCAN")
+  field(LNK4, "${P}${R}B2_iPrsInR.SCAN")
 
   field(DOL5, "${P}${R}iEvent")
   field(LNK5, "${P}${R}iPrsR.SCAN")
@@ -277,9 +277,9 @@ record(fanout, "${P}${R}iIdn-FO")
 {
   field(LNK1, "${P}${R}i500CommsOKCalc")
   field(LNK2, "${P}${R}iMainTypeDist")
-  field(LNK3, "${P}${R}ModMain:PartNumR")
-  field(LNK4, "${P}${R}ModMain:SerNumR")
-  field(LNK5, "${P}${R}ModMain:HWVerR")
+  field(LNK3, "${P}${R}ModMain_PartNumR")
+  field(LNK4, "${P}${R}ModMain_SerNumR")
+  field(LNK5, "${P}${R}ModMain_HWVerR")
 }
 
 
@@ -318,10 +318,10 @@ record(fanout, "${P}${R}TPG500CommsOK-FO")
 
 record(stringout, "${P}${R}iMainTypeDist")
 {
-  field(DESC, "Bridge between iIdn.AA and ModMain:TypeR")
+  field(DESC, "Bridge between iIdn.AA and ModMain_TypeR")
   field(DOL,  "${P}${R}iIdn.AA MSS")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}ModMain:TypeR PP MSS")
+  field(OUT,  "${P}${R}ModMain_TypeR PP MSS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -329,8 +329,10 @@ record(stringout, "${P}${R}iMainTypeDist")
 }
 
 
-record(stringin, "${P}${R}ModMain:PartNumR")
+record(stringin, "${P}${R}ModMain_PartNumR")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}ModMain:PartNumR")
   field(DESC, "Part number")
   field(INP,  "${P}${R}iIdn.BB")
 
@@ -340,8 +342,10 @@ record(stringin, "${P}${R}ModMain:PartNumR")
 }
 
 
-record(stringin, "${P}${R}ModMain:SerNumR")
+record(stringin, "${P}${R}ModMain_SerNumR")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}ModMain:SerNumR")
   field(DESC, "Serial number")
   field(INP,  "${P}${R}iIdn.CC")
 
@@ -351,8 +355,10 @@ record(stringin, "${P}${R}ModMain:SerNumR")
 }
 
 
-record(stringin, "${P}${R}ModMain:HWVerR")
+record(stringin, "${P}${R}ModMain_HWVerR")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}ModMain:HWVerR")
   field(DESC, "Hardware version")
   field(INP,  "${P}${R}iIdn.EE")
 
@@ -424,8 +430,10 @@ record(stringin, "${P}${R}RecalibDateR")
 }
 
 
-record(mbbi, "${P}${R}RlyErr:Mode-RB")
+record(mbbi, "${P}${R}RlyErr_Mode-RB")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}RlyErr:Mode-RB")
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_error_relay_assignment() ${ASYNPORT}")
@@ -456,8 +464,10 @@ record(mbbi, "${P}${R}RlyErr:Mode-RB")
 }
 
 
-record(mbbo, "${P}${R}RlyErr:ModeS")
+record(mbbo, "${P}${R}RlyErr_ModeS")
 {
+# FIXME: remove this once the OPIs are updated
+  alias("${P}${R}RlyErr:ModeS")
   field(DESC, "Error relay assignment")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_error_relay_assignment() ${ASYNPORT}")
@@ -480,7 +490,7 @@ record(mbbo, "${P}${R}RlyErr:ModeS")
   field(FVVL, "5")
   field(FVST, "B2 and On Device Errors")
 
-  field(FLNK, "${P}${R}RlyErr:Mode-RB.PROC CA")
+  field(FLNK, "${P}${R}RlyErr_Mode-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -560,10 +570,10 @@ record(scalcout, "${P}${R}SensorNamesS")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_gauge_names() ${ASYNPORT}")
   field(CALC, "42")
 
-  field(INAA, "${P}${R}A1:NameS")
-  field(INBB, "${P}${R}A2:NameS")
-  field(INCC, "${P}${R}B1:NameS")
-  field(INDD, "${P}${R}B2:NameS")
+  field(INAA, "${P}${R}A1_NameS")
+  field(INBB, "${P}${R}A2_NameS")
+  field(INCC, "${P}${R}B1_NameS")
+  field(INDD, "${P}${R}B2_NameS")
 
   field(FLNK, "${P}${R}iSensorNames-RB.PROC CA")
 
@@ -604,10 +614,10 @@ record(mbbi, "${P}${R}SensorNamesS-ErrorR")
 
 record(fanout, "${P}${R}iConnect-Names-FO")
 {
-  field(LNK1, "${P}${R}A1:iConnect-Name-FO")
-  field(LNK2, "${P}${R}A2:iConnect-Name-FO")
-  field(LNK3, "${P}${R}B1:iConnect-Name-FO")
-  field(LNK4, "${P}${R}B2:iConnect-Name-FO")
+  field(LNK1, "${P}${R}A1_iConnect-Name-FO")
+  field(LNK2, "${P}${R}A2_iConnect-Name-FO")
+  field(LNK3, "${P}${R}B1_iConnect-Name-FO")
+  field(LNK4, "${P}${R}B2_iConnect-Name-FO")
 }
 
 
@@ -625,7 +635,7 @@ record(calcout, "${P}${R}iTPG500RlyStatsR")
 }
 
 
-record(scalcout, "${P}${R}:iPrsR")
+record(scalcout, "${P}${R}iPrsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_pressures ${ASYNPORT}")

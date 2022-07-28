@@ -10,4 +10,12 @@
 #- @type STRING
 #- Channel on the head unit where the gauge is connected to (A1, B1)
 
-iocshLoad($(vac_ctrl_tpg300_500_DIR)/_vac_gauge_tpg300_vgc_$(CHANNEL).iocsh, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME)")
+#- @field RELAY1_DESC
+#- @type STRING
+#- Description of relay 1
+
+#- @field RELAY2_DESC
+#- @type STRING
+#- Description of relay 2
+
+iocshLoad($(vac_ctrl_tpg300_500_DIR)/_vac_gauge_tpg300_vgc_$(CHANNEL).iocsh, "DEVICENAME = $(DEVICENAME), CONTROLLERNAME = $(CONTROLLERNAME), RELAY1_DESC = $(RELAY1_DESC=), RELAY2_DESC = $(RELAY2_DESC=)")

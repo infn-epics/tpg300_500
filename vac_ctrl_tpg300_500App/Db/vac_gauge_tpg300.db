@@ -29,7 +29,7 @@ record(stringin, "${P}${R}ChanR")
 
 record(bi, "${P}${R}ValidR")
 {
-  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}:ValidR CP")
+  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}_ValidR CP")
   field(ZNAM, "Incorrect Gauge Type")
   field(ONAM, "Correct Gauge Type")
   field(ZSV,  "MAJOR")
@@ -40,8 +40,8 @@ record(bi, "${P}${R}ValidR")
 
 record(calcout, "${P}${R}iRlyValidCalc")
 {
-  field(INPA, "${P}${R}Rly1:ValidR CP")
-  field(INPB, "${P}${R}Rly2:ValidR CP")
+  field(INPA, "${P}${R}Rly1_ValidR CP")
+  field(INPB, "${P}${R}Rly2_ValidR CP")
   field(CALC, "A&&B")
   field(OUT,  "${P}${R}RlyValidR PP")
 }
@@ -49,6 +49,7 @@ record(calcout, "${P}${R}iRlyValidCalc")
 
 record(bi, "${P}${R}RlyValidR")
 {
+  field(DESC, "Gauge-relay assignment status")
   field(ZNAM, "Invalid Relay Assignment")
   field(ONAM, "Correct Relay Assignment")
   field(ZSV,  "MAJOR")
@@ -56,6 +57,19 @@ record(bi, "${P}${R}RlyValidR")
   field(DISV, "0")
   field(DISS, "INVALID")
   field(SDIS, "${P}${R}ValidR")
+}
+
+
+# Fixed to valid as TPG modules does not have serial numbers
+record(bi, "${P}${R}ModuleValidR")
+{
+  field(DESC, "Module is the same as commissioned")
+  field(ZNAM, "Invalid")
+  field(ONAM, "Valid")
+
+  field(VAL,  "1")
+  field(PINI, "YES")
+  field(DISP, "1")
 }
 
 
@@ -80,7 +94,7 @@ record(longin, "${P}${R}DisconnectTrigR")
 record(stringin, "${P}${R}SensorTypeR")
 {
   field(DISP, "1")
-  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
+  field(INP,  "${CONTROLLERNAME}${R}${SENSOR}_iSensorTypeR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -90,6 +104,7 @@ record(stringin, "${P}${R}SensorTypeR")
 
 record(scalcout, "${P}${R}iPrsInR")
 {
+  alias("${CONTROLLERNAME}${R}${SENSOR}_iPrsInR")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_pressure(${SENSOR}) ${ASYNPORT}")
   field(SCAN, "Event")
@@ -160,6 +175,10 @@ record(ai, "${P}${R}PrsR")
 {
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
+# Archive every data point
+  field(MDEL, "-1")
+  field(ADEL, "-1")
+
 
   field(DISV, "0")
   field(DISS, "INVALID")
@@ -390,12 +409,23 @@ record(mbbi, "${P}${R}CtrlModeS-ErrorR")
 }
 
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:FltTimS",          "${P}${R}FltTimS")
+record(stringin, "${P}${R}CtrlNameR")
+{
+  field(DESC, "Name of the gauge controller device")
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(VAL,  "${CONTROLLERNAME}")
+}
 
-alias("${CONTROLLERNAME}${R}${SENSOR}:FltTim-RB",        "${P}${R}FltTim-RB")
+
+alias("${CONTROLLERNAME}${R}UITypeR",                    "${P}${R}UITypeR")
+
+alias("${CONTROLLERNAME}${R}${SENSOR}_FltTimS",          "${P}${R}FltTimS")
+
+alias("${CONTROLLERNAME}${R}${SENSOR}_FltTim-RB",        "${P}${R}FltTim-RB")
 
 
-record("*", "${CONTROLLERNAME}${R}${SENSOR}:DevNameR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}_DevNameR")
 {
   alias("${P}${R}DevNameR")
   field(PINI, "YES")
@@ -403,7 +433,7 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:DevNameR")
 }
 
 
-record("*", "${CONTROLLERNAME}${R}${SENSOR}:NumOfRlysR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}_NumOfRlysR")
 {
   alias("${P}${R}NumOfRlysR")
   field(VAL,  "2")
@@ -411,20 +441,20 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}:NumOfRlysR")
 }
 
 
-record("*", "${CONTROLLERNAME}${R}${SENSOR}:iCheckModType")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}_iCheckModType")
 {
   field(CALC, "(A&&(AA[0,1]=='${BOARD}'||AA[0,1]=='CP'))?'1':'0'")
 }
 
 
-record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorTypeR")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}_iSensorTypeR")
 {
   field(TWST, "${GAUGE}")
   field(TWVL, "2")
 }
 
 
-record("*", "${CONTROLLERNAME}${R}${SENSOR}:iSensorType-FO")
+record("*", "${CONTROLLERNAME}${R}${SENSOR}_iSensorType-FO")
 {
   field(OUTC, "${P}${R}SensorTypeR.PROC")
 }

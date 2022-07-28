@@ -14,7 +14,7 @@ record(stringin, "${P}${R}Name-RB")
 record(stringout, "${P}${R}NameS")
 {
   field(DESC, "Sensor name")
-  field(OUT,  "${CONTROLLERNAME}${R}${SENSOR}:NameS PP")
+  field(OUT,  "${CONTROLLERNAME}${R}${SENSOR}_NameS PP")
 
 # Cannot go directly to SensorNamesS as this PV needs to be processed when updated from -RB
   field(FLNK, "${P}${R}NameCommitS")
@@ -28,7 +28,7 @@ record(fanout, "${P}${R}NameCommitS")
 }
 
 
-record(seq, "${CONTROLLERNAME}${R}${SENSOR}:iConnect-Name-FO")
+record(seq, "${CONTROLLERNAME}${R}${SENSOR}_iConnect-Name-FO")
 {
   field(DOL1, "0")
   field(LNK1, "${P}${R}iNameInit2.PVAL")
