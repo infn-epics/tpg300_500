@@ -161,7 +161,7 @@ get_save_params {
 # Saving user defined parameters takes significantly longer (~3s).
 ################################################################################
 set_save_params {
-    ReplyTimeout = 5000;
+    ReplyTimeout = 7000;
 
     out "SAV,%d";
     enquery;
