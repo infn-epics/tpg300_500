@@ -218,8 +218,8 @@ record(calcout, "${P}${R}Rly${n}_iGetR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_function(${RELAY}) ${ASYNPORT}")
-  field(SCAN, "Event")
-  field(EVNT, "${CONTROLLERNAME}-RB")
+  field(SCAN, "6")
+  #field(EVNT, "${CONTROLLERNAME}-RB")
 
   field(FLNK, "${P}${R}Rly${n}_iGetR-FO")
 
@@ -246,7 +246,7 @@ record(ai, "${P}${R}Rly${n}_LowSP-RB")
 {
 # FIXME: remove this once the OPIs are updated
   alias("${P}${R}Rly${n}:LowSP-RB")
-  field(INP,  "${P}${R}Rly${n}_iGetR.A MSS")
+  field(INP,  "${P}${R}Rly${n}_iGetR.A")
 
   field(PREC, "2")
   field(EGU,  "${EGU}")
@@ -262,7 +262,7 @@ record(ai, "${P}${R}Rly${n}_HighSP-RB")
 {
 # FIXME: remove this once the OPIs are updated
   alias("${P}${R}Rly${n}:HighSP-RB")
-  field(INP,  "${P}${R}Rly${n}_iGetR.B MSS")
+  field(INP,  "${P}${R}Rly${n}_iGetR.B")
 
   field(PREC, "2")
   field(EGU,  "${EGU}")
@@ -278,7 +278,7 @@ record(mbbi, "${P}${R}Rly${n}_Chan-RB")
 {
 # FIXME: remove this once the OPIs are updated
   alias("${P}${R}Rly${n}:Chan-RB")
-  field(INP,  "${P}${R}Rly${n}_iGetR.C MSS")
+  field(INP,  "${P}${R}Rly${n}_iGetR.C")
 
   field(ZRVL, "0")
   field(ZRST, "Disabled")
@@ -402,8 +402,8 @@ record(sel, "${P}${R}Rly${n}_iStatR")
   field(SELM, "Specified")
   field(NVL,  "${CONTROLLERNAME}${R}iTypeEnumR")
 
-  field(INPB, "${CONTROLLERNAME}${R}iTPG300RlyStatsR.${SOURCE} CP MSS")
-  field(INPC, "${CONTROLLERNAME}${R}iTPG500RlyStatsR.${SOURCE} CP MSS")
+  field(INPB, "${CONTROLLERNAME}${R}iTPG300RlyStatsR.${SOURCE} CP")
+  field(INPC, "${CONTROLLERNAME}${R}iTPG500RlyStatsR.${SOURCE} CP")
 }
 
 
@@ -411,7 +411,7 @@ record(bi, "${P}${R}Rly${n}_StatR")
 {
 # FIXME: remove this once the OPIs are updated
   alias("${P}${R}Rly${n}:StatR")
-  field(INP,  "${P}${R}Rly${n}_iStatR CP MSS")
+  field(INP,  "${P}${R}Rly${n}_iStatR CP")
 
   field(ZNAM, "Cleared")
   field(ONAM, "Set")
