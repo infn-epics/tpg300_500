@@ -218,8 +218,8 @@ record(calcout, "${P}${R}Rly${n}_iGetR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_function(${RELAY}) ${ASYNPORT}")
-  field(SCAN, "Event")
-  field(EVNT, "${CONTROLLERNAME}-RB")
+  field(SCAN, "6")
+  #field(EVNT, "${CONTROLLERNAME}-RB")
 
   field(FLNK, "${P}${R}Rly${n}_iGetR-FO")
 
