@@ -1,4 +1,4 @@
-record(ai, "$(P):$(CHAN):PRES:RAW")
+record(ai, "$(P):$(CHAN):PRES_RB:RAW")
 {
     field(DESC, "Raw pressure of $(CHAN)")
     field(SCAN, "1 second")
@@ -7,9 +7,9 @@ record(ai, "$(P):$(CHAN):PRES:RAW")
     
 }
 
-record(calc, "$(P):$(CHAN):PRES") {
+record(calc, "$(P):$(CHAN):PRES_RB") {
     field(DESC, "Pressure of $(CHAN)")
-    field(INPA, "$(P):$(CHAN):PRES:RAW CP MS")
+    field(INPA, "$(P):$(CHAN):PRES_RB:RAW CP MS")
     field(INPB, "$(P):$(CHAN):PRES_STAT CP MS")
     field(CALC, "A")
     field(PREC, "3")
@@ -18,11 +18,11 @@ record(calc, "$(P):$(CHAN):PRES") {
     field(EGU, "")
     field(ASG, "READONLY")
 }
-alias ("$(P):$(NAME):PRES", "$(P):$(CHAN):PRES:RAW")
+alias ("$(P):$(NAME):PRES_RB", "$(P):$(CHAN):PRES_RB")
 ## Visible PVs have initial value set to 0 if the channel is off,
 ## or 1 when the channel is on and the VAL field is uncommented
 
-record(bo, "$(P):$(CHAN):PRES:VISIBLE")
+record(bo, "$(P):$(CHAN):PRES_RB:VISIBLE")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
