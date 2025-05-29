@@ -1,12 +1,12 @@
-# RELEASE - Location of external support modules
+# RELEASE - Location of external support SUPPORT
 #
 # IF YOU CHANGE ANY PATHS in this file or make API changes to
-# any modules it refers to, you should do a "make rebuild" in
+# any SUPPORT it refers to, you should do a "make rebuild" in
 # this application's top level directory.
 #
 # The EPICS build process does not check dependencies against
 # any files from outside the application, so it is safest to
-# rebuild it completely if any modules it depends on change.
+# rebuild it completely if any SUPPORT it depends on change.
 #
 # Host- or target-specific settings can be given in files named
 #  RELEASE.$(EPICS_HOST_ARCH).Common
@@ -15,30 +15,30 @@
 #
 # This file is parsed by both GNUmake and an EPICS Perl script,
 # so it may ONLY contain definititions of paths to other support
-# modules, variable definitions that are used in module paths,
+# SUPPORT, variable definitions that are used in module paths,
 # and include statements that pull in other RELEASE files.
 # Variables may be used before their values have been set.
 # Build variables that are NOT used in paths should be set in
 # the CONFIG_SITE file.
 
-# Variables and paths to dependent modules:
-MODULES = /epics/support
-#MYMODULE = $(MODULES)/my-module
+# Variables and paths to dependent SUPPORT:
+SUPPORT = /epics/support
+#MYMODULE = $(SUPPORT)/my-module
 
 # If using the sequencer, point SNCSEQ at its top directory:
-#SNCSEQ = $(MODULES)/seq-ver
+#SNCSEQ = $(SUPPORT)/seq-ver
 
-ASYN   = $(MODULES)/asyn
-STREAMDEVICE = $(MODULES)/StreamDevice
-CALC = $(MODULES)/calc
-SSCAN = $(MODULES)/sscan
-SNCSEQ= $(MODULES)/sequencer
-# EPICS_BASE should appear last so earlier modules can override stuff:
+ASYN   = $(SUPPORT)/asyn
+STREAMDEVICE = $(SUPPORT)/StreamDevice
+CALC = $(SUPPORT)/calc
+SSCAN = $(SUPPORT)/sscan
+SNCSEQ= $(SUPPORT)/sequencer
+# EPICS_BASE should appear last so earlier SUPPORT can override stuff:
 EPICS_BASE = /epics/epics-base
 
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:
-#RULES = $(MODULES)/build-rules
+#RULES = $(SUPPORT)/build-rules
 
 # These lines allow developers to override these RELEASE settings
 # without having to modify this file directly.
