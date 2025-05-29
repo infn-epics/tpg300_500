@@ -29,7 +29,7 @@ MODULES = /epics/support
 #SNCSEQ = $(MODULES)/seq-ver
 
 ASYN   = $(MODULES)/asyn
-STREAM = $(MODULES)/StreamDevice
+STREAMDEVICE = $(MODULES)/StreamDevice
 CALC = $(MODULES)/calc
 SSCAN = $(MODULES)/sscan
 SNCSEQ= $(MODULES)/sequencer

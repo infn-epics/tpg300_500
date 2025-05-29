@@ -2,7 +2,7 @@
 {
     "name": "My IOC development container",
     //"image": "baltig.infn.it:4567/epics-containers/infn-epics-ioc:devel",
-    "image": "ghcr.io/infn-epics/infn-epics-ioc-linux-developer:latest",
+    "image": "ghcr.io/infn-epics/infn-epics-ioc-developer:latest",
     "remoteEnv": {
         // allows X11 apps to run inside the container
         "DISPLAY": "${localEnv:DISPLAY}",
