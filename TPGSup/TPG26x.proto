@@ -1,0 +1,37 @@
+
+ReplyTimeout = 2000;
+
+#How TPG26x comms work:
+#First send a command (e.g. ask for the pressure) then the device will return ACK.
+#Then send ENQ to get the actual values.
+
+#According to the streamdevice manual, once an "out" is sent access to the
+#device is exclusively locked until the WHOLE protocol is finished.
+#This should mean that we do not need to worry about commands interrupting each other
+
+# Get pressures (and errors) from both guages
+pres {
+    out "PRX";
+    in ACK;
+	out ENQ;
+    in "%(\$1\$2)d,%f,%(\$1\$3)d,%(\$1\$4)f";
+}
+
+# Get the current units
+getUnits {
+    out "UNI";
+	in ACK;
+	out ENQ;
+    in "%{0|1|2}";
+}
+
+# Set the current units
+setUnits {
+    #UNI,0 = mbar
+    #UNI,1 = Torr
+    #UNI,2 = Pa
+    out "UNI,%{0|1|2}";
+	in ACK;
+	out ENQ;
+    in "%{0|1|2}";
+}

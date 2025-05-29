@@ -1,0 +1,9 @@
+record(bi, "$(P)FUNCTION:STATUS:$(Q):RB")
+{
+    field(DESC, "Status of function $(Q)")
+    field(PINI, "0")
+    field(ZNAM, "0")
+    field(ONAM, "1")
+    info(INTEREST, "HIGH")
+	info(archive, "VAL")
+}

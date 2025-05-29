@@ -1,0 +1,6 @@
+file "tpgx6x.template" { 
+  pattern 
+    {P,    DEVICE, "IFPRESSUR1", "IFPRESSUR2", "PORT", "RECSIM", "DISABLE"}
+    
+    {"\$(P)", "TPG26x", "\$(IFPRESSUR1)", "\$(IFPRESSUR2)", "\$(PORT)", "\$(RECSIM)", "\$(DISABLE)"}   
+}

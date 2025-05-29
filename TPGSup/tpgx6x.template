@@ -1,0 +1,327 @@
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+# This record reads both pressure and errors
+record(ai,"$(P)1:RAW_PRES")
+{
+	field(DESC, "Pressure reading from gauge 1 no error")
+	field(SCAN, "1 second")
+	field(DTYP, "stream")
+	$(IF361) field(INP,  "@$(DEVICE).proto pres361($(P),1:ERROR) $(PORT)")
+	$(IFNOT361) field(INP, "@$(DEVICE).proto pres($(P),1:ERROR,2:ERROR,2:RAW_PRES) $(PORT)")
+	field(PINI, "YES")
+	field(PREC, "4")
+	field(SIML, "$(P)SIM")
+	field(SIOL, "$(P)SIM:1:PRESSURE")
+	field(SDIS, "$(P)DISABLE")
+	field(FLNK, "$(P)ACTIVITY")
+	field(VAL, 0)
+	info(archive, "VAL")
+}
+
+record(mbbi,"$(P)1:ERROR")
+{
+	field(DESC, "Error from the Gauge 1")
+	field(SCAN, "Passive")
+	field(ZRST, "No Error")
+	field(ZRSV, "NO_ALARM")
+	field(ZRVL, 0)
+	field(ONST, "Underrange")
+	field(ONSV, "MINOR")
+	field(ONVL, 1)
+	field(TWST, "Overrange")
+	field(TWSV, "MINOR")
+	field(TWVL, 2)
+	field(THST, "Sensor error")
+	field(THSV, "MAJOR")
+	field(THVL, 3)
+	field(FRST, "Sensor off")
+	field(FRSV, "MAJOR")
+	field(FRVL, 4)
+	field(FVST, "No Sensor")
+	field(FVSV, "MAJOR")
+	field(FVVL, 5)
+	field(SXST, "Identification Error")
+	field(SXSV, "MAJOR")
+	field(SXVL, 6)
+	field(UNSV, "MAJOR")
+	field(PINI, "YES")
+	field(VAL, 0)    
+	field(SIML, "$(P)SIM")
+	field(SIOL, "$(P)SIM:1:ERROR")
+	info(archive, "VAL")
+	info(INTEREST, "MEDIUM")
+}
+
+# This record is set from 1:RAW_PRES
+record(ai,"$(P)2:RAW_PRES")
+{
+	field(DESC, "Pressure reading from gauge 2 no error")
+	field(SCAN, "Passive")
+	field(PREC, "4")
+	field(SIML, "$(P)SIM")
+	field(SIOL, "$(P)SIM:2:PRESSURE")
+	field(PINI, "YES")
+	field(VAL, 0)
+	info(archive, "VAL")
+}
+
+# This record is set from 1:RAW_PRES
+record(mbbi,"$(P)2:ERROR")
+{
+	field(DESC, "Error from the Gauge 2")
+	field(SCAN, "Passive")
+	field(ZRST, "No Error")
+	field(ZRSV, "NO_ALARM")
+	field(ZRVL, 0)
+	field(ONST, "Underrange")
+	field(ONSV, "MINOR")
+	field(ONVL, 1)
+	field(TWST, "Overrange")
+	field(TWSV, "MINOR")
+	field(TWVL, 2)
+	field(THST, "Sensor error")
+	field(THSV, "MAJOR")
+	field(THVL, 3)
+	field(FRST, "Sensor off")
+	field(FRSV, "MAJOR")
+	field(FRVL, 4)
+	field(FVST, "No Sensor")
+	field(FVSV, "MAJOR")
+	field(FVVL, 5)
+	field(SXST, "Identification Error")
+	field(SXSV, "MAJOR")
+	field(SXVL, 6)
+	field(SVSV, "MAJOR")
+	field(SVVL, 7)
+	field(EISV, "MAJOR")
+	field(EIVL, 8)
+	field(NISV, "MAJOR")
+	field(NIVL, 9)
+	field(TESV, "MAJOR")
+	field(TEVL, 10)
+	field(ELSV, "MAJOR")
+	field(ELVL, 11)
+	field(TVSV, "MAJOR")
+	field(TVVL, 12)
+	field(TTSV, "MAJOR")
+	field(TTVL, 13)
+	field(FTSV, "MAJOR")
+	field(FTVL, 14)
+	field(FFSV, "MAJOR")
+	field(FFVL, 15)
+	field(PINI, "YES")
+	field(VAL, 0)
+	field(SIML, "$(P)SIM")
+	field(SIOL, "$(P)SIM:2:ERROR")
+	info(archive, "VAL")
+	info(INTEREST, "MEDIUM")
+}
+
+
+record(calcout,"$(P)1:CALC_PRES") {
+   field(DESC, "Pressure calculation gauge 1")
+   field(INPA, "$(P)1:RAW_PRES MS CP")
+   # For the error state reported
+   field(INPB, "$(P)1:ERROR MS CP")
+   
+   field(OUT, "$(P)1:PRESSURE MS PP")
+   
+   field(CALC, "A")
+}
+
+record(ai,"$(P)1:PRESSURE") {
+   field(DESC, "Pressure reading from gauge 1")
+   field(EGU, "") # set by units transfer
+   field(PREC, "4")
+   $(IFPRESSUR1) info(alarm, "$(DEVICE)")
+   info(archive, "VAL")
+   info(INTEREST, "HIGH")
+}
+
+## PV hidden on graph when value set to 0, or is displayed
+## when the channel is on and the VAL field is uncommented (sets to 1)
+
+record(bo, "$(P)1:VISIBLE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+    $(IFPRESSUR1) field(VAL, "1")
+}
+
+record(calcout,"$(P)2:CALC_PRES") {
+   field(DESC, "Pressure calculation gauge 2")
+   field(INPA, "$(P)2:RAW_PRES MS CP")
+   # For the error state reported
+   field(INPB, "$(P)2:ERROR MS CP")
+   # For the disconnect error (data is pushed into 1)
+   field(INPC, "$(P)1:RAW_PRES MS CP")
+   
+   field(OUT, "$(P)2:PRESSURE MS PP")
+   
+   field(CALC, "A")
+}
+
+record(ai,"$(P)2:PRESSURE") {
+   field(DESC, "Pressure reading from gauge 2")
+   field(EGU, "") # set by units transfer
+   field(PREC, "4")
+   $(IFPRESSUR2)  info(alarm, "$(DEVICE)")
+   info(archive, "VAL")
+   info(INTEREST, "HIGH")
+}
+
+## PV hidden on graph when value set to 0, or is displayed
+## when the channel is on and the VAL field is uncommented (sets to 1)
+
+record(bo, "$(P)2:VISIBLE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+    $(IFPRESSUR2) field(VAL, "1")
+}
+
+record(calc,"$(P)ACTIVITY") {
+   field(DESC, "Activity record")
+   field(INPA, "$(P)ACTIVITY")
+   field(CALC, "A!=0?0:1")
+   field(VAL, 0)
+   field(PINI, "YES")
+}
+
+record(stringout,"$(P)1:UNITS_TRANSFER") {
+    field(DESC, "Transfer the units to pressure 1")
+	field(DOL, "$(P)UNITS.VAL CP")
+	field(OMSL, "closed_loop")
+    field(OUT, "$(P)1:PRESSURE.EGU")
+}
+
+record(stringout,"$(P)2:UNITS_TRANSFER") {
+    field(DESC, "Transfer the units to pressure 2")
+	field(DOL, "$(P)UNITS.VAL CP")
+	field(OMSL, "closed_loop")
+    field(OUT, "$(P)2:PRESSURE.EGU")
+}
+
+record(mbbi, "$(P)UNITS") 
+{
+    field(DESC, "Units of pressure")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@$(DEVICE).proto getUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ONST, "Torr")
+    field(TWST, "Pa")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:UNITS")
+    field(SDIS, "$(P)DISABLE")
+	info(archive, "VAL")
+	info(INTEREST, "HIGH")
+}
+
+record(mbbo, "$(P)UNITS:SP") 
+{
+    field(DTYP, "stream")
+    field(DESC, "Set the units of pressure")
+    field(OUT,  "@$(DEVICE).proto setUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ONST, "Torr")
+    field(TWST, "Pa")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:UNITS:SP")
+    field(SDIS, "$(P)DISABLE")
+	info(archive, "VAL")
+}
+
+alias("$(P)UNITS", "$(P)UNITS:SP:RBV")
+
+
+## SIMULATION STUFF ##
+
+record(bo, "$(P)SIM") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+	field(VAL, "$(RECSIM=0)")
+}
+
+alias("$(P)SIM", "$(P)SIM:SP")
+
+record(mbbi, "$(P)SIM:UNITS") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "mbar")
+    field(ONST, "Torr")
+    field(TWST, "Pa")
+}
+
+alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP")
+
+alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP:RBV")
+
+record(ai,"$(P)SIM:1:PRESSURE")
+{
+	field(DESC, "Sim pressure from gauge 1 no error")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(PINI, "YES")
+    field(VAL, 0)
+}
+
+record(ai,"$(P)SIM:2:PRESSURE")
+{
+	field(DESC, "Sim pressure from gauge 2 no error")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(FLNK, "$(P)2:RAW_PRES")
+    field(PINI, "YES")
+    field(VAL, 0)
+}
+
+record(mbbi,"$(P)SIM:1:ERROR")
+{
+	field(DESC, "Simulated error from the Gauge 1")
+	field(SCAN, "Passive")
+	field(ZRST, "No Error")
+    field(ONST, "Underrange")
+    field(TWST, "Overrange")
+    field(THST, "Sensor error")
+    field(FRST, "Sensor off")
+    field(FVST, "No Sensor")
+    field(SXST, "Identification Error")
+    field(FLNK, "$(P)1:ERROR")
+    field(PINI, "YES")
+    field(VAL, 0)
+}
+
+record(mbbi,"$(P)SIM:2:ERROR")
+{
+	field(DESC, "Simulated error from the Gauge 2")
+	field(SCAN, "Passive")
+	field(ZRST, "No Error")
+    field(ONST, "Underrange")
+    field(TWST, "Overrange")
+    field(THST, "Sensor error")
+    field(FRST, "Sensor off")
+    field(FVST, "No Sensor")
+    field(SXST, "Identification Error")
+    field(PINI, "YES")
+    field(VAL, 0)
+    field(FLNK, "$(P)2:ERROR")
+}

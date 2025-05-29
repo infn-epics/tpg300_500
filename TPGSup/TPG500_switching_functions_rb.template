@@ -1,0 +1,60 @@
+record(bo, "$(P)FUNCTION:$(Q):SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+}
+
+record(bo, "$(P)FUNCTION:$(Q):DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+## These records are separated because we do not want to create them for :SEL
+## SEL stands for selected function (the readback of which is shown in the OPI)
+
+record(stringin, "$(P)FUNCTION:$(Q):RB")
+{
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(PINI, "YES")
+    field(INP, "@devTPG500.proto getFunction($(Q),$(P)FUNCTION:$(Q)) $(PORT)")
+    
+}
+
+## For the TPG300, values 5-8 in ASSIGN:SP:RBV are mirroring values 1-4 since they are self-monitor
+## versions of the same circuit and thus look on the same circuit to check for threshold
+## violation. Those values are: 1 - A1, 2 - A2, 3 - B1, 4 - B1 (yes, B1 is twice. Refer
+## to page 64 of TPG300 manual)
+## For the TPG500, there are no mirrored values so the mapping logic is not needed.
+
+record(calc, "$(P)FUNCTION:$(Q):THRESHOLD:BELOW")
+{
+    field(DESC, "Function $(Q) below lower threshold")
+    field(SCAN, "1 second")
+    field(INPA, "$(P)FUNCTION:$(Q):ASSIGN:SP:RBV")
+    field(INPB, "$(P)FUNCTION:$(Q):LOW:SP:RBV")
+    field(INPC, "$(P)PRESSURE_A1")
+    field(INPD, "$(P)PRESSURE_A2")
+    field(INPE, "$(P)PRESSURE_B1")
+    field(INPF, "$(P)PRESSURE_B2")
+    field(CALC, "(A=1)?(C<B):((A=2)?(D<B):((A=3)?(E<B):(F<B)))")
+    info(INTEREST, "HIGH")
+	field(ASG, "READONLY")
+}
+
+### SIMULATION RECORDS ###
+
+record(stringin,"$(P)FUNCTION:$(Q):SIM:RB")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+

@@ -1,0 +1,52 @@
+record(ai, "$(P):$(CHAN):PRES:RAW")
+{
+    field(DESC, "Raw pressure of $(CHAN)")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devTPGx00.proto getPressure(P$(CHAN),$(P):$(CHAN):PRES_STAT) $(PORT)") 
+    
+}
+
+record(calc, "$(P):$(CHAN):PRES") {
+    field(DESC, "Pressure of $(CHAN)")
+    field(INPA, "$(P):$(CHAN):PRES:RAW CP MS")
+    field(INPB, "$(P):$(CHAN):PRES_STAT CP MS")
+    field(CALC, "A")
+    field(PREC, "3")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+    field(EGU, "")
+    field(ASG, "READONLY")
+}
+alias ("$(P):$(NAME):PRES", "$(P):$(CHAN):PRES:RAW")
+## Visible PVs have initial value set to 0 if the channel is off,
+## or 1 when the channel is on and the VAL field is uncommented
+
+record(bo, "$(P):$(CHAN):PRES:VISIBLE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+}
+
+record(mbbi, "$(P):$(CHAN):PRES_STAT")
+{
+    field(DESC, "Pressure status of $(CHAN)")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "Measured data okay")
+    field(ONST, "Underrange")
+    field(ONSV, "$(TPG_UNDERRANGE_ALARM_SEVERITY)")
+    field(TWST, "Overrange")
+    field(TWSV, "MINOR")
+    field(THST, "Point error")
+    field(THSV, "MAJOR")
+    field(FRST, "Point switched off")
+    field(FRSV, "MAJOR")
+    field(FVST, "No hardware")
+    field(FVSV, "INVALID")
+    
+}
+alias ( "$(P):$(CHAN):PRES_STAT","$(P):$(NAME):PRES_STAT")

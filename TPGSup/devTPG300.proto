@@ -1,0 +1,19 @@
+InTerminator = CR LF;
+ReplyTimeout = 2000;
+LockTimeout = 10000;
+
+# TPG300 specific communiaction
+
+getFunction {
+    out "SP\$1" CR LF;
+    in ACK;
+    out ENQ;
+    in "%(\$2:LOW:SP:RBV:RAW.A)E,%(\$2:HIGH:SP:RBV:RAW.A)E,%(\$2:ASSIGN:SP:RBV:RAW.A)i";
+}
+
+getFunctionMacro {
+    out "SP%(\$1)s" CR LF;
+    in ACK;
+    out ENQ;
+    in "%(\$2:LOW:SP:RBV:RAW.A)E,%(\$2:HIGH:SP:RBV:RAW.A)E,%(\$2:ASSIGN:SP:RBV:RAW.A)i";
+}

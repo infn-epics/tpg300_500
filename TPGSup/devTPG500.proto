@@ -1,0 +1,24 @@
+InTerminator = CR LF;
+ReplyTimeout = 2000;
+LockTimeout = 10000;
+
+# TPG500 specific communiaction
+
+# on INTER we seem to get less values returned than the manual says
+# however we didn't use these anyway, so use ExtraInput = Ignore to cover
+# case when behaves like the manual says 
+getFunction {
+    ExtraInput = Ignore;
+    out "SP\$1" CR LF;
+    in ACK;
+    out ENQ;
+    in "%(\$2:LOW:SP:RBV:RAW.A)E,%(\$2:HIGH:SP:RBV:RAW.A)E,%(\$2:ASSIGN:SP:RBV:RAW.A)i";
+}
+
+getFunctionMacro {
+    ExtraInput = Ignore;
+    out "SP%(\$1)s" CR LF;
+    in ACK;
+    out ENQ;
+    in "%(\$2:LOW:SP:RBV:RAW.A)E,%(\$2:HIGH:SP:RBV:RAW.A)E,%(\$2:ASSIGN:SP:RBV:RAW.A)i";
+}

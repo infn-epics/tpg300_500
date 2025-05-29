@@ -1,0 +1,53 @@
+ReadTimeout = 2000;
+ReplyTimeout = 2000;
+WriteTimeout = 2000;
+LockTimeout = 10000;
+
+
+# Get pressures (and errors) from both guages
+pres {
+    out "PRX\r";
+    InTerminator = CR LF;
+    in ACK;
+    
+	out ENQ;
+    InTerminator = CR;
+    in "%(\$1\$2)d,%f,%(\$1\$3)d,%(\$1\$4)f";
+}
+
+# Get pressure from the signle gauge TPG361
+pres361 {
+    out "PRX\r";
+    InTerminator = CR LF;
+    in ACK;
+    
+	out ENQ;
+    InTerminator = CR;
+    in "%(\$1\$2)d,%f";
+}
+
+# Get the current units
+getUnits {
+    out "UNI\r";
+    InTerminator = CR LF;
+	in ACK;
+    
+	out ENQ;
+    InTerminator = CR;
+    in "%{0|1|2}";
+}
+
+# Set the current units
+setUnits {
+    #UNI,0 = mbar
+    #UNI,1 = Torr
+    #UNI,2 = Pa
+    
+    out "UNI,%{0|1|2}\r";
+	InTerminator = CR LF;
+	in ACK;
+    
+	out ENQ;
+    InTerminator = CR;
+    in "%{0|1|2}";
+}

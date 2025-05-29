@@ -1,0 +1,53 @@
+record(bo, "$(P)FUNCTION:$(Q):SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+}
+
+record(bo, "$(P)FUNCTION:$(Q):DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(ai, "$(P)FUNCTION:$(Q):LOW:SP:RBV")
+{
+    field(DESC, "Function $(Q) low threshold")
+    field(SCAN, "Passive")
+    field(PREC, "11")
+    info(INTEREST, "MEDIUM")
+	field(EGU, "")
+}
+
+record(ai, "$(P)FUNCTION:$(Q):HIGH:SP:RBV")
+{
+    field(DESC, "Function $(Q) high threshold")
+    field(SCAN, "Passive")
+    field(PREC, "11")
+    info(INTEREST, "MEDIUM")
+	field(EGU, "")
+}
+
+record(mbbi, "$(P)FUNCTION:$(Q):ASSIGN:SP:RBV")
+{
+    field(DESC, "Function $(Q) circuit assignment")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "No assignment")
+    field(ONST, "A1")
+    field(TWST, "A2")
+    field(THST, "B1")
+    field(FRST, "B1")
+    field(FVST, "A1 self-monitor")
+    field(SXST, "A2 self-monitor")
+    field(SVST, "B1 self-monitor")
+    field(EIST, "B1 self-monitor")
+    info(INTEREST, "MEDIUM")
+}

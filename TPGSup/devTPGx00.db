@@ -1,0 +1,331 @@
+record(bo, "$(P)DISABLE") 
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(bo, "$(P)SIM") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+	field(VAL, "$(RECSIM=0)")	
+}
+
+alias("$(P)SIM", "$(P)SIM:SP")
+
+record(ai, "$(P)IS300"){
+    $(IF300) field(VAL, 1)
+    $(IFNOT300) field(VAL, 0)
+}
+
+record(mbbi, "$(P)UNITS") 
+{
+    field(DESC, "Units readback")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devTPGx00.proto getUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ZRVL, "1")
+    field(ONST, "Torr")
+    field(ONVL, "2")
+    field(TWST, "Pa")
+    field(TWVL, "3")
+    $(IFNOT300) field(THST, "hPascal")
+    $(IFNOT300) field(THVL, "0")
+    $(IFNOT300) field(FRST, "Micron")
+    $(IFNOT300) field(FRVL, "4")
+    $(IFNOT300) field(FVST, "Volt")
+    $(IFNOT300) field(FVVL, "5")
+    $(IFNOT300) field(SXST, "Ampere")
+    $(IFNOT300) field(SXVL, "6")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:UNITS")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+
+alias("$(P)UNITS", "$(P)UNITS:SP:RBV")
+
+record(mbbo, "$(P)UNITS:SP") 
+{
+    field(DESC, "Units setpoint")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devTPGx00.proto setUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ZRVL, "1")
+    field(ONST, "Torr")
+    field(ONVL, "2")
+    field(TWST, "Pa")
+    field(TWVL, "3")
+    $(IFNOT300) field(THST, "hPascal")
+    $(IFNOT300) field(THVL, "0")
+    $(IFNOT300) field(FRST, "Micron")
+    $(IFNOT300) field(FRVL, "4")
+    $(IFNOT300) field(FVST, "Volt")
+    $(IFNOT300) field(FVVL, "5")
+    $(IFNOT300) field(SXST, "Ampere")
+    $(IFNOT300) field(SXVL, "6")
+    field(FLNK, "$(P)UNITS")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:UNITS:SP")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(mbbi, "$(P)ERROR")
+{
+    field(DESC, "Reading the device error status")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(INP, "@devTPGx00.proto getErrorStatus $(PORT)")
+    field(ZRST, "No error")
+    field(ZRVL, "0")
+    field(ONST, "Device error")
+    field(ONVL, "8")
+    field(ONSV, "MAJOR")
+    field(TWST, "No hardware")
+    field(TWVL, "4")
+    field(TWSV, "INVALID")
+    field(THST, "Invalid parameter")
+    field(THVL, "2")
+    field(THSV, "MINOR")
+    field(FRST, "Syntax error")
+    field(FRVL, "1")
+    field(FRSV, "MINOR")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:ERROR")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+}
+
+record(mbbo, "$(P)FUNCTION")
+{
+    field(DESC, "Switching function selection")
+    field(SCAN, "Passive")
+    field(DTYP, "Raw Soft Channel")
+    field(VAL, "1")
+    field(ZRST, "1")
+    field(ZRVL, "1")
+    field(ONST, "2")
+    field(ONVL, "2")
+    field(TWST, "3")
+    field(TWVL, "3")
+    field(THST, "4")
+    field(THVL, "4")
+    $(IF300) field(FRST, "A")
+    $(IF300) field(FRVL, "5")
+    $(IF300) field(FVST, "B")
+    $(IF300) field(FVVL, "6")
+    field(FLNK, "$(P)FUNCTION:VALID.PROC")
+    field(UNSV, "INVALID")
+}
+
+# These records are used to prevent sending invalid commands to the TPG500 (as it does not accept switching functions A and B as 
+# input parameters for the function 'SPx').
+record(calc, "$(P)FUNCTION:VALID")
+{
+    field(DESC, "Check FUNCTION value validity")
+    field(SCAN, "Passive")
+    field(INPA, "$(P)FUNCTION.VAL")
+    $(IF300) field(CALC, "A<=6")
+    $(IFNOT300) field(CALC, "A<=4")
+    field(FLNK, "$(P)FUNCTION:SEL:RB:RAW")
+    field(ASG, "READONLY")
+}
+
+record(calcout, "$(P)FUNCTION:SEL:RB:RAW")
+{
+    field(DESC, "Control sending SF get command")
+    field(SCAN, "1 second")
+    field(INPA, "$(P)FUNCTION:VALID")
+    field(CALC, "A")
+    field(OOPT, "When Non-zero")
+    field(OUT, "$(P)FUNCTION:SEL:RB.PROC")
+}
+
+record(calcout, "$(P)FUNCTION:ASSIGN:SP:OUT:RAW") 
+{
+    field(DESC, "Control sending SF set command")
+    field(SCAN, "Passive")
+    field(INPA, "$(P)FUNCTION:VALID")
+    field(CALC, "A")
+    field(OOPT, "When Non-zero")
+    field(OUT, "$(P)FUNCTION:ASSIGN:SP:OUT.PROC")
+}
+
+record(stringin, "$(P)FUNCTION:SEL:RB")
+{
+    field(DESC, "Selected function readback")
+    field(DTYP, "stream")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    $(IF300) field(INP, "@devTPG300.proto getFunctionMacro($(P)FUNCTION.VAL,$(P)FUNCTION:SEL) $(PORT)")
+    $(IFNOT300) field(INP, "@devTPG500.proto getFunctionMacro($(P)FUNCTION.VAL,$(P)FUNCTION:SEL) $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FUNCTION:SEL:RB")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(ao, "$(P)FUNCTION:LOW:SP")
+{
+    field(DESC, "Setpoint for low threshold")
+    field(SCAN, "Passive")
+    field(PREC, "11")
+    field(DRVL, "0.00000000001")
+    field(DRVH, "9900")
+}
+
+record(ao, "$(P)FUNCTION:HIGH:SP")
+{
+    field(DESC, "Setpoint for high threshold")
+    field(SCAN, "Passive")
+    field(PREC, "11")
+    field(DRVL, "0.00000000001")
+    field(DRVH, "9900")
+}
+
+record(mbbo, "$(P)FUNCTION:ASSIGN:SP")
+{
+    field(DESC, "Setpoint for circuit assignment")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    $(IF300) field(ZRST, "No assignment")
+    $(IFNOT300) field(ZRST, "Switched off")
+    field(ONST, "A1")
+    field(TWST, "A2")
+    field(THST, "B1")
+    $(IF300) field(FRST, "B1")
+    $(IF300) field(FVST, "A1 self-monitor")
+    $(IF300) field(SXST, "A2 self-monitor")
+    $(IF300) field(SVST, "B1 self-monitor")
+    $(IF300) field(EIST, "B1 self-monitor")
+    $(IFNOT300) field(FRST, "B2")
+    $(IFNOT300) field(FVST, "Switched on")
+    field(OUT, "$(P)FUNCTION:ASSIGN")
+}
+
+record(longin, "$(P)FUNCTION:ASSIGN")
+{
+    field(SCAN, "Passive")
+}
+alias("$(P)FUNCTION:ASSIGN", "$(P)FUNCTION:ASSIGN:SP:RBV")
+
+record(stringout, "$(P)FUNCTION:ASSIGN:SP:OUT") 
+{
+    field(DESC, "Sends new settings")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devTPGx00.proto setFunction($(P)FUNCTION,:LOW:SP,:HIGH:SP,:ASSIGN) $(PORT)")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FUNCTION:ASSIGN:SP:OUT")
+    field(SDIS, "$(P)DISABLE")
+}
+
+record(stringin, "$(P)FUNCTION:STATUS:RB")
+{
+    field(DESC, "Reading all functions' status")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(INP, "@devTPGx00.proto getFunctionsStatus($(P)FUNCTION:STATUS) $(PORT)")
+    field(PINI, "YES")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FUNCTION:STATUS:RB")
+    field(SDIS, "$(P)DISABLE")
+}
+
+### SIMULATION RECORDS ###
+
+record(ai, "$(P)SIM:PRESSURE") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(PREC, "3")
+    field(VAL, "1e-6")
+}
+
+record(mbbi, "$(P)SIM:PRESSURE_STAT") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "Measured data okay")
+    field(ONST, "Underrange")
+    field(ONSV, "MINOR")
+    field(TWST, "Overrange")
+    field(TWSV, "MINOR")
+    field(THST, "Point error")
+    field(THSV, "MAJOR")
+    field(FRST, "Point switched off")
+    field(FRSV, "MAJOR")
+    field(FVST, "No hardware")
+    field(FVSV, "INVALID")
+}
+alias("$(P)SIM:PRESSURE_STAT","$(P)SIM:PRESSURE_STAT:SP")
+alias("$(P)SIM:PRESSURE_STAT","$(P)SIM:PRESSURE_STAT:SP:RBV")
+
+record(stringout,"$(P)SIM:FUNCTION:ASSIGN:SP:OUT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin,"$(P)SIM:FUNCTION:SEL:RB")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(stringin,"$(P)SIM:FUNCTION:STATUS:RB")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+
+record(mbbi,"$(P)SIM:UNITS")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    $(IFNOT300) field(ZRST, "hPascal")
+    $(IFNOT300) field(ZRVL, "0")
+    field(ONST, "mbar")
+    field(ONVL, "1")
+    field(TWST, "Torr")
+    field(TWVL, "2")
+    field(THST, "Pa")
+    field(THVL, "3")
+    $(IFNOT300) field(FRST, "Micron")
+    $(IFNOT300) field(FRVL, "4")
+    $(IFNOT300) field(FVST, "Volt")
+    $(IFNOT300) field(FVVL, "5")
+    $(IFNOT300) field(SXST, "Ampere")
+    $(IFNOT300) field(SXVL, "6")
+}
+
+alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP")
+
+alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP:RBV")
+
+record(mbbi, "$(P)SIM:ERROR")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "No error")
+    field(ZRVL, "0")
+    field(ONST, "Device error")
+    field(ONVL, "8")
+    field(ONSV, "MAJOR")
+    field(TWST, "No hardware")
+    field(TWVL, "4")
+    field(TWSV, "INVALID")
+    field(THST, "Invalid parameter")
+    field(THVL, "2")
+    field(THSV, "MINOR")
+    field(FRST, "Syntax error")
+    field(FRVL, "1")
+    field(FRSV, "MINOR")
+}
