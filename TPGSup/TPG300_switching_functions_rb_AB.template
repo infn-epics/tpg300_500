@@ -1,7 +1,7 @@
 # These records are seperated from those for Q = 1-4 as these existing for A & B 
 # cause errors in the TPG500.
 
-record(bo, "$(P)FUNCTION:$(Q):SIM")
+record(bo, "$(P):FUNCTION:$(Q):SIM")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
@@ -10,7 +10,7 @@ record(bo, "$(P)FUNCTION:$(Q):SIM")
     field(VAL, "$(RECSIM=0)")
 }
 
-record(bo, "$(P)FUNCTION:$(Q):DISABLE") 
+record(bo, "$(P):FUNCTION:$(Q):DISABLE") 
 {
     field(DESC, "Disable comms")
     field(PINI, "YES")
@@ -23,12 +23,12 @@ record(bo, "$(P)FUNCTION:$(Q):DISABLE")
 ## These records are separated because we do not want to create them for :SEL
 ## SEL stands for selected function (the readback of which is shown in the OPI)
 
-record(stringin, "$(P)FUNCTION:$(Q):RB")
+record(stringin, "$(P):FUNCTION:$(Q):RB")
 {
     field(DTYP, "stream")
     field(SCAN, "1 second")
     field(PINI, "YES")
-    field(INP, "@devTPG300.proto getFunction($(Q),$(P)FUNCTION:$(Q)) $(PORT)")
+    field(INP, "@devTPG300.proto getFunction($(Q),$(P):FUNCTION:$(Q)) $(PORT)")
     
 }
 
@@ -37,15 +37,15 @@ record(stringin, "$(P)FUNCTION:$(Q):RB")
 ## violation. Those values are: 1 - A1, 2 - A2, 3 - B1, 4 - B1 (yes, B1 is twice. Refer
 ## to page 64 of TPG300 manual)
 
-record(calc, "$(P)FUNCTION:$(Q):THRESHOLD:BELOW")
+record(calc, "$(P):FUNCTION:$(Q):THRESHOLD:BELOW")
 {
     field(DESC, "Function $(Q) below lower threshold")
     field(SCAN, "1 second")
-    field(INPA, "$(P)FUNCTION:$(Q):ASSIGN:SP:RBV")
-    field(INPB, "$(P)FUNCTION:$(Q):LOW:SP:RBV")
-    field(INPC, "$(P)PRESSURE_A1")
-    field(INPD, "$(P)PRESSURE_A2")
-    field(INPE, "$(P)PRESSURE_B1")
+    field(INPA, "$(P):FUNCTION:$(Q):ASSIGN:SP:RBV")
+    field(INPB, "$(P):FUNCTION:$(Q):LOW:SP:RBV")
+    field(INPC, "$(P):PRESSURE_A1")
+    field(INPD, "$(P):PRESSURE_A2")
+    field(INPE, "$(P):PRESSURE_B1")
     field(CALC, "(A=1||A=5)?(C<B):((A=2||A=6)?(D<B):(E<B))")
     info(INTEREST, "HIGH")
 	field(ASG, "READONLY")
@@ -53,7 +53,7 @@ record(calc, "$(P)FUNCTION:$(Q):THRESHOLD:BELOW")
 
 ### SIMULATION RECORDS ###
 
-record(stringin,"$(P)FUNCTION:$(Q):SIM:RB")
+record(stringin,"$(P):FUNCTION:$(Q):SIM:RB")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")

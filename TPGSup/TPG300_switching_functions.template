@@ -1,4 +1,4 @@
-record(bo, "$(P)FUNCTION:$(Q):SIM")
+record(bo, "$(P):FUNCTION:$(Q):SIM")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
@@ -7,7 +7,7 @@ record(bo, "$(P)FUNCTION:$(Q):SIM")
     field(VAL, "$(RECSIM=0)")
 }
 
-record(bo, "$(P)FUNCTION:$(Q):DISABLE") 
+record(bo, "$(P):FUNCTION:$(Q):DISABLE") 
 {
     field(DESC, "Disable comms")
     field(PINI, "YES")
@@ -17,7 +17,7 @@ record(bo, "$(P)FUNCTION:$(Q):DISABLE")
     field(ONAM, "COMMS DISABLED")
 }
 
-record(ai, "$(P)FUNCTION:$(Q):LOW:SP:RBV")
+record(ai, "$(P):FUNCTION:$(Q):LOW:SP:RBV")
 {
     field(DESC, "Function $(Q) low threshold")
     field(SCAN, "Passive")
@@ -26,7 +26,7 @@ record(ai, "$(P)FUNCTION:$(Q):LOW:SP:RBV")
 	field(EGU, "")
 }
 
-record(ai, "$(P)FUNCTION:$(Q):HIGH:SP:RBV")
+record(ai, "$(P):FUNCTION:$(Q):HIGH:SP:RBV")
 {
     field(DESC, "Function $(Q) high threshold")
     field(SCAN, "Passive")
@@ -35,7 +35,7 @@ record(ai, "$(P)FUNCTION:$(Q):HIGH:SP:RBV")
 	field(EGU, "")
 }
 
-record(mbbi, "$(P)FUNCTION:$(Q):ASSIGN:SP:RBV")
+record(mbbi, "$(P):FUNCTION:$(Q):ASSIGN:SP:RBV")
 {
     field(DESC, "Function $(Q) circuit assignment")
     field(SCAN, "Passive")

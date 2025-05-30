@@ -1,4 +1,4 @@
-record(bo, "$(P)DISABLE") 
+record(bo, "$(P):DISABLE") 
 {
     field(DESC, "Disable comms")
     field(PINI, "YES")
@@ -8,22 +8,11 @@ record(bo, "$(P)DISABLE")
     field(ONAM, "COMMS DISABLED")
 }
 
-record(bo, "$(P)SIM") 
-{
-    field(SCAN, "Passive")
-    field(DTYP, "Soft Channel")
-    field(ZNAM, "NO")
-    field(ONAM, "YES")
-	field(VAL, "$(RECSIM=0)")	
-}
-
-alias("$(P)SIM", "$(P)SIM:SP")
-
-record(ai, "$(P)IS300"){
+record(ai, "$(P):IS300"){
     field(VAL, 0)
 }
 
-record(mbbi, "$(P)UNITS") 
+record(mbbi, "$(P):UNITS_RB") 
 {
     field(DESC, "Units readback")
     field(SCAN, "1 second")
@@ -43,15 +32,14 @@ record(mbbi, "$(P)UNITS")
     field(FVVL, "5")
     field(SXST, "Ampere")
     field(SXVL, "6")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:UNITS")
-    field(SDIS, "$(P)DISABLE")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:UNITS")
+    field(SDIS, "$(P):DISABLE")
     info(INTEREST, "HIGH")
 }
 
-alias("$(P)UNITS", "$(P)UNITS:SP:RBV")
 
-record(mbbo, "$(P)UNITS:SP") 
+record(mbbo, "$(P):UNITS_SP") 
 {
     field(DESC, "Units setpoint")
     field(SCAN, "Passive")
@@ -71,13 +59,13 @@ record(mbbo, "$(P)UNITS:SP")
     field(FVVL, "5")
     field(SXST, "Ampere")
     field(SXVL, "6")
-    field(FLNK, "$(P)UNITS")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:UNITS:SP")
-    field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P):UNITS")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:UNITS:SP")
+    field(SDIS, "$(P):DISABLE")
 }
 
-record(mbbi, "$(P)ERROR")
+record(mbbi, "$(P):ERROR")
 {
     field(DESC, "Reading the device error status")
     field(DTYP, "stream")
@@ -97,13 +85,13 @@ record(mbbi, "$(P)ERROR")
     field(FRST, "Syntax error")
     field(FRVL, "1")
     field(FRSV, "MINOR")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:ERROR")
-    field(SDIS, "$(P)DISABLE")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:ERROR")
+    field(SDIS, "$(P):DISABLE")
     info(INTEREST, "HIGH")
 }
 
-record(mbbo, "$(P)FUNCTION")
+record(mbbo, "$(P):FUNCTION")
 {
     field(DESC, "Switching function selection")
     field(SCAN, "Passive")
@@ -117,55 +105,55 @@ record(mbbo, "$(P)FUNCTION")
     field(TWVL, "3")
     field(THST, "4")
     field(THVL, "4")
-    field(FLNK, "$(P)FUNCTION:VALID.PROC")
+    field(FLNK, "$(P):FUNCTION:VALID.PROC")
     field(UNSV, "INVALID")
 }
 
 # These records are used to prevent sending invalid commands to the TPG500 (as it does not accept switching functions A and B as 
 # input parameters for the function 'SPx').
-record(calc, "$(P)FUNCTION:VALID")
+record(calc, "$(P):FUNCTION:VALID")
 {
     field(DESC, "Check FUNCTION value validity")
     field(SCAN, "Passive")
-    field(INPA, "$(P)FUNCTION.VAL")
+    field(INPA, "$(P):FUNCTION.VAL")
     field(CALC, "A<=4")
-    field(FLNK, "$(P)FUNCTION:SEL:RB:RAW")
+    field(FLNK, "$(P):FUNCTION:SEL:RB:RAW")
     field(ASG, "READONLY")
 }
 
-record(calcout, "$(P)FUNCTION:SEL:RB:RAW")
+record(calcout, "$(P):FUNCTION:SEL:RB:RAW")
 {
     field(DESC, "Control sending SF get command")
     field(SCAN, "1 second")
-    field(INPA, "$(P)FUNCTION:VALID")
+    field(INPA, "$(P):FUNCTION:VALID")
     field(CALC, "A")
     field(OOPT, "When Non-zero")
-    field(OUT, "$(P)FUNCTION:SEL:RB.PROC")
+    field(OUT, "$(P):FUNCTION:SEL:RB.PROC")
 }
 
-record(calcout, "$(P)FUNCTION:ASSIGN:SP:OUT:RAW") 
+record(calcout, "$(P):FUNCTION:ASSIGN:SP:OUT:RAW") 
 {
     field(DESC, "Control sending SF set command")
     field(SCAN, "Passive")
-    field(INPA, "$(P)FUNCTION:VALID")
+    field(INPA, "$(P):FUNCTION:VALID")
     field(CALC, "A")
     field(OOPT, "When Non-zero")
-    field(OUT, "$(P)FUNCTION:ASSIGN:SP:OUT.PROC")
+    field(OUT, "$(P):FUNCTION:ASSIGN:SP:OUT.PROC")
 }
 
-record(stringin, "$(P)FUNCTION:SEL:RB")
+record(stringin, "$(P):FUNCTION:SEL:RB")
 {
     field(DESC, "Selected function readback")
     field(DTYP, "stream")
     field(SCAN, "Passive")
     field(PINI, "YES")
-    field(INP, "@devTPG500.proto getFunctionMacro($(P)FUNCTION.VAL,$(P)FUNCTION:SEL) $(PORT)")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:FUNCTION:SEL:RB")
-    field(SDIS, "$(P)DISABLE")
+    field(INP, "@devTPG500.proto getFunctionMacro($(P):FUNCTION.VAL,$(P):FUNCTION:SEL) $(PORT)")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:FUNCTION:SEL:RB")
+    field(SDIS, "$(P):DISABLE")
 }
 
-record(ao, "$(P)FUNCTION:LOW:SP")
+record(ao, "$(P):FUNCTION:LOW:SP")
 {
     field(DESC, "Setpoint for low threshold")
     field(SCAN, "Passive")
@@ -174,7 +162,7 @@ record(ao, "$(P)FUNCTION:LOW:SP")
     field(DRVH, "9900")
 }
 
-record(ao, "$(P)FUNCTION:HIGH:SP")
+record(ao, "$(P):FUNCTION:HIGH:SP")
 {
     field(DESC, "Setpoint for high threshold")
     field(SCAN, "Passive")
@@ -183,7 +171,7 @@ record(ao, "$(P)FUNCTION:HIGH:SP")
     field(DRVH, "9900")
 }
 
-record(mbbo, "$(P)FUNCTION:ASSIGN:SP")
+record(mbbo, "$(P):FUNCTION:ASSIGN:SP")
 {
     field(DESC, "Setpoint for circuit assignment")
     field(SCAN, "Passive")
@@ -194,41 +182,41 @@ record(mbbo, "$(P)FUNCTION:ASSIGN:SP")
     field(THST, "B1")
     field(FRST, "B2")
     field(FVST, "Switched on")
-    field(OUT, "$(P)FUNCTION:ASSIGN")
+    field(OUT, "$(P):FUNCTION:ASSIGN")
 }
 
-record(longin, "$(P)FUNCTION:ASSIGN")
+record(longin, "$(P):FUNCTION:ASSIGN")
 {
     field(SCAN, "Passive")
 }
-alias("$(P)FUNCTION:ASSIGN", "$(P)FUNCTION:ASSIGN:SP:RBV")
+alias("$(P):FUNCTION:ASSIGN", "$(P):FUNCTION:ASSIGN:SP:RBV")
 
-record(stringout, "$(P)FUNCTION:ASSIGN:SP:OUT") 
+record(stringout, "$(P):FUNCTION:ASSIGN:SP:OUT") 
 {
     field(DESC, "Sends new settings")
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devTPGx00.proto setFunction($(P)FUNCTION,:LOW:SP,:HIGH:SP,:ASSIGN) $(PORT)")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:FUNCTION:ASSIGN:SP:OUT")
-    field(SDIS, "$(P)DISABLE")
+    field(OUT,  "@devTPGx00.proto setFunction($(P):FUNCTION,:LOW:SP,:HIGH:SP,:ASSIGN) $(PORT)")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:FUNCTION:ASSIGN:SP:OUT")
+    field(SDIS, "$(P):DISABLE")
 }
 
-record(stringin, "$(P)FUNCTION:STATUS:RB")
+record(stringin, "$(P):FUNCTION:STATUS:RB")
 {
     field(DESC, "Reading all functions' status")
     field(DTYP, "stream")
     field(SCAN, "1 second")
-    field(INP, "@devTPGx00.proto getFunctionsStatus($(P)FUNCTION:STATUS) $(PORT)")
+    field(INP, "@devTPGx00.proto getFunctionsStatus($(P):FUNCTION:STATUS) $(PORT)")
     field(PINI, "YES")
-    field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:FUNCTION:STATUS:RB")
-    field(SDIS, "$(P)DISABLE")
+    field(SIML, "$(P):SIM")
+    field(SIOL, "$(P):SIM:FUNCTION:STATUS:RB")
+    field(SDIS, "$(P):DISABLE")
 }
 
 ### SIMULATION RECORDS ###
 
-record(ai, "$(P)SIM:PRESSURE") 
+record(ai, "$(P):SIM:PRESSURE") 
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
@@ -236,7 +224,7 @@ record(ai, "$(P)SIM:PRESSURE")
     field(VAL, "1e-6")
 }
 
-record(mbbi, "$(P)SIM:PRESSURE_STAT") 
+record(mbbi, "$(P):SIM:PRESSURE_STAT") 
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
@@ -252,28 +240,28 @@ record(mbbi, "$(P)SIM:PRESSURE_STAT")
     field(FVST, "No hardware")
     field(FVSV, "INVALID")
 }
-alias("$(P)SIM:PRESSURE_STAT","$(P)SIM:PRESSURE_STAT:SP")
-alias("$(P)SIM:PRESSURE_STAT","$(P)SIM:PRESSURE_STAT:SP:RBV")
+alias("$(P):SIM:PRESSURE_STAT","$(P):SIM:PRESSURE_STAT:SP")
+alias("$(P):SIM:PRESSURE_STAT","$(P):SIM:PRESSURE_STAT:SP:RBV")
 
-record(stringout,"$(P)SIM:FUNCTION:ASSIGN:SP:OUT")
+record(stringout,"$(P):SIM:FUNCTION:ASSIGN:SP:OUT")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 }
 
-record(stringin,"$(P)SIM:FUNCTION:SEL:RB")
+record(stringin,"$(P):SIM:FUNCTION:SEL:RB")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 }
 
-record(stringin,"$(P)SIM:FUNCTION:STATUS:RB")
+record(stringin,"$(P):SIM:FUNCTION:STATUS:RB")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 }
 
-record(mbbi,"$(P)SIM:UNITS")
+record(mbbi,"$(P):SIM:UNITS")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
@@ -293,11 +281,11 @@ record(mbbi,"$(P)SIM:UNITS")
     field(SXVL, "6")
 }
 
-alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP")
+alias("$(P):SIM:UNITS","$(P):SIM:UNITS:SP")
 
-alias("$(P)SIM:UNITS","$(P)SIM:UNITS:SP:RBV")
+alias("$(P):SIM:UNITS","$(P):SIM:UNITS:SP:RBV")
 
-record(mbbi, "$(P)SIM:ERROR")
+record(mbbi, "$(P):SIM:ERROR")
 {
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")

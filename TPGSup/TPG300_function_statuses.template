@@ -1,4 +1,4 @@
-record(bi, "$(P)FUNCTION:STATUS:$(Q):RB")
+record(bi, "$(P):FUNCTION:STATUS:$(Q):RB")
 {
     field(DESC, "Status of function $(Q)")
     field(PINI, "0")
