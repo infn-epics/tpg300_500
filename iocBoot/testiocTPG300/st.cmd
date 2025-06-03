@@ -18,16 +18,21 @@ drvAsynIPPortConfigure("L0",$(IPADDR):$(PORT))
 epicsEnvSet("STREAM_PROTOCOL_PATH", "../../TPGSup/")
 
 
+#dbLoadRecords("$(TPG)/db/test.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
 
-dbLoadRecords("$(TPG)/db/devTPG300.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_channels.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0),TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=MINOR),TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=MINOR)")
-dbLoadRecords("$(TPG)/db/unit_setter.db","P=$(DEVICE)")
-dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb_AB.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_switching_functions.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_function_statuses.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb_error_setter.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
-dbLoadRecords("$(TPG)/db/TPG300_function_statuses_error_setter.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+dbLoadRecords("$(TPG)/db/TPG300.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0),,TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=MINOR),TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=MINOR)")
+# dbLoadRecords("$(TPG)/db/devTPG3xx.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
 
+# dbLoadRecords("$(TPG)/db/TPG300_channels.db","P=$(DEVICE), PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0),TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1=MINOR),TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2=MINOR)")
+#dbLoadRecords("$(TPG)/db/TPG300_switching_functions.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+
+# dbLoadRecords("$(TPG)/db/unit_setter.db","P=$(DEVICE)")
+# dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+# dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb_AB.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+# dbLoadRecords("$(TPG)/db/TPG300_function_statuses.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+# dbLoadRecords("$(TPG)/db/TPG300_switching_functions_rb_error_setter.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+# dbLoadRecords("$(TPG)/db/TPG300_function_statuses_error_setter.db","P=$(DEVICE),PORT=L0,RECSIM=$(RECSIM=0),DISABLE=$(DISABLE=0)")
+
+var streamDebug 0
 iocInit()
 

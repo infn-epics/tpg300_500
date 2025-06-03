@@ -1,9 +1,0 @@
-file TPG300_switching_functions_rb.template {
-
-pattern {PORT, P, Q}
-{"\$(PORT)", "\$(P)", "1"}
-{"\$(PORT)", "\$(P)", "2"}
-{"\$(PORT)", "\$(P)", "3"}
-{"\$(PORT)", "\$(P)", "4"}
-
-}

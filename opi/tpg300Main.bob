@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-05-30 14:02:35 by andreamichelotti-->
+<!--Saved on 2025-06-02 19:57:39 by andreamichelotti-->
 <display version="2.0.0">
   <width>1180</width>
-  <height>670</height>
+  <height>760</height>
   <background_color>
     <color name="IO Grid" red="215" green="215" blue="215">
     </color>
@@ -56,7 +56,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template</name>
-    <pv_name>$(TPG3002Macro):SLOT1-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):SLOT1</pv_name>
     <x>221</x>
     <y>51</y>
     <width>138</width>
@@ -158,7 +158,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_1</name>
-    <pv_name>$(TPG3002Macro):SLOT2-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):SLOT2</pv_name>
     <x>221</x>
     <y>81</y>
     <width>138</width>
@@ -209,7 +209,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_2</name>
-    <pv_name>$(TPG3002Macro):SLOT3-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):SLOT3</pv_name>
     <x>221</x>
     <y>111</y>
     <width>138</width>
@@ -238,9 +238,9 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_144</name>
-    <text>Firmware Version</text>
+    <text>Hardware Version</text>
     <x>15</x>
-    <y>158</y>
+    <y>173</y>
     <width>130</width>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
@@ -260,9 +260,9 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_3</name>
-    <pv_name>$(TPG3002Macro):VERSION-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):HWVER</pv_name>
     <x>221</x>
-    <y>156</y>
+    <y>171</y>
     <width>138</width>
     <height>23</height>
     <font>
@@ -446,7 +446,7 @@ $(pv_value)</tooltip>
                 <value>0</value>
               </action>
             </actions>
-            <pv_name>$(TPG3002Macro):FILT.PROC</pv_name>
+            <pv_name>$(TPG3002Macro):setfilters.PROC</pv_name>
             <text>Set Filter Time Constants</text>
             <x>220</x>
             <y>50</y>
@@ -475,7 +475,7 @@ $(pv_value)</tooltip>
                 <value>0</value>
               </action>
             </actions>
-            <pv_name>$(TPG3002Macro):MODE.PROC</pv_name>
+            <pv_name>$(TPG3002Macro):setmodes.PROC</pv_name>
             <text>Set Sensor Modes</text>
             <x>10</x>
             <y>50</y>
@@ -805,6 +805,7 @@ $(pv_value)</tooltip>
     <y>443</y>
     <width>196</width>
     <height>25</height>
+    <visible>false</visible>
     <font>
       <font name="IO SubTitle" family="arial" style="BOLD" size="11.881188118811881">
       </font>
@@ -829,6 +830,7 @@ $(pv_value)</tooltip>
     <x>15</x>
     <y>478</y>
     <width>200</width>
+    <visible>false</visible>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
       </font>
@@ -852,6 +854,7 @@ $(pv_value)</tooltip>
     <y>504</y>
     <width>343</width>
     <height>23</height>
+    <visible>false</visible>
     <font>
       <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
       </font>
@@ -881,6 +884,7 @@ $(pv_value)</tooltip>
     <y>569</y>
     <width>343</width>
     <height>23</height>
+    <visible>false</visible>
     <font>
       <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
       </font>
@@ -909,6 +913,7 @@ $(pv_value)</tooltip>
     <x>15</x>
     <y>543</y>
     <width>200</width>
+    <visible>false</visible>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
       </font>
@@ -1072,7 +1077,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_8</name>
-    <pv_name>$(TPG3002Macro):PUC-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):UNDERRANGE_CTRL_RB</pv_name>
     <x>241</x>
     <y>354</y>
     <width>118</width>
@@ -1101,7 +1106,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="combo" version="2.0.0">
     <name>Units_1</name>
-    <pv_name>$(TPG3002Macro):PUC</pv_name>
+    <pv_name>$(TPG3002Macro):UNDERRANGE_CTRL</pv_name>
     <x>110</x>
     <y>353</y>
     <width>120</width>
@@ -1153,6 +1158,7 @@ $(pv_value)</tooltip>
     <y>666</y>
     <width>196</width>
     <height>25</height>
+    <visible>false</visible>
     <font>
       <font name="IO SubTitle" family="arial" style="BOLD" size="11.881188118811881">
       </font>
@@ -1177,6 +1183,7 @@ $(pv_value)</tooltip>
     <x>15</x>
     <y>703</y>
     <width>130</width>
+    <visible>false</visible>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
       </font>
@@ -1200,6 +1207,7 @@ $(pv_value)</tooltip>
     <y>701</y>
     <width>118</width>
     <height>23</height>
+    <visible>false</visible>
     <font>
       <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
       </font>
@@ -1229,6 +1237,7 @@ $(pv_value)</tooltip>
     <y>700</y>
     <width>120</width>
     <height>25</height>
+    <visible>false</visible>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
       </font>
@@ -1247,7 +1256,7 @@ $(pv_value)</tooltip>
     <name>Label_154</name>
     <text>Connection Status</text>
     <x>15</x>
-    <y>203</y>
+    <y>245</y>
     <width>130</width>
     <font>
       <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
@@ -1269,8 +1278,161 @@ $(pv_value)</tooltip>
     <name>Text Update Template_10</name>
     <pv_name>$(TPG3002Macro):ConnectedR</pv_name>
     <x>221</x>
-    <y>204</y>
+    <y>246</y>
     <width>138</width>
+    <height>23</height>
+    <font>
+      <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Foreground" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="IO InputPV Bg" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="IO Border" red="215" green="215" blue="215">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_145</name>
+    <text>Firmware Version</text>
+    <x>15</x>
+    <y>203</y>
+    <width>130</width>
+    <font>
+      <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Label" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update Template_4</name>
+    <pv_name>$(TPG3002Macro):FWVER</pv_name>
+    <x>221</x>
+    <y>201</y>
+    <width>138</width>
+    <height>23</height>
+    <font>
+      <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Foreground" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="IO InputPV Bg" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="IO Border" red="215" green="215" blue="215">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_155</name>
+    <text>Device Type</text>
+    <x>15</x>
+    <y>147</y>
+    <width>130</width>
+    <font>
+      <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Label" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update Template_11</name>
+    <pv_name>$(TPG3002Macro):DEVTYPE</pv_name>
+    <x>221</x>
+    <y>145</y>
+    <width>138</width>
+    <height>23</height>
+    <font>
+      <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Foreground" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="IO InputPV Bg" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="IO Border" red="215" green="215" blue="215">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_156</name>
+    <text>Errors</text>
+    <x>15</x>
+    <y>410</y>
+    <width>130</width>
+    <font>
+      <font name="IO Normal" family="arial" style="REGULAR" size="9.900990099009901">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="IO Label" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <vertical_alignment>1</vertical_alignment>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update Template_12</name>
+    <pv_name>$(TPG3002Macro):ERROR</pv_name>
+    <x>110</x>
+    <y>410</y>
+    <width>118</width>
     <height>23</height>
     <font>
       <font name="IO Input 1" family="arial" style="BOLD" size="9.900990099009901">

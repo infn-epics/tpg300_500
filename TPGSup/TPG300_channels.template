@@ -3,8 +3,8 @@ record(ai, "$(P):$(CHAN):PRES_RB:RAW")
     field(DESC, "Raw pressure of $(CHAN)")
     field(SCAN, "1 second")
     field(DTYP, "stream")
-    field(INP,  "@devTPGx00.proto getPressure(P$(CHAN),$(P):$(CHAN):PRES_STAT) $(PORT)") 
-    
+    field(INP,  "@devTPGx00.proto getPressure($(CHAN),$(P):$(CHAN):PRES_STAT) $(PORT)") 
+
 }
 
 record(calc, "$(P):$(CHAN):PRES_RB") {
@@ -18,7 +18,7 @@ record(calc, "$(P):$(CHAN):PRES_RB") {
     field(EGU, "")
     field(ASG, "READONLY")
 }
-alias ("$(P):$(NAME):PRES_RB", "$(P):$(CHAN):PRES_RB")
+alias ("$(P):$(CHAN):PRES_RB","$(P):$(NAME):PRES_RB")
 ## Visible PVs have initial value set to 0 if the channel is off,
 ## or 1 when the channel is on and the VAL field is uncommented
 
@@ -30,6 +30,7 @@ record(bo, "$(P):$(CHAN):PRES_RB:VISIBLE")
     field(ONAM, "YES")
     field(PINI, "YES")
 }
+
 
 record(mbbi, "$(P):$(CHAN):PRES_STAT")
 {
@@ -49,4 +50,5 @@ record(mbbi, "$(P):$(CHAN):PRES_STAT")
     field(FVSV, "INVALID")
     
 }
-alias ( "$(P):$(CHAN):PRES_STAT","$(P):$(NAME):PRES_STAT")
+
+alias ("$(P):$(CHAN):PRES_STAT","$(P):$(NAME):PRES_STAT")

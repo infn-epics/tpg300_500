@@ -11,6 +11,26 @@ record(bo, "$(P)DISABLE")
 
 record(ai, "$(P):IS300"){
     field(VAL, 1)
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(PINI,"YES")
+    field(FLNK, "$(P):DEVTYPE")
+}
+record(event, "${P}:iRereadEvent")
+{
+  field(VAL,  "${P}-EVT-RB")
+}
+
+record(stringin, "${P}:VERSION")
+{
+  field(DTYP, "stream")
+  field(INP,  "@devTPGx00.proto get_version $(PORT)")
+  field(SCAN, "Event")
+  field(EVNT, "${P}-EVT-RB")
+  field(PINI, "YES")
+#   field(DISV, "0")
+#   field(DISS, "INVALID")
+#   field(SDIS, "${P}CommsOK")
 }
 
 record(mbbi, "$(P):UNITS_RB") 

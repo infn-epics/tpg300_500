@@ -1,0 +1,486 @@
+################################################################################
+# Database for TPG gauge relays for
+# TPG300 Gauge Controller
+# CONTROLLERNAME = devicename of the TPG controller
+# CHANNEL        = the channel of the gauge
+# RELAY          = the ID of the relay that is mapped to this gauge; 1..4
+# n              = 1,2
+# SOURCE         = the calcout field this relay is assigned to; A..D
+################################################################################
+
+
+record(stringin, "${P}:${R}:Rly${n}_NameR")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:NameR")
+  field(PINI, "YES")
+  field(DISP, "1")
+  field(VAL,  "Relay${RELAY}")
+}
+
+
+record(lsi, "${P}:${R}:Rly${n}_Description")
+{
+  field(DISP, "1")
+  field(PINI, "YES")
+  field(SIZV, "255")
+  field(INP,  {const:"${RELAY_DESC}"})
+}
+
+
+record(bi, "${P}:${R}:Rly${n}_DAQTrigR")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:DAQTrigR")
+  field(DESC, "Relay is set to trigger DAQ post mortem")
+  field(ONAM, "Triggers DAQ")
+}
+
+
+record(calcout, "${P}:${R}:Rly${n}_iDAQTrigR")
+{
+  field(INPA, "${P}:${R}:DAQRlySelectS CP")
+  field(CALC, "A + 1 == ${n}")
+  field(OUT,  "${P}:${R}:Rly${n}_DAQTrigR PP")
+}
+
+
+record(stringout, "${P}:${R}:Rly${n}_iChanS")
+{
+  field(OUT,  "${P}:${R}:Rly${n}_ChanS PP")
+  field(PINI, "YES")
+  field(VAL,  "${CHANNEL}")
+}
+
+
+record(calcout, "${P}:${R}:Rly${n}_iValidCalc")
+{
+  field(INPA, "${P}:${R}:Rly${n}_ChanS")
+  field(INPB, "${P}:${R}:Rly${n}_Chan-RB CP")
+  field(CALC, "A==B")
+  field(OUT,  "${P}:${R}:Rly${n}_ValidR PP")
+}
+
+
+record(bi, "${P}:${R}:Rly${n}_ValidR")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:ValidR")
+  field(ZNAM, "Invalid Relay Assignment")
+  field(ONAM, "Correct Relay Assignment")
+  field(ZSV,  "MAJOR")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record(sseq, "${P}:${R}:Rly${n}_iUnitChanged")
+{
+  field(DOL1, "${CONTROLLERNAME}${R}Unit-RB CPP")
+  field(LNK1, "${P}:${R}:Rly${n}_LowSP-RB.EGU NPP")
+
+  field(DOL2, "${P}:${R}:Rly${n}_iUnitChanged.STR1")
+  field(LNK2, "${P}:${R}:Rly${n}_HighSP-RB.EGU NPP")
+
+  field(DOL3, "${P}:${R}:Rly${n}_iUnitChanged.STR1")
+  field(LNK3, "${P}:${R}:Rly${n}_LowSPS.EGU NPP")
+
+  field(DOL4, "${P}:${R}:Rly${n}_iUnitChanged.STR1")
+  field(LNK4, "${P}:${R}:Rly${n}_HighSPS.EGU NPP")
+}
+
+
+record(mbbo, "${P}:${R}:Rly${n}_ChanS")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:ChanS")
+  field(ZRVL, "0")
+  field(ZRST, "N/A")
+
+  field(ONVL, "1")
+  field(ONST, "A1")
+
+  field(TWVL, "2")
+  field(TWST, "A2")
+
+  field(THVL, "3")
+  field(THST, "B1")
+
+  field(FRVL, "4")
+  field(FRST, "B2")
+}
+
+
+record(ao, "${P}:${R}:Rly${n}_LowSPS")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:LowSPS")
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+}
+
+
+record(ao, "${P}:${R}:Rly${n}_HighSPS")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:HighSPS")
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(DRVL, "1.0e-11")
+  field(DRVH, "9.9e+3")
+}
+
+
+record(bo, "${P}:${R}:Rly${n}_CommitS")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:CommitS")
+  field(OUT,  "${P}:${R}:Rly${n}_iCommitS PP")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record(calcout, "${P}:${R}:Rly${n}_iCommitS")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto set_function(${RELAY}) ${ASYNPORT}")
+
+  field(INPA, "${P}:${R}:Rly${n}_LowSPS")
+  field(INPB, "${P}:${R}:Rly${n}_HighSPS")
+  field(INPC, "${P}:${R}:Rly${n}_ChanS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record(calc, "${P}:${R}:Rly${n}_iCommitStat")
+{
+  field(INPA, "${P}:${R}:Rly${n}_iCommitS.STAT")
+# CALC_ALARM == 12
+  field(CALC, "A==12")
+}
+
+
+record(sel, "${P}:${R}:Rly${n}_iCommitError")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${P}:${R}:Rly${n}_iCommitStat PP")
+
+  field(INPA, "${P}:${R}:Rly${n}_iCommitS.E CP MSS")
+  field(INPB, "${P}:${R}:Rly${n}_iCommitS.E")
+}
+
+
+record(mbbi, "${P}:${R}:Rly${n}_CommitS-ErrorR")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:CommitS-ErrorR")
+  field(DTYP, "Raw Soft Channel")
+  field(INP,  "${P}:${R}:Rly${n}_iCommitError CP MSS")
+
+  field(ZRVL, "0")
+  field(ZRST, "NO ERROR")
+
+  field(ONVL, "1")
+  field(ONST, "SYNTAX ERROR")
+  field(ONSV, "MAJOR")
+
+  field(TWVL, "10")
+  field(TWST, "INVALID PARAMETER")
+  field(TWSV, "MAJOR")
+
+  field(THVL, "100")
+  field(THST, "NO HARDWARE")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "1000")
+  field(FRST, "TPG ERROR")
+  field(FRSV, "MAJOR")
+
+  field(FLNK, "${P}:${R}:Rly${n}_iGetR.PROC CA")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR CP")
+}
+
+
+record(calcout, "${P}:${R}:Rly${n}_iGetR")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@vac_ctrl_tpg300_500.proto get_function(${RELAY}) ${ASYNPORT}")
+  field(SCAN, "6")
+  #field(EVNT, "${CONTROLLERNAME}-RB")
+
+  field(FLNK, "${P}:${R}:Rly${n}_iGetR-FO")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+# by the time ValidR is calculated ${CONTROLLERNAME}-RB is already triggered leaving this PV disabled for about a minute
+# let's fix that with ValidR CP
+  field(SDIS, "${P}:${R}:ValidR CP")
+}
+
+
+record(fanout, "${P}:${R}:Rly${n}_iGetR-FO")
+{
+  field(LNK1, "${P}:${R}:Rly${n}_LowSP-RB")
+  field(LNK2, "${P}:${R}:Rly${n}_HighSP-RB")
+  field(LNK3, "${P}:${R}:Rly${n}_Chan-RB")
+
+  field(DISV, "42")
+  field(SDIS, "${P}:${R}:DisconnectTrigR CP")
+}
+
+
+record(ai, "${P}:${R}:Rly${n}_LowSP-RB")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:LowSP-RB")
+  field(INP,  "${P}:${R}:Rly${n}_iGetR.A")
+
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(FLNK, "${P}:${R}:Rly${n}_iInitLowSPS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record(ai, "${P}:${R}:Rly${n}_HighSP-RB")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:HighSP-RB")
+  field(INP,  "${P}:${R}:Rly${n}_iGetR.B")
+
+  field(PREC, "2")
+  field(EGU,  "${EGU}")
+  field(FLNK, "${P}:${R}:Rly${n}_iInitHighSPS")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record(mbbi, "${P}:${R}:Rly${n}_Chan-RB")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:Chan-RB")
+  field(INP,  "${P}:${R}:Rly${n}_iGetR.C")
+
+  field(ZRVL, "0")
+  field(ZRST, "Disabled")
+
+  field(ONVL, "1")
+  field(ONST, "A1")
+
+  field(TWVL, "2")
+  field(TWST, "A2")
+
+  field(THVL, "3")
+  field(THST, "B1")
+
+  field(FRVL, "4")
+  field(FRST, "B2")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR")
+}
+
+
+record("*", "${CONTROLLERNAME}${R}Rly${RELAY}_iConnect-FO")
+{
+  field(FLNK, "${P}:${R}:Rly${n}_iConnect-FO")
+}
+
+
+record(seq, "${P}:${R}:Rly${n}_iConnect-FO")
+{
+  field(DOL1, "0")
+  field(LNK1, "${P}:${R}:Rly${n}_iInitLowSPS2.PVAL")
+
+  field(DOL2, "0")
+  field(LNK2, "${P}:${R}:Rly${n}_iInitHighSPS2.PVAL")
+}
+
+
+# if iGetR is valid
+record(calcout, "${P}:${R}:Rly${n}_iInitLowSPS")
+{
+  field(INPA, "${P}:${R}:Rly${n}_iGetR MS")
+  field(OUT,  "${P}:${R}:Rly${n}_iInitLowSPS-FO PP")
+  field(OUT,  "${P}:${R}:Rly${n}_iInitLowSPS2.PROC PP")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+# and LowSP-RB is different from iPrevLowSP
+record(calcout, "${P}:${R}:Rly${n}_iInitLowSPS2")
+{
+  field(INPA, "${P}:${R}:Rly${n}_LowSP-RB")
+  field(INPB, "${P}:${R}:Rly${n}_iPrevLowSP")
+  field(OUT,  "${P}:${R}:Rly${n}_iPrevLowSP.PROC PP")
+  field(VAL,  "0")
+  field(CALC, "A!=B")
+  field(OOPT, "Transition To Non-zero")
+}
+
+
+# then update iPrevLowSP
+record(longin, "${P}:${R}:Rly${n}_iPrevLowSP")
+{
+  field(INP,  "${P}:${R}:Rly${n}_LowSP-RB")
+  field(VAL,  "-1")
+  field(FLNK, "${P}:${R}:Rly${n}_iInitLowSPS-FO")
+}
+
+
+# and update LowSPS too
+record(ao, "${P}:${R}:Rly${n}_iInitLowSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${P}:${R}:Rly${n}_LowSP-RB")
+  field(OUT,  "${P}:${R}:Rly${n}_LowSPS PP")
+}
+
+
+# if iGetR is valid
+record(calcout, "${P}:${R}:Rly${n}_iInitHighSPS")
+{
+  field(INPA, "${P}:${R}:Rly${n}_iGetR MS")
+  field(OUT,  "${P}:${R}:Rly${n}_iInitHighSPS-FO PP")
+  field(OUT,  "${P}:${R}:Rly${n}_iInitHighSPS2.PROC PP")
+  field(IVOA, "Don't drive outputs")
+}
+
+
+# and HighSP-RB is different from iPrevHighSP
+record(calcout, "${P}:${R}:Rly${n}_iInitHighSPS2")
+{
+  field(INPA, "${P}:${R}:Rly${n}_HighSP-RB")
+  field(INPB, "${P}:${R}:Rly${n}_iPrevHighSP")
+  field(OUT,  "${P}:${R}:Rly${n}_iPrevHighSP.PROC PP")
+  field(VAL,  "0")
+  field(CALC, "A!=B")
+  field(OOPT, "Transition To Non-zero")
+}
+
+
+# then update iPrevHighSP
+record(longin, "${P}:${R}:Rly${n}_iPrevHighSP")
+{
+  field(INP,  "${P}:${R}:Rly${n}_HighSP-RB")
+  field(VAL,  "-1")
+  field(FLNK, "${P}:${R}:Rly${n}_iInitHighSPS-FO")
+}
+
+
+# and update HighSPS too
+record(ao, "${P}:${R}:Rly${n}_iInitHighSPS-FO")
+{
+  field(OMSL, "closed_loop")
+  field(DOL,  "${P}:${R}:Rly${n}_HighSP-RB")
+  field(OUT,  "${P}:${R}:Rly${n}_HighSPS PP")
+}
+
+
+record(sel, "${P}:${R}:Rly${n}_iStatR")
+{
+  field(SELM, "Specified")
+  field(NVL,  "${CONTROLLERNAME}${R}iTypeEnumR")
+
+  field(INPB, "${CONTROLLERNAME}${R}iTPG300RlyStatsR.${SOURCE} CP")
+  field(INPC, "${CONTROLLERNAME}${R}iTPG500RlyStatsR.${SOURCE} CP")
+}
+
+
+record(bi, "${P}:${R}:Rly${n}_StatR")
+{
+# FIXME: remove this once the OPIs are updated
+  alias("${P}:${R}:Rly${n}:StatR")
+  field(INP,  "${P}:${R}:Rly${n}_iStatR CP")
+
+  field(ZNAM, "Cleared")
+  field(ONAM, "Set")
+
+  field(DISV, "0")
+  field(DISS, "INVALID")
+  field(SDIS, "${P}:${R}:ValidR CP")
+}
+
+
+record("*", "${CONTROLLERNAME}${R}Rly${RELAY}_iTPG300ChanSeq")
+{
+  field(DO1,  "5")
+  field(LNK1, "${P}:${R}:Rly${n}_Chan-RB.FVVL")
+
+  field(DO2,  "6")
+  field(LNK2, "${P}:${R}:Rly${n}_Chan-RB.SXVL")
+
+  field(DO3,  "7")
+  field(LNK3, "${P}:${R}:Rly${n}_Chan-RB.SVVL")
+
+  field(DO4,  "8")
+  field(LNK4, "${P}:${R}:Rly${n}_Chan-RB.EIVL")
+}
+
+
+record("*", "${CONTROLLERNAME}${R}Rly${RELAY}_iTPG300ChanSseq")
+{
+  field(STR1, "A1*")
+  field(LNK1, "${P}:${R}:Rly${n}_Chan-RB.FVST")
+
+  field(STR2, "A2*")
+  field(LNK2, "${P}:${R}:Rly${n}_Chan-RB.SXST")
+
+  field(STR3, "B1*")
+  field(LNK3, "${P}:${R}:Rly${n}_Chan-RB.SVST")
+
+  field(STR4, "B2*")
+  field(LNK4, "${P}:${R}:Rly${n}_Chan-RB.EIST")
+}
+
+
+record(seq, "${CONTROLLERNAME}${R}Rly${RELAY}_iTPG500ChanSeq")
+{
+  field(DO1,  "5")
+  field(LNK1, "${P}:${R}:Rly${n}_Chan-RB.FVVL")
+
+  field(DO2,  "0")
+  field(LNK2, "${P}:${R}:Rly${n}_Chan-RB.SXVL")
+
+  field(DO3,  "0")
+  field(LNK3, "${P}:${R}:Rly${n}_Chan-RB.SVVL")
+
+  field(DO4,  "0")
+  field(LNK4, "${P}:${R}:Rly${n}_Chan-RB.EIVL")
+}
+
+
+record(sseq, "${CONTROLLERNAME}${R}Rly${RELAY}_iTPG500ChanSseq")
+{
+  field(STR1, "Forced")
+  field(LNK1, "${P}:${R}:Rly${n}_Chan-RB.FVST")
+
+  field(STR2, "")
+  field(LNK2, "${P}:${R}:Rly${n}_Chan-RB.SXST")
+
+  field(STR3, "")
+  field(LNK3, "${P}:${R}:Rly${n}_Chan-RB.SVST")
+
+  field(STR4, "")
+  field(LNK4, "${P}:${R}:Rly${n}_Chan-RB.EIST")
+}

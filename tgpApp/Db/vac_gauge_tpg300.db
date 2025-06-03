@@ -18,7 +18,7 @@
 #
 
 
-record(stringin, "${P}${R}ChanR")
+record(stringin, "${P}:${R}:ChanR")
 {
   field(DESC, "The channel this gauge is connected to")
   field(DISP, "1")
@@ -27,27 +27,27 @@ record(stringin, "${P}${R}ChanR")
 }
 
 
-record(bi, "${P}${R}ValidR")
+record(bi, "${P}:${R}:ValidR")
 {
   field(INP,  "${CONTROLLERNAME}${R}${SENSOR}_ValidR CP")
   field(ZNAM, "Incorrect Gauge Type")
   field(ONAM, "Correct Gauge Type")
   field(ZSV,  "MAJOR")
 
-  field(FLNK, "${P}${R}iDisconnectTrigR")
+  field(FLNK, "${P}:${R}:iDisconnectTrigR")
 }
 
 
-record(calcout, "${P}${R}iRlyValidCalc")
+record(calcout, "${P}:${R}:iRlyValidCalc")
 {
-  field(INPA, "${P}${R}Rly1_ValidR CP")
-  field(INPB, "${P}${R}Rly2_ValidR CP")
+  field(INPA, "${P}:${R}:Rly1_ValidR CP")
+  field(INPB, "${P}:${R}:Rly2_ValidR CP")
   field(CALC, "A&&B")
-  field(OUT,  "${P}${R}RlyValidR PP")
+  field(OUT,  "${P}:${R}:RlyValidR PP")
 }
 
 
-record(bi, "${P}${R}RlyValidR")
+record(bi, "${P}:${R}:RlyValidR")
 {
   field(DESC, "Gauge-relay assignment status")
   field(ZNAM, "Invalid Relay Assignment")
@@ -56,12 +56,12 @@ record(bi, "${P}${R}RlyValidR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
 # Fixed to valid as TPG modules does not have serial numbers
-record(bi, "${P}${R}ModuleValidR")
+record(bi, "${P}:${R}:ModuleValidR")
 {
   field(DESC, "Module is the same as commissioned")
   field(ZNAM, "Invalid")
@@ -73,25 +73,25 @@ record(bi, "${P}${R}ModuleValidR")
 }
 
 
-record(calcout, "${P}${R}iDisconnectTrigR")
+record(calcout, "${P}:${R}:iDisconnectTrigR")
 {
   field(DESC, "Trigger DisconnectTrigR when ! valid")
-  field(INPA, "${P}${R}ValidR")
-  field(INPB, "${P}${R}DisconnectTrigR")
+  field(INPA, "${P}:${R}:ValidR")
+  field(INPB, "${P}:${R}:DisconnectTrigR")
   field(CALC, "A?0:(B<10?B+1:1)")
   field(OOPT, "When Non-zero")
-  field(OUT,  "${P}${R}DisconnectTrigR PP")
+  field(OUT,  "${P}:${R}:DisconnectTrigR PP")
 }
 
 
-record(longin, "${P}${R}DisconnectTrigR")
+record(longin, "${P}:${R}:DisconnectTrigR")
 {
 # This PV is a special ValidR: it changes value when a disconnect occurs
   field(DESC, "PV is processed on disconnects")
 }
 
 
-record(stringin, "${P}${R}SensorTypeR")
+record(stringin, "${P}:${R}:SensorTypeR")
 {
   field(DISP, "1")
   field(INP,  "${CONTROLLERNAME}${R}${SENSOR}_iSensorTypeR")
@@ -102,7 +102,7 @@ record(stringin, "${P}${R}SensorTypeR")
 }
 
 
-record(scalcout, "${P}${R}iPrsInR")
+record(scalcout, "${P}:${R}:iPrsInR")
 {
   alias("${CONTROLLERNAME}${R}${SENSOR}_iPrsInR")
   field(DTYP, "stream")
@@ -111,69 +111,69 @@ record(scalcout, "${P}${R}iPrsInR")
   field(EVNT, "${CONTROLLERNAME}-1")
   field(CALC, "42")
 
-  field(FLNK, "${P}${R}iPrs-FO")
+  field(FLNK, "${P}:${R}:iPrs-FO")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}:${R}:ValidR CP")
 }
 
 
-record(fanout, "${P}${R}iPrs-FO")
+record(fanout, "${P}:${R}:iPrs-FO")
 {
 # Parse the pressure value as a double. Takes care of changing the value to 1000 mBar if the gauge is switched off or is in error
-  field(LNK1, "${P}${R}iPrsR")
+  field(LNK1, "${P}:${R}:iPrsR")
 # Parse the gauge status as mbbi
-  field(LNK2, "${P}${R}GaugeStatR")
+  field(LNK2, "${P}:${R}:GaugeStatR")
 # Store either the pressure value or the gauge status as string
-  field(LNK3, "${P}${R}iPrsR-STR")
+  field(LNK3, "${P}:${R}:iPrsR-STR")
 # Convert the gauge status to pressure status
-  field(LNK4, "${P}${R}iPrsStatS")
+  field(LNK4, "${P}:${R}:iPrsStatS")
 
   field(DISV, "42")
-  field(SDIS, "${P}${R}DisconnectTrigR CP")
+  field(SDIS, "${P}:${R}:DisconnectTrigR CP")
 }
 
 
-record(stringout, "${P}${R}iUnitChanged")
+record(stringout, "${P}:${R}:iUnitChanged")
 {
   field(DOL,  "${CONTROLLERNAME}${R}Unit-RB CPP")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}PrsR.EGU NPP")
+  field(OUT,  "${P}:${R}:PrsR.EGU NPP")
 }
 
 
 # Predefined pressure value of invalid status
-record(ao, "${P}${R}InvPrsS")
+record(ao, "${P}:${R}:InvPrsS")
 {
   field(VAL,  "1000")
   field(PINI, "YES")
 }
 
 
-record(ai, "${P}${R}iPrsR")
+record(ai, "${P}:${R}:iPrsR")
 {
-  field(INP,  "${P}${R}iPrsInR.BB MSS")
+  field(INP,  "${P}:${R}:iPrsInR.BB MSS")
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
 
-  field(FLNK, "${P}${R}iPrsCalc")
+  field(FLNK, "${P}:${R}:iPrsCalc")
 }
 
 
-record(calcout, "${P}${R}iPrsCalc")
+record(calcout, "${P}:${R}:iPrsCalc")
 {
-  field(INPA, "${P}${R}iPrsInR.A")
-  field(INPB, "${P}${R}iPrsR MSS")
-  field(INPC, "${P}${R}InvPrsS")
+  field(INPA, "${P}:${R}:iPrsInR.A")
+  field(INPB, "${P}:${R}:iPrsR MSS")
+  field(INPC, "${P}:${R}:InvPrsS")
   field(CALC, "A<3?B:C")
-  field(OUT,  "${P}${R}PrsR PP MSS")
+  field(OUT,  "${P}:${R}:PrsR PP MSS")
 }
 
 
-record(ai, "${P}${R}PrsR")
+record(ai, "${P}:${R}:PrsR")
 {
-  field(TSEL, "${P}${R}iPrsInR.TIME")
+  field(TSEL, "${P}:${R}:iPrsInR.TIME")
   field(PREC, "2")
   field(EGU,  "${EGU=mBar}")
 # Archive every data point
@@ -183,33 +183,33 @@ record(ai, "${P}${R}PrsR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
-record(scalcout, "${P}${R}iPrsR-STR")
+record(scalcout, "${P}:${R}:iPrsR-STR")
 {
-  field(INPA, "${P}${R}GaugeStatR")
-  field(INAA, "${P}${R}GaugeStatR")
-  field(INBB, "${P}${R}iPrsInR.BB")
+  field(INPA, "${P}:${R}:GaugeStatR")
+  field(INAA, "${P}:${R}:GaugeStatR")
+  field(INBB, "${P}:${R}:iPrsInR.BB")
   field(CALC, "A?AA:BB")
-  field(OUT,  "${P}${R}PrsR-STR PP")
+  field(OUT,  "${P}:${R}:PrsR-STR PP")
 }
 
 
-record(stringin, "${P}${R}PrsR-STR")
+record(stringin, "${P}:${R}:PrsR-STR")
 {
-  field(TSEL, "${P}${R}iPrsInR.TIME")
+  field(TSEL, "${P}:${R}:iPrsInR.TIME")
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
-record(mbbi, "${P}${R}GaugeStatR")
+record(mbbi, "${P}:${R}:GaugeStatR")
 {
-  field(INP,  "${P}${R}iPrsInR.A MSS")
-  field(TSEL, "${P}${R}iPrsInR.TIME")
+  field(INP,  "${P}:${R}:iPrsInR.A MSS")
+  field(TSEL, "${P}:${R}:iPrsInR.TIME")
 
   field(ZRVL, "0")
   field(ZRST, "DATA OK")
@@ -231,28 +231,28 @@ record(mbbi, "${P}${R}GaugeStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
-record(calc, "${P}${R}iCalcStat")
+record(calc, "${P}:${R}:iCalcStat")
 {
 # Increase GaugeStat value if INVALID
 # Set to ERROR if not ValidR
-  field(INPA, "${P}${R}GaugeStatR")
-  field(INPB, "${P}${R}GaugeStatR.SEVR")
-  field(INPC, "${P}${R}ValidR")
+  field(INPA, "${P}:${R}:GaugeStatR")
+  field(INPB, "${P}:${R}:GaugeStatR.SEVR")
+  field(INPC, "${P}:${R}:ValidR")
   # SEVR == INVALID
   field(CALC, "D:=(C ? (B==3 ? 0 : A + 1) : 4);D")
 }
 
 
-record(mbbo, "${P}${R}iPrsStatS")
+record(mbbo, "${P}:${R}:iPrsStatS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(DOL,  "${P}${R}iCalcStat PP MSS")
+  field(DOL,  "${P}:${R}:iCalcStat PP MSS")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}#PrsStat MSS PP")
+  field(OUT,  "${P}:${R}:#PrsStat MSS PP")
 
   # INVALID
   #  -  0
@@ -282,69 +282,69 @@ record(mbbo, "${P}${R}iPrsStatS")
 }
 
 
-record(longin, "${P}${R}#PrsStat")
+record(longin, "${P}:${R}:#PrsStat")
 {
-  field(FLNK, "${P}${R}#ChkValidChanged")
+  field(FLNK, "${P}:${R}:#ChkValidChanged")
 }
 
 
-record(calcout, "${P}${R}#ChkValidChanged")
+record(calcout, "${P}:${R}:#ChkValidChanged")
 {
 # Check if ValidR or RlyValidR changed and process #ValidChanged if yes
-    field(INPA, "${P}${R}ValidR")
-    field(INPB, "${P}${R}RlyValidR")
+    field(INPA, "${P}:${R}:ValidR")
+    field(INPB, "${P}:${R}:RlyValidR")
     field(CALC, "A && B")
 # Force change on first processing
     field(VAL,  "42")
     field(OOPT, "On Change")
-    field(OUT,  "${P}${R}#ValidChanged PP")
+    field(OUT,  "${P}:${R}:#ValidChanged PP")
 
 # Set PrsStatR
-    field(FLNK, "${P}${R}PrsStatR")
+    field(FLNK, "${P}:${R}:PrsStatR")
 }
 
 
-record(seq, "${P}${R}#ValidChanged") {
-    field(SELL, "${P}${R}#ChkValidChanged")
+record(seq, "${P}:${R}:#ValidChanged") {
+    field(SELL, "${P}:${R}:#ChkValidChanged")
     field(SELM, "Specified")
     field(OFFS, "0")
 
 # Invalid, let's do the SDIS dance
     field(DOL0, "1")
-    field(LNK0, "${P}${R}#PrsStatMagic.PROC PP")
+    field(LNK0, "${P}:${R}:#PrsStatMagic.PROC PP")
 
 # Valid, set #PrsStatValid to 1
     field(DOL1, "1")
-    field(LNK1, "${P}${R}#PrsStatValid PP")
+    field(LNK1, "${P}:${R}:#PrsStatValid PP")
 }
 
 
-record(seq, "${P}${R}#PrsStatMagic") {
+record(seq, "${P}:${R}:#PrsStatMagic") {
     field(SELM, "All")
 
 # Set #PrsStatValid to 1 temporarily so that PrsStatR is enabled
     field(DOL1, "1")
-    field(LNK1, "${P}${R}#PrsStatValid PP")
+    field(LNK1, "${P}:${R}:#PrsStatValid PP")
 
 # Process PrsStatR
     field(DOL2, "1")
-    field(LNK2, "${P}${R}PrsStatR.PROC PP")
+    field(LNK2, "${P}:${R}:PrsStatR.PROC PP")
 
 # Set #PrsStatValid to 0 (the correct value). #ChkValidChanged will process PrsStatR again and it will pick up the disabled state
     field(DOL3, "0")
-    field(LNK3, "${P}${R}#PrsStatValid PP")
+    field(LNK3, "${P}:${R}:#PrsStatValid PP")
 }
 
 
-record(bi, "${P}${R}#PrsStatValid") {
+record(bi, "${P}:${R}:#PrsStatValid") {
 # Helper PV so that we can change the value of PrsStatR based on ValidR
 }
 
-record(mbbi, "${P}${R}PrsStatR")
+record(mbbi, "${P}:${R}:PrsStatR")
 {
   field(DESC, "Status of channel ${SENSOR}")
-  field(INP,  "${P}${R}#PrsStat MSS")
-  field(TSEL, "${P}${R}iPrsInR.TIME")
+  field(INP,  "${P}:${R}:#PrsStat MSS")
+  field(TSEL, "${P}:${R}:iPrsInR.TIME")
 
   field(ZRVL, "0")
   field(ZRST, "INVALID")
@@ -367,11 +367,11 @@ record(mbbi, "${P}${R}PrsStatR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}#PrsStatValid")
+  field(SDIS, "${P}:${R}:#PrsStatValid")
 }
 
 
-record(mbbi, "${P}${R}CtrlMode-RB")
+record(mbbi, "${P}:${R}:CtrlMode-RB")
 {
   field(INP,  "${CONTROLLERNAME}${R}iSensorCtrlModes-RB.${SOURCE} CP MSS")
 
@@ -389,14 +389,14 @@ record(mbbi, "${P}${R}CtrlMode-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}:${R}:ValidR CP")
 }
 
 
-record(mbbo, "${P}${R}CtrlModeS")
+record(mbbo, "${P}:${R}:CtrlModeS")
 {
   field(DTYP, "Raw Soft Channel")
-  field(OUT,  "${P}${R}iCtrlModeCommitS.A PP")
+  field(OUT,  "${P}:${R}:iCtrlModeCommitS.A PP")
 
   field(ZRVL, "1")
   field(ZRST, "OFF")
@@ -409,11 +409,11 @@ record(mbbo, "${P}${R}CtrlModeS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
-record(calcout, "${P}${R}iCtrlModeCommitS")
+record(calcout, "${P}:${R}:iCtrlModeCommitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_mode_${SENSOR} ${ASYNPORT}")
@@ -422,32 +422,32 @@ record(calcout, "${P}${R}iCtrlModeCommitS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR")
+  field(SDIS, "${P}:${R}:ValidR")
 }
 
 
-record(calc, "${P}${R}iCtrlModeCommitStat")
+record(calc, "${P}:${R}:iCtrlModeCommitStat")
 {
-  field(INPA, "${P}${R}iCtrlModeCommitS.STAT")
+  field(INPA, "${P}:${R}:iCtrlModeCommitS.STAT")
 # CALC_ALARM == 12
   field(CALC, "A==12")
 }
 
 
-record(sel, "${P}${R}iCtrlModeError")
+record(sel, "${P}:${R}:iCtrlModeError")
 {
   field(SELM, "Specified")
-  field(NVL,  "${P}${R}iCtrlModeCommitStat PP")
+  field(NVL,  "${P}:${R}:iCtrlModeCommitStat PP")
 
-  field(INPA, "${P}${R}iCtrlModeCommitS.E CP MSS")
-  field(INPB, "${P}${R}iCtrlModeCommitS.E")
+  field(INPA, "${P}:${R}:iCtrlModeCommitS.E CP MSS")
+  field(INPB, "${P}:${R}:iCtrlModeCommitS.E")
 }
 
 
-record(mbbi, "${P}${R}CtrlModeS-ErrorR")
+record(mbbi, "${P}:${R}:CtrlModeS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${P}${R}iCtrlModeError CP MSS")
+  field(INP,  "${P}:${R}:iCtrlModeError CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -470,11 +470,11 @@ record(mbbi, "${P}${R}CtrlModeS-ErrorR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}:${R}:ValidR CP")
 }
 
 
-record(stringin, "${P}${R}CtrlNameR")
+record(stringin, "${P}:${R}:CtrlNameR")
 {
   field(DESC, "Name of the gauge controller device")
   field(DISP, "1")
@@ -483,16 +483,16 @@ record(stringin, "${P}${R}CtrlNameR")
 }
 
 
-alias("${CONTROLLERNAME}${R}UITypeR",                    "${P}${R}UITypeR")
+alias("${CONTROLLERNAME}${R}UITypeR",                    "${P}:${R}:UITypeR")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}_FltTimS",          "${P}${R}FltTimS")
+alias("${CONTROLLERNAME}${R}${SENSOR}_FltTimS",          "${P}:${R}:FltTimS")
 
-alias("${CONTROLLERNAME}${R}${SENSOR}_FltTim-RB",        "${P}${R}FltTim-RB")
+alias("${CONTROLLERNAME}${R}${SENSOR}_FltTim-RB",        "${P}:${R}:FltTim-RB")
 
 
 record("*", "${CONTROLLERNAME}${R}${SENSOR}_DevNameR")
 {
-  alias("${P}${R}DevNameR")
+  alias("${P}:${R}:DevNameR")
   field(PINI, "YES")
   field(VAL,  "${P}")
 }
@@ -500,7 +500,7 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}_DevNameR")
 
 record("*", "${CONTROLLERNAME}${R}${SENSOR}_NumOfRlysR")
 {
-  alias("${P}${R}NumOfRlysR")
+  alias("${P}:${R}:NumOfRlysR")
   field(VAL,  "2")
   field(PINI, "YES")
 }
@@ -521,7 +521,7 @@ record("*", "${CONTROLLERNAME}${R}${SENSOR}_iSensorTypeR")
 
 record("*", "${CONTROLLERNAME}${R}${SENSOR}_iSensorType-FO")
 {
-  field(OUTC, "${P}${R}SensorTypeR.PROC")
+  field(OUTC, "${P}:${R}:SensorTypeR.PROC")
 }
 
 

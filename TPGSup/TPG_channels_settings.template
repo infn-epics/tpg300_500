@@ -1,0 +1,66 @@
+record(mbbo, "$(P):$(CHAN):MODE_SP")
+{
+    field(DESC, "Sensor Mode  $(CHAN)")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "No measuring channel")
+    field(ONST, "Off")
+    field(TWST, "Automatic")
+    field(THST, "On")
+    field(VAL, "2")
+
+    field(FLNK, "$(P):setmodes")
+    
+}
+record(mbbi, "$(P):$(CHAN):MODE_RB")
+{
+   field(DESC, "Sensor status of $(CHAN)")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "Measured data okay")
+    field(ONST, "Underrange")
+    field(ONSV, "$(TPG_UNDERRANGE_ALARM_SEVERITY)")
+    field(TWST, "Overrange")
+    field(TWSV, "MINOR")
+    field(THST, "Point error")
+    field(THSV, "MAJOR")
+    field(FRST, "Point switched off")
+    field(FRSV, "MAJOR")
+    field(FVST, "No hardware")
+    field(FVSV, "INVALID")
+    
+}
+
+
+record(mbbo, "$(P):$(CHAN):FILT_SP")
+{
+    field(DESC, "Sensor Mode Setpint of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+   
+    field(ZRVL, 1)
+    field(ZRST, "16 ms")
+
+    field(ONVL, 2)
+    field(ONST, "160 ms")
+
+    field(TWVL, 3)
+    field(TWST, "1600 ms")
+    
+    field(VAL, 1)
+
+    field(FLNK, "$(P):setfilters")
+    
+}
+record(mbbi, "$(P):$(CHAN):FILT_RB")
+{
+   field(DESC, "Sensor status of A1")
+   field(SCAN, "Passive")
+   field(DTYP, "Soft Channel")
+   field(ZRST, "Invalid filter setting")
+   field(ONST, "16 ms")
+   field(TWST, "160 ms")
+   field(THST, "1600 ms")
+
+    
+}

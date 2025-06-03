@@ -234,7 +234,8 @@ get_version {
 ################################################################################
 get_slots {
     out "TID";
-    enquery_with_error_reset;
+   # enquery_with_error_reset;
+    enquery;
     in  "%(AA)[^,],"
         "%(BB)[^,],"
         "%(CC)[^,]";
@@ -246,6 +247,17 @@ get_slots {
     }
 }
 
+get_slots_all {
+    out "TID";
+    enquery;
+    in  "%(S1)[^,],%(S2)[^,],%(S3)[^\r\n]";
+}
+
+get_slots_raw {
+    out "TID";
+    enquery;
+    in  "%#s";
+}
 
 ################################################################################
 # Get pressure
@@ -267,6 +279,11 @@ get_pressure {
     }
 }
 
+getPressure {
+    out "P\$1";
+    enquery;
+    in "%(\$2)i,%E";
+}
 
 ################################################################################
 # Get sensor modes
@@ -523,6 +540,12 @@ identify_device {
         "%(CC)[^,],"
         "%(DD)[^,],"
         "%(EE)[^,]";
+}
+
+identify_device_raw {
+    out "AYT";
+    enquery;
+    in  "%#s";
 }
 
 

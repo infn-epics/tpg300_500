@@ -1,0 +1,91 @@
+
+
+record(ai, "$(P):IS300"){
+    field(VAL, 0)
+}
+
+
+record(stringin, "$(P):iIdn-Raw") {
+  field(DTYP, "stream")
+  field(INP, "@devTPGx00.proto identify_device_raw ${PORT}")
+  field(SCAN, "Event")
+  field(EVNT, "$(P)-10")
+
+  field(FLNK, "$(P):ParseIndentify")
+}
+
+  
+
+record(aSub, "$(P):ParseIndentify") {
+  field(INAM, "initParseSlots")
+  field(SNAM, "parseSlots")
+  field(FTA, "STRING")
+  field(FTA, "STRING")
+  field(INPA, "$(P):iIdn-Raw CP")
+  field(FTVA, "STRING")
+  field(FTVB, "STRING")
+  field(FTVC, "STRING")
+  field(FTVD, "STRING")
+  field(FTVE, "STRING")
+  # field(SCAN, "10 second")
+  # field(EVNT, "$(P)-10")
+  field(NOVA, "64")  # Max size for OUTA (SLOT1)
+  field(NOVB, "64")  # Max size for OUTB (SLOT2)
+  field(NOVC, "64")
+  field(NOVE, "64") 
+  field(NOVD, "64") 
+
+  field(OUTA, "$(P):DEVTYPE PP")
+  field(OUTB, "$(P):ARTNUMB PP")
+  field(OUTC, "$(P):SERIALNUM PP")
+  field(OUTD, "$(P):FWVER PP")
+  field(OUTE, "$(P):HWVER PP")
+  # field(DISV, "0")
+  # field(DISS, "INVALID")
+  # field(SDIS, "$(P):InitialCommsOK")
+
+}
+
+
+#### PRessures TPG500
+record(stringin, "$(P):PRESSURES_RAW") {
+  field(DTYP, "stream")
+  field(INP, "@devTPGx00.proto get_pressures $(PORT)")
+  field(FLNK, "$(P):ParsePressures")
+  field(SCAN, "2 second")
+
+}
+
+record(aSub, "$(P):ParsePressures") {
+  field(INAM, "initParseSlots")
+  field(SNAM, "parsePressures")
+  field(FTA, "STRING")
+  field(FTA, "STRING")
+  field(INPA, "$(P):PRESSURES_RAW CP")
+  
+  field(FTVA, "ULONG")
+  field(FTVB, "DOUBLE")
+  
+  field(FTVC, "ULONG")
+  field(FTVD, "DOUBLE")
+
+  field(FTVE, "ULONG")
+  field(FTVF, "DOUBLE")
+  
+  field(FTVG, "ULONG")
+  field(FTVH, "DOUBLE")
+
+  field(OUTA, "$(P):A1:PRES_STAT PP")
+  field(OUTB, "$(P):A1:PRES_RB PP")
+
+  field(OUTC, "$(P):A2:PRES_STAT PP")
+  field(OUTD, "$(P):A2:PRES_RB PP")
+
+  field(OUTE, "$(P):B1:PRES_STAT PP")
+  field(OUTF, "$(P):B1:PRES_RB PP")
+
+  field(OUTG, "$(P):B2:PRES_STAT PP")
+  field(OUTH, "$(P):B2:PRES_RB PP")
+}
+
+###

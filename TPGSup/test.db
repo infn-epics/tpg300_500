@@ -1,0 +1,264 @@
+record(event, "$(P):iScan10Event")
+{
+  field(SCAN, "10 second")
+  field(VAL,  "$(P)-10")
+  field(PINI, "YES")
+
+  # field(FLNK, "$(P):iRereadCalc")
+}
+
+
+record(stringin, "$(P):SLOT1") {
+  field(VAL, "")
+}
+
+record(stringin, "$(P):SLOT2") {
+  field(VAL, "")
+}
+
+record(stringin, "$(P):SLOT3") {
+  field(VAL, "")
+}
+
+record(stringin, "$(P):FWVER")
+{
+  field(DTYP, "stream")
+  field(INP,  "@devTPGx00.proto get_info(PNR) $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "Passive")
+
+}
+record(stringin, "$(P):DEVTYPE") {
+  field(VAL, "TPG300")
+  field(DESC, "Device type")
+  field(SCAN, "Passive")
+  field(DTYP, "Soft Channel")
+  field(PINI, "YES")
+}
+
+record(mbbi, "$(P):UNITS_RB") 
+{
+    field(DESC, "Units readback")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(PINI, "YES")
+
+    field(INP,  "@devTPGx00.proto getUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ZRVL, "1")
+    field(ONST, "Torr")
+    field(ONVL, "2")
+    field(TWST, "Pa")
+    field(TWVL, "3")
+     field(THST, "hPascal")
+     field(THVL, "0")
+     field(FRST, "Micron")
+    field(FRVL, "4")
+    field(FVST, "Volt")
+    field(FVVL, "5")
+    field(SXST, "Ampere")
+    field(SXVL, "6")
+    
+    info(INTEREST, "HIGH")
+}
+
+
+record(mbbo, "$(P):UNITS_SP") 
+{
+    field(DESC, "Units setpoint")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devTPGx00.proto setUnits $(PORT)")
+    field(ZRST, "mbar")
+    field(ZRVL, "1")
+    field(ONST, "Torr")
+    field(ONVL, "2")
+    field(TWST, "Pa")
+    field(TWVL, "3")
+    field(THST, "hPascal")
+    field(THVL, "0")
+    field(FRST, "Micron")
+    field(FRVL, "4")
+    field(FVST, "Volt")
+    field(FVVL, "5")
+    field(SXST, "Ampere")
+    field(SXVL, "6")
+    field(FLNK, "$(P):UNITS_RB")
+    
+}
+record(scalcout, "$(P):SLOTS_INIT_OK") {
+
+  field(INAA, "$(P):SLOT1 CP")
+  field(INBB, "$(P):SLOT2 CP")
+  field(INCC, "$(P):SLOT3 CP")
+  field(CALC, "(AA != '') && (BB != '') && (CC != '')")
+  field(OOPT, "When Non-zero")         # Output when calculation is true
+  field(DOPT, "Use CALC")              # Use calculated result as output
+  field(OUT, "$(P):SLOTS_RAW.SDIS PP") # Write to SDIS field of SLOTS_RAW
+  field(VAL, "0")
+  field(DESC, "Disable SLOTS_RAW")
+}
+
+record(stringout,"$(P):setmode_A1") {
+  field(DTYP, "stream")
+  field(OUT,  "@devTPGx00.proto set_mode_1($(P):A1:MODE_SP.VAL,$(P):A1:MODE_RB) $(PORT)")
+  field(SCAN, "Passive")
+
+}
+
+record(ai, "$(P):A1:PRES_RB:RAW")
+{
+    field(DESC, "Raw pressure of A1")
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP,  "@devTPGx00.proto getPressure(A1,$(P):A1:PRES_STAT) $(PORT)") 
+
+}
+
+record(calc, "$(P):A1:PRES_RB") {
+    field(DESC, "Pressure of A1")
+    field(INPA, "$(P):A1:PRES_RB:RAW CP MS")
+    field(INPB, "$(P):A1:PRES_STAT CP MS")
+    field(CALC, "A")
+    field(PREC, "3")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+    field(EGU, "")
+    field(ASG, "READONLY")
+}
+alias ("$(P):A1:PRES_RB","$(P):IG1:PRES_RB")
+## Visible PVs have initial value set to 0 if the channel is off,
+## or 1 when the channel is on and the VAL field is uncommented
+
+record(bo, "$(P):A1:PRES_RB:VISIBLE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(PINI, "YES")
+}
+
+record(mbbi, "$(P):A1:PRES_STAT")
+{
+    field(DESC, "Pressure status of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "Measured data okay")
+    field(ONST, "Underrange")
+    field(ONSV, "MINOR")
+    field(TWST, "Overrange")
+    field(TWSV, "MINOR")
+    field(THST, "Point error")
+    field(THSV, "MAJOR")
+    field(FRST, "Point switched off")
+    field(FRSV, "MAJOR")
+    field(FVST, "No hardware")
+    field(FVSV, "INVALID")
+    
+}
+
+record(mbbo, "$(P):A1:MODE_SP")
+{
+    field(DESC, "Sensor Mode Setpint of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "No measuring channel")
+    field(ONST, "Off")
+    field(TWST, "Automatic")
+    field(THST, "On")
+    field(FLNK, "$(P):setmode1")
+    
+}
+record(mbbi, "$(P):A1:MODE_RB")
+{
+   field(DESC, "Sensor status of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "Measured data okay")
+    field(ONST, "Underrange")
+    field(ONSV, "MINOR")
+    field(TWST, "Overrange")
+    field(TWSV, "MINOR")
+    field(THST, "Point error")
+    field(THSV, "MAJOR")
+    field(FRST, "Point switched off")
+    field(FRSV, "MAJOR")
+    field(FVST, "No hardware")
+    field(FVSV, "INVALID")
+    
+}
+alias ("$(P):A1:PRES_STAT","$(P):IG1:PRES_STAT")
+
+record(mbbo, "$(P):A1:FILT_SP")
+{
+    field(DESC, "Sensor Mode Setpint of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+   
+    field(ZRVL, "1")
+    field(ZRST, "16 ms")
+
+    field(ONVL, "2")
+    field(ONST, "160 ms")
+
+    field(TWVL, "3")
+    field(TWST, "1600 ms")
+    field(FLNK, "$(P):setfilter")
+    
+}
+record(mbbi, "$(P):A1:FILT_RB")
+{
+   field(DESC, "Sensor status of A1")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+   
+    field(ZRVL, "1")
+    field(ZRST, "16 ms")
+
+    field(ONVL, "2")
+    field(ONST, "160 ms")
+
+    field(TWVL, "3")
+    field(TWST, "1600 ms")
+
+    
+}
+record(stringout,"$(P):setfilter") {
+  field(DTYP, "stream")
+  field(OUT,  "@devTPGx00.proto set_filter($(P):A1:FILT_SP.VAL,$(P):A2:FILT_SP.VAL,$(P):B1:FILT_SP.VAL,$(P):B2:FILT_SP.VAL,$(P):A1:FILT_RB,$(P):A2:FILT_RB,$(P):B1:FILT_RB,$(P):B2:FILT_RB) $(PORT)")
+  field(SCAN, "Passive")
+
+}
+
+
+record(bi, "$(P):UNDERRANGE_CTRL_RB")
+{
+  field(DTYP, "stream")
+  field(INP,  "@devTPGx00.proto get_puc $(PORT)")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
+
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+
+  # field(DISV, "0")
+  # field(DISS, "INVALID")
+  # field(SDIS, "${P}:${R}:CommsOK")
+}
+
+
+record(bo, "$(P):UNDERRANGE_CTRL")
+{
+  field(DTYP, "stream")
+  field(OUT,  "@devTPGx00.proto set_puc $(PORT)")
+  field(SCAN, "Passive")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+
+  field(FLNK, "${P}:UNDERRANGE_CTRL_RB")
+
+  # field(DISV, "0")
+  # field(DISS, "INVALID")
+  # field(SDIS, "${P}:${R}:CommsOK")
+}

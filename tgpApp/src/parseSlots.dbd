@@ -1,0 +1,4 @@
+variable(mySubDebug)
+function(parseSlots)
+function(initParseSlots)
+function(parsePressures)

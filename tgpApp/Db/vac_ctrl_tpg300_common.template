@@ -1,126 +1,142 @@
-record(stringin, "${P}${R}ModMain_TypeR")
+record(stringin, "${P}:${R}:ModMain_TypeR")
 {
-# FIXME: remove this once the OPIs are updated
-  alias("${P}${R}ModMain:TypeR")
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK CP")
+  field(SDIS, "${P}:${R}:CommsOK CP")
 }
 
 
-record(stringin, "${P}${R}UITypeR")
+record(stringin, "${P}:${R}:UITypeR")
 {
-# FIXME: remove this once the OPIs are updated
-  alias("${P}${R}iUITypeR")
   field(DESC, "Type of gauge controller")
   field(PINI, "YES")
   field(VAL,  "TPG300")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK CP")
+  field(SDIS, "${P}:${R}:CommsOK CP")
 }
 
 
-record(stringin, "${P}${R}ModMain_FWVersionR")
-{
-# FIXME: remove this once the OPIs are updated
-  alias("${P}${R}ModMain:FWVersionR")
-  field(DTYP, "stream")
-  field(INP,  "@vac_ctrl_tpg300_500.proto get_version ${ASYNPORT}")
-  field(SCAN, "Event")
-  field(EVNT, "${P}-RB")
+# record(stringin, "${P}:${R}:VERSION")
+# {
+# # FIXME: remove this once the OPIs are updated
+#   field(DTYP, "stream")
+#   field(INP,  "@vac_ctrl_tpg300_500.proto get_version ${ASYNPORT}")
+#   field(SCAN, "Event")
+#   field(EVNT, "${P}-RB")
 
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
-}
+#   field(DISV, "0")
+#   field(DISS, "INVALID")
+#   field(SDIS, "${P}:${R}:CommsOK")
+# }
 
 
-record(bo, "${P}${R}iRst")
+record(bo, "${P}:${R}:iRst")
 {
   field(DESC, "Clear the input buffer of the controller")
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto reset_interface ${ASYNPORT}")
 
   field(VAL,  "0")
-  field(FLNK, "${P}${R}iModTypesR.PROC CA")
+  field(FLNK, "${P}:${R}:iModTypesR.PROC CA")
 
 # Must not disable with CommsOK, since CommsOK is calculated from this
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ConnectedR")
+  field(SDIS, "${P}:${R}:ConnectedR")
 }
 
-
-record(scalcout, "${P}${R}iModTypesR")
-{
+record(stringin, "${P}:${R}:SLOTS_RAW") {
   field(DTYP, "stream")
-  field(OUT,  "@vac_ctrl_tpg300_500.proto get_slots() ${ASYNPORT}")
+  field(INP, "@vac_ctrl_tpg300_500.proto get_slots_raw ${ASYNPORT}")
+  field(FLNK, "${P}:${R}:ParseSlots")
   field(SCAN, "Event")
   field(EVNT, "${P}-10")
-  field(CALC, "1")
 
-  field(FLNK, "${P}${R}iModTypesR-FO")
+}
 
-# Must not disable with CommsOK, since CommsOK is calculated from this
-  field(DISV, "0")
-  field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ConnectedR")
+record(aSub, "${P}:${R}:ParseSlots") {
+  field(INAM, "initParseSlots")
+  field(SNAM, "parseSlots")
+  field(FTA, "STRING")
+  field(FTA, "STRING")
+  field(INPA, "${P}:${R}:SLOTS_RAW CP")
+  field(FTVA, "STRING")
+  field(FTVB, "STRING")
+  field(FTVC, "STRING")
+  field(NOVA, "64")  # Max size for OUTA (SLOT1)
+  field(NOVB, "64")  # Max size for OUTB (SLOT2)
+  field(NOVC, "64") 
+  field(OUTA, "${P}:${R}:SLOT1 PP")
+  field(OUTB, "${P}:${R}:SLOT2 PP")
+  field(OUTC, "${P}:${R}:SLOT3 PP")
+}
+
+record(stringout, "$(P):$(R):SLOT1") {
+  field(VAL, "")
+}
+
+record(stringout, "$(P):$(R):SLOT2") {
+  field(VAL, "")
+}
+
+record(stringout, "$(P):$(R):SLOT3") {
+  field(VAL, "")
 }
 
 
-record(fanout, "${P}${R}iModTypesR-FO")
+record(fanout, "${P}:${R}:iModTypesR-FO")
 {
-  field(LNK1, "${P}${R}ModComm_TypeR")
-  field(LNK2, "${P}${R}iCommsStatCalc")
-  field(LNK3, "${P}${R}ModA_TypeR")
-  field(LNK4, "${P}${R}ModB_TypeR")
+  field(LNK1, "${P}:${R}:ModComm_TypeR")
+  field(LNK2, "${P}:${R}:iCommsStatCalc")
+  field(LNK3, "${P}:${R}:ModA_TypeR")
+  field(LNK4, "${P}:${R}:ModB_TypeR")
 
 # Do not disable this PV
   field(DISV, "42")
-  field(SDIS, "${P}${R}DisconnectTrigR CP")
+  field(SDIS, "${P}:${R}:DisconnectTrigR CP")
 }
 
 
-record(stringin, "${P}${R}ModA_TypeR")
+record(stringin, "${P}:${R}:ModA_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-  alias("${P}${R}ModA:TypeR")
-  field(INP,  "${P}${R}iModTypesR.AA MSS")
+  alias("${P}:${R}:ModA:TypeR")
+  field(INP,  "${P}:${R}:iModTypesR.AA MSS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}InitialCommsOK")
+  field(SDIS, "${P}:${R}:InitialCommsOK")
 }
 
 
-record(stringin, "${P}${R}ModB_TypeR")
+record(stringin, "${P}:${R}:ModB_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-  alias("${P}${R}ModB:TypeR")
-  field(INP,  "${P}${R}iModTypesR.BB MSS")
+  alias("${P}:${R}:ModB:TypeR")
+  field(INP,  "${P}:${R}:iModTypesR.BB MSS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}InitialCommsOK")
+  field(SDIS, "${P}:${R}:InitialCommsOK")
 }
 
 
-record(stringin, "${P}${R}ModComm_TypeR")
+record(stringin, "${P}:${R}:ModComm_TypeR")
 {
 # FIXME: remove this once the OPIs are updated
-  alias("${P}${R}ModComm:TypeR")
-  field(INP,  "${P}${R}iModTypesR.CC MSS")
+  alias("${P}:${R}:ModComm:TypeR")
+  field(INP,  "${P}:${R}:iModTypesR.CC MSS")
 
 # Must not disable with CommsOK, since CommsOK is calculated from this
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ConnectedR")
+  field(SDIS, "${P}:${R}:ConnectedR")
 }
 
 
-record(mbbi, "${P}${R}BaudrtR")
+record(mbbi, "${P}:${R}:BaudrtR")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_baud ${ASYNPORT}")
@@ -144,11 +160,11 @@ record(mbbi, "${P}${R}BaudrtR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(mbbo, "${P}${R}BaudrtS")
+record(mbbo, "${P}:${R}:BaudrtS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_baud ${ASYNPORT}")
@@ -172,11 +188,11 @@ record(mbbo, "${P}${R}BaudrtS")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(bi, "${P}${R}UnderRngCtrl-RB")
+record(bi, "${P}:${R}:UnderRngCtrl-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_puc ${ASYNPORT}")
@@ -188,11 +204,11 @@ record(bi, "${P}${R}UnderRngCtrl-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(bo, "${P}${R}UnderRngCtrlS")
+record(bo, "${P}:${R}:UnderRngCtrlS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_puc ${ASYNPORT}")
@@ -200,15 +216,15 @@ record(bo, "${P}${R}UnderRngCtrlS")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 
-  field(FLNK, "${P}${R}UnderRngCtrl-RB.PROC CA")
+  field(FLNK, "${P}:${R}:UnderRngCtrl-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(mbbi, "${P}${R}Unit-RB")
+record(mbbi, "${P}:${R}::UNITS_RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_units ${ASYNPORT}")
@@ -240,11 +256,11 @@ record(mbbi, "${P}${R}Unit-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(mbbo, "${P}${R}UnitS")
+record(mbbo, "${P}:${R}:UnitS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_units ${ASYNPORT}")
@@ -258,15 +274,15 @@ record(mbbo, "${P}${R}UnitS")
   field(TWVL, "3")
   field(TWST, "Pa")
 
-  field(FLNK, "${P}${R}Unit-RB.PROC CA")
+  field(FLNK, "${P}:${R}:Unit-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(mbbi, "${P}${R}SaveParams-RB")
+record(mbbi, "${P}:${R}:SaveParams-RB")
 {
   field(DTYP, "stream")
   field(INP,  "@vac_ctrl_tpg300_500.proto get_save_params ${ASYNPORT}")
@@ -284,11 +300,11 @@ record(mbbi, "${P}${R}SaveParams-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(longin, "${P}${R}iTwo")
+record(longin, "${P}:${R}:iTwo")
 {
   field(DESC, "Constant 2")
   field(PINI, "YES")
@@ -297,15 +313,15 @@ record(longin, "${P}${R}iTwo")
 }
 
 
-record(longout, "${P}${R}iSetSaveParams")
+record(longout, "${P}:${R}:iSetSaveParams")
 {
-  field(DOL,  "${P}${R}iTwo")
+  field(DOL,  "${P}:${R}:iTwo")
   field(OMSL, "closed_loop")
-  field(OUT,  "${P}${R}SaveParamsS PP")
+  field(OUT,  "${P}:${R}:SaveParamsS PP")
 }
 
 
-record(mbbo, "${P}${R}SaveParamsS")
+record(mbbo, "${P}:${R}:SaveParamsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_save_params ${ASYNPORT}")
@@ -319,16 +335,16 @@ record(mbbo, "${P}${R}SaveParamsS")
   field(TWVL, "2")
   field(TWST, "User-defined w/ hot start")
 
-  field(FLNK, "${P}${R}SaveParams-RB.PROC CA")
+  field(FLNK, "${P}:${R}:SaveParams-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
 # Needs InitialCommsOK because written to by iSetSaveParams on connection
-  field(SDIS, "${P}${R}InitialCommsOK")
+  field(SDIS, "${P}:${R}:InitialCommsOK")
 }
 
 
-record(calcout, "${P}${R}iSensorCtrlModes-RB")
+record(calcout, "${P}:${R}:iSensorCtrlModes-RB")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_modes() ${ASYNPORT}")
@@ -337,11 +353,11 @@ record(calcout, "${P}${R}iSensorCtrlModes-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(calcout, "${P}${R}iSensorFltTims-RB")
+record(calcout, "${P}:${R}:iSensorFltTims-RB")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_filter() ${ASYNPORT}")
@@ -350,50 +366,50 @@ record(calcout, "${P}${R}iSensorFltTims-RB")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(calcout, "${P}${R}SensorFltTimsS")
+record(calcout, "${P}:${R}:SensorFltTimsS")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto set_filter() ${ASYNPORT}")
 
-  field(INPA, "${P}${R}A1_FltTimS.RVAL")
-  field(INPB, "${P}${R}A2_FltTimS.RVAL")
-  field(INPC, "${P}${R}B1_FltTimS.RVAL")
-  field(INPD, "${P}${R}B2_FltTimS.RVAL")
+  field(INPA, "${P}:${R}:A1_FltTimS.RVAL")
+  field(INPB, "${P}:${R}:A2_FltTimS.RVAL")
+  field(INPC, "${P}:${R}:B1_FltTimS.RVAL")
+  field(INPD, "${P}:${R}:B2_FltTimS.RVAL")
 
-  field(FLNK, "${P}${R}iSensorFltTims-RB.PROC CA")
+  field(FLNK, "${P}:${R}:iSensorFltTims-RB.PROC CA")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
-record(calc, "${P}${R}iSensorFltTimsStat")
+record(calc, "${P}:${R}:iSensorFltTimsStat")
 {
-  field(INPA, "${P}${R}SensorFltTimsS.STAT")
+  field(INPA, "${P}:${R}:SensorFltTimsS.STAT")
 # CALC_ALARM == 12
   field(CALC, "A==12")
 }
 
 
-record(sel, "${P}${R}iSensorFltTimError")
+record(sel, "${P}:${R}:iSensorFltTimError")
 {
   field(SELM, "Specified")
-  field(NVL,  "${P}${R}iSensorFltTimsStat PP")
+  field(NVL,  "${P}:${R}:iSensorFltTimsStat PP")
 
-  field(INPA, "${P}${R}SensorFltTimsS.E CP MSS")
-  field(INPB, "${P}${R}SensorFltTimsS.E")
+  field(INPA, "${P}:${R}:SensorFltTimsS.E CP MSS")
+  field(INPB, "${P}:${R}:SensorFltTimsS.E")
 }
 
 
-record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
+record(mbbi, "${P}:${R}:SensorFltTimsS-ErrorR")
 {
   field(DTYP, "Raw Soft Channel")
-  field(INP,  "${P}${R}iSensorFltTimError CP MSS")
+  field(INP,  "${P}:${R}:iSensorFltTimError CP MSS")
 
   field(ZRVL, "0")
   field(ZRST, "NO ERROR")
@@ -416,11 +432,11 @@ record(mbbi, "${P}${R}SensorFltTimsS-ErrorR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK CP")
+  field(SDIS, "${P}:${R}:CommsOK CP")
 }
 
 
-record(calcout, "${P}${R}iTPG300RlyStatsR")
+record(calcout, "${P}:${R}:iTPG300RlyStatsR")
 {
   field(DTYP, "stream")
   field(OUT,  "@vac_ctrl_tpg300_500.proto get_func_stat() ${ASYNPORT}")
@@ -430,63 +446,63 @@ record(calcout, "${P}${R}iTPG300RlyStatsR")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}CommsOK")
+  field(SDIS, "${P}:${R}:CommsOK")
 }
 
 
 ################################################################################
 # Initial setup                                                                #
 ################################################################################
-record(fanout, "${P}${R}iConnect-FltTims-FO")
+record(fanout, "${P}:${R}:iConnect-FltTims-FO")
 {
-  field(LNK1, "${P}${R}A1_iConnect-FltTim-FO")
-  field(LNK2, "${P}${R}A2_iConnect-FltTim-FO")
-  field(LNK3, "${P}${R}B1_iConnect-FltTim-FO")
-  field(LNK4, "${P}${R}B2_iConnect-FltTim-FO")
+  field(LNK1, "${P}:${R}:A1_iConnect-FltTim-FO")
+  field(LNK2, "${P}:${R}:A2_iConnect-FltTim-FO")
+  field(LNK3, "${P}:${R}:B1_iConnect-FltTim-FO")
+  field(LNK4, "${P}:${R}:B2_iConnect-FltTim-FO")
 }
 
 
-record(fanout, "${P}${R}iConnect-Rlys-FO")
+record(fanout, "${P}:${R}:iConnect-Rlys-FO")
 {
-  field(LNK1, "${P}${R}Rly1_iConnect-FO")
-  field(LNK2, "${P}${R}Rly2_iConnect-FO")
-  field(LNK3, "${P}${R}Rly3_iConnect-FO")
-  field(LNK4, "${P}${R}Rly4_iConnect-FO")
+  field(LNK1, "${P}:${R}:Rly1_iConnect-FO")
+  field(LNK2, "${P}:${R}:Rly2_iConnect-FO")
+  field(LNK3, "${P}:${R}:Rly3_iConnect-FO")
+  field(LNK4, "${P}:${R}:Rly4_iConnect-FO")
 }
 
 
 ################################################################################
 # Scan events                                                                  #
 ################################################################################
-record(event, "${P}${R}iScan1Event")
+record(event, "${P}:${R}:iScan1Event")
 {
   field(SCAN, "1 second")
   field(VAL,  "${P}-1")
 }
 
 
-record(event, "${P}${R}iScan10Event")
+record(event, "${P}:${R}:iScan10Event")
 {
   field(SCAN, "10 second")
   field(VAL,  "${P}-10")
 
-  field(FLNK, "${P}${R}iRereadCalc")
+  field(FLNK, "${P}:${R}:iRereadCalc")
 }
 
 
-record(calcout, "${P}${R}iRereadCalc")
+record(calcout, "${P}:${R}:iRereadCalc")
 {
   field(DESC, "Re-read all values every minute or so")
-  field(INPA, "${P}${R}iRereadCalc")
-  field(INPB, "${P}${R}CommsOK CP")
+  field(INPA, "${P}:${R}:iRereadCalc")
+  field(INPB, "${P}:${R}:CommsOK CP")
   field(C,    "-1")
   field(CALC, "B==C?(A<5?A+1:0):0;C:=B")
   field(OOPT, "When Zero")
-  field(OUT,  "${P}${R}iRereadEvent.PROC PP")
+  field(OUT,  "${P}:${R}:iRereadEvent.PROC PP")
 }
 
 
-record(event, "${P}${R}iRereadEvent")
+record(event, "${P}:${R}:iRereadEvent")
 {
   field(VAL,  "${P}-RB")
 }
@@ -496,69 +512,69 @@ record(event, "${P}${R}iRereadEvent")
 # Reconnect logic                                                              #
 ################################################################################
 
-record(asyn,"${P}${R}iAsyn")
+record(asyn,"${P}:${R}:iAsyn")
 {
   field(DTYP, "asynRecordDevice")
   field(PORT, "${ASYNPORT}")
 }
 
 
-record(bi, "${P}${R}ConnectedR")
+record(bi, "${P}:${R}:ConnectedR")
 {
-  field(INP,  "${P}${R}iAsyn.CNCT CP")
+  field(INP,  "${P}:${R}:iAsyn.CNCT CP")
 
   field(ONAM, "Connected")
   field(ZNAM, "Disconnected")
   field(ZSV,  "MAJOR")
 
-  field(FLNK, "${P}${R}iConnectedCalc")
+  field(FLNK, "${P}:${R}:iConnectedCalc")
 }
 
 
-record(calcout, "${P}${R}iConnectedCalc")
+record(calcout, "${P}:${R}:iConnectedCalc")
 {
-  field(INPA, "${P}${R}ConnectedR")
+  field(INPA, "${P}:${R}:ConnectedR")
   field(CALC, "A?1:6")
   field(OOPT, "On Change")
-  field(OUT,  "${P}${R}iConnectedSeq PP")
+  field(OUT,  "${P}:${R}:iConnectedSeq PP")
 }
 
 
-record(seq, "${P}${R}iConnectedSeq")
+record(seq, "${P}:${R}:iConnectedSeq")
 {
-  field(SELL, "${P}${R}iConnectedCalc")
+  field(SELL, "${P}:${R}:iConnectedCalc")
   field(SELM, "Mask")
 
 # Connected; let's check device
   field(DOL1, "1")
-  field(LNK1, "${P}${R}iRst.PROC")
+  field(LNK1, "${P}:${R}:iRst.PROC")
 
 # Not connected; update CommsStat
   field(DOL2, "1")
-  field(LNK2, "${P}${R}iCommsStatCalc.PROC")
+  field(LNK2, "${P}:${R}:iCommsStatCalc.PROC")
 
 # Not connected; update DisconnectTrigR
   field(DOL3, "1")
-  field(LNK3, "${P}${R}iDisconnectTrigR.PROC")
+  field(LNK3, "${P}:${R}:iDisconnectTrigR.PROC")
 }
 
 
-record(scalcout, "${P}${R}iCommsStatCalc")
+record(scalcout, "${P}:${R}:iCommsStatCalc")
 {
-  field(INPA, "${P}${R}ConnectedR")
-  field(INBB, "${P}${R}ModComm_TypeR")
-  field(INPC, "${P}${R}iModTypesR.STAT")
+  field(INPA, "${P}:${R}:ConnectedR")
+  field(INBB, "${P}:${R}:ModComm_TypeR")
+  field(INPC, "${P}:${R}:iModTypesR.STAT")
   field(INPE, "${IS_ETH_INTERFACE}")
 # The TPG500 Ethernet interface does not need a communications interface board so do not check the comms board
   field(CALC, "B:=(E||BB[0,4]=='IF300');A?(C==0?(B==0?'2':'3'):'1'):'0'")
   field(OOPT, "On Change")
-  field(OUT,  "${P}${R}CommsStatR PP")
+  field(OUT,  "${P}:${R}:CommsStatR PP")
   field(PINI, "YES")
   field(VAL,  "-1")
 }
 
 
-record(mbbi, "${P}${R}CommsStatR")
+record(mbbi, "${P}:${R}:CommsStatR")
 {
   field(DESC, "Status of communication")
   field(ZRVL, "0")
@@ -576,21 +592,21 @@ record(mbbi, "${P}${R}CommsStatR")
   field(THVL, "3")
   field(THST, "Communication OK")
 
-  field(FLNK, "${P}${R}iInitialCommsOK")
+  field(FLNK, "${P}:${R}:iInitialCommsOK")
 }
 
 
-record(calcout, "${P}${R}iInitialCommsOK")
+record(calcout, "${P}:${R}:iInitialCommsOK")
 {
-  field(INPA, "${P}${R}CommsStatR")
+  field(INPA, "${P}:${R}:CommsStatR")
   field(CALC, "A==3")
   field(PINI, "YES")
   field(OOPT, "On Change")
-  field(OUT,  "${P}${R}InitialCommsOK PP")
+  field(OUT,  "${P}:${R}:InitialCommsOK PP")
 }
 
 
-record(bi, "${P}${R}InitialCommsOK")
+record(bi, "${P}:${R}:InitialCommsOK")
 {
 # This PV is used to DISABLE input and output PVs
 # the difference between InitialCommsOK and CommsOK is that
@@ -601,72 +617,72 @@ record(bi, "${P}${R}InitialCommsOK")
   field(ONAM, "Communication is OK")
   field(ZSV,  "MAJOR")
 
-  field(FLNK, "${P}${R}iInitialCommsOK-FO")
+  field(FLNK, "${P}:${R}:iInitialCommsOK-FO")
 }
 
 
-record(fanout, "${P}${R}iInitialCommsOK-FO")
+record(fanout, "${P}:${R}:iInitialCommsOK-FO")
 {
 # Can be used to trigger inital setup
-  field(LNK1, "${P}${R}iConnect-FltTims-FO")
-  field(LNK2, "${P}${R}iConnect-Rlys-FO")
-  field(LNK3, "${P}${R}iConnect-Names-FO")
-  field(LNK4, "${P}${R}iIdn")
-  field(LNK5, "${P}${R}iSetSaveParams")
+  field(LNK1, "${P}:${R}:iConnect-FltTims-FO")
+  field(LNK2, "${P}:${R}:iConnect-Rlys-FO")
+  field(LNK3, "${P}:${R}:iConnect-Names-FO")
+  field(LNK4, "${P}:${R}:iIdn")
+  field(LNK5, "${P}:${R}:iSetSaveParams")
 
-  field(FLNK, "${P}${R}iCommsOK")
+  field(FLNK, "${P}:${R}:iCommsOK")
 }
 
 
-record(calcout, "${P}${R}iCommsOK")
+record(calcout, "${P}:${R}:iCommsOK")
 {
-  field(INPA, "${P}${R}CommsStatR")
+  field(INPA, "${P}:${R}:CommsStatR")
   field(CALC, "A==3")
   field(PINI, "YES")
   field(OOPT, "On Change")
-  field(OUT,  "${P}${R}CommsOK PP")
+  field(OUT,  "${P}:${R}:CommsOK PP")
 }
 
 
-record(bi, "${P}${R}CommsOK")
+record(bi, "${P}:${R}:CommsOK")
 {
 # This PV is used to DISABLE input and output PVs
   field(ZNAM, "No communication")
   field(ONAM, "Communication is OK")
   field(ZSV,  "MAJOR")
 
-  field(FLNK, "${P}${R}CommsOK-FO")
+  field(FLNK, "${P}:${R}:CommsOK-FO")
 }
 
 
 # Make sure that status calculations based on CommsOK are done before DisconnectTrigR is processed
-record(fanout, "${P}${R}CommsOK-FO")
+record(fanout, "${P}:${R}:CommsOK-FO")
 {
   field(DESC, "Processed when connection state changes")
-  field(LNK1, "${P}${R}iScan1Event.PROC CA")
-  field(LNK2, "${P}${R}iScan10Event.PROC CA")
+  field(LNK1, "${P}:${R}:iScan1Event.PROC CA")
+  field(LNK2, "${P}:${R}:iScan10Event.PROC CA")
 }
 
 
-record(calcout, "${P}${R}iDisconnectTrigR")
+record(calcout, "${P}:${R}:iDisconnectTrigR")
 {
   field(DESC, "Trigger DisconnectTrigR when ! connected")
-  field(INPA, "${P}${R}ConnectedR")
-  field(INPB, "${P}${R}DisconnectTrigR")
+  field(INPA, "${P}:${R}:ConnectedR")
+  field(INPB, "${P}:${R}:DisconnectTrigR")
   field(CALC, "A?0:(B<10?B+1:1)")
   field(OOPT, "When Non-zero")
-  field(OUT,  "${P}${R}DisconnectTrigR PP")
+  field(OUT,  "${P}:${R}:DisconnectTrigR PP")
 }
 
 
-record(longin, "${P}${R}DisconnectTrigR")
+record(longin, "${P}:${R}:DisconnectTrigR")
 {
 # This PV is a special CommsOK: it changes value when a disconnect occurs
   field(DESC, "PV is processed on disconnects")
 }
 
 
-record(mbbo, "${P}${R}AsynTrace")
+record(mbbo, "${P}:${R}:AsynTrace")
 {
   field(DTYP, "Raw Soft Channel")
 
@@ -676,24 +692,24 @@ record(mbbo, "${P}${R}AsynTrace")
   field(ONVL, "12")
   field(ONST, "Start tracing")
 
-  field(FLNK, "${P}${R}iAsynTrace")
+  field(FLNK, "${P}:${R}:iAsynTrace")
 }
 
 
-record(seq, "${P}${R}iAsynTrace")
+record(seq, "${P}:${R}:iAsynTrace")
 {
   field(SELM, "Mask")
-  field(SELL, "${P}${R}AsynTrace.RVAL")
+  field(SELL, "${P}:${R}:AsynTrace.RVAL")
 
   field(DOL1, "0")
-  field(LNK1, "${P}${R}iAsyn.TIOM PP")
+  field(LNK1, "${P}:${R}:iAsyn.TIOM PP")
 
   field(DOL2, "0")
-  field(LNK2, "${P}${R}iAsyn.TMSK PP")
+  field(LNK2, "${P}:${R}:iAsyn.TMSK PP")
 
   field(DOL3, "1")
-  field(LNK3, "${P}${R}iAsyn.TIOM PP")
+  field(LNK3, "${P}:${R}:iAsyn.TIOM PP")
 
   field(DOL4, "9")
-  field(LNK4, "${P}${R}iAsyn.TMSK PP")
+  field(LNK4, "${P}:${R}:iAsyn.TMSK PP")
 }

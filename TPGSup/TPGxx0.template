@@ -44,13 +44,17 @@ record(bo, "$(P):DISABLE")
 #   field(OUTB, "$(P):SLOT2 PP")
 #   field(OUTC, "$(P):SLOT3 PP")
 # }
+
 record(stringin, "$(P):SLOTS_RAW") {
   field(DTYP, "stream")
   field(INP, "@devTPGx00.proto get_slots($(P):SLOT1,$(P):SLOT2,$(P):SLOT3) ${PORT}")
 #  field(FLNK, "$(P):ParseSlots")
   field(SCAN, "Event")
   field(EVNT, "$(P)-10")
+  field(SDIS, "$(P):SLOTS_INIT_OK")
+  field(DISV, "1")
 }
+
 
 record(stringin, "$(P):SLOT1") {
   field(VAL, "")
@@ -150,9 +154,10 @@ record(bi, "${P}:UNDERRANGE_CTRL_RB")
 {
   field(DTYP, "stream")
   field(INP,  "@devTPGx00.proto get_puc $(PORT)")
-  field(SCAN, "Event")
-  field(EVNT, "${P}-10")
-
+  # field(SCAN, "Event")
+  # field(EVNT, "${P}-10")
+  field(SCAN, "Passive")
+  field(PINI, "YES")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 
@@ -203,13 +208,34 @@ record(mbbi, "$(P):ERROR")
 
 record(stringout,"$(P):setfilters") {
   field(DTYP, "stream")
-  field(OUT,  "@devTPGx00.proto set_filters($(P):A1:FILT_SP.VAL,$(P):A2:FILT_SP.VAL,$(P):B1:FILT_SP.VAL,$(P):B2:FILT_SP.VAL,$(P):A1:FILT_RB,$(P):A2:FILT_RB,$(P):B1:FILT_RB,$(P):B2:FILT_RB) $(PORT)")
+  field(OUT,  "@devTPGx00.proto set_filters($(P):A1:FILT_SP.RVAL,$(P):A2:FILT_SP.RVAL,$(P):B1:FILT_SP.RVAL,$(P):B2:FILT_SP.RVAL,$(P):A1:FILT_RB,$(P):A2:FILT_RB,$(P):B1:FILT_RB,$(P):B2:FILT_RB) $(PORT)")
   field(SCAN, "Passive")
 }
 record(stringout,"$(P):setmodes") {
   field(DTYP, "stream")
   field(OUT,  "@devTPGx00.proto set_modes($(P):A1:MODE_SP.VAL,$(P):A2:MODE_SP.VAL,$(P):B1:MODE_SP.VAL,$(P):B2:MODE_SP.VAL,$(P):A1:MODE_RB,$(P):A2:MODE_RB,$(P):B1:MODE_RB,$(P):B2:MODE_RB) $(PORT)")
   field(SCAN, "Passive")
+}
+
+
+record(stringout,"$(P):functionstatus") {
+  field(DTYP, "stream")
+  field(OUT,  "@devTPGx00.proto function_status($(P):FUNCTION:1:ENABLE_RB,$(P):FUNCTION:2:ENABLE_RB,$(P):FUNCTION:3:ENABLE_RB,$(P):FUNCTION:4:ENABLE_RB,$(P):FUNCTION:A:ENABLE_RB,$(P):FUNCTION:B:ENABLE_RB) $(PORT)")
+  field(SCAN, "Event")
+  field(EVNT, "$(P)-10")
+  field(PINI, "YES")
+  
+}
+record(scalcout, "$(P):SLOTS_INIT_OK") {
+
+  field(INAA, "$(P):SLOT1 CP")
+  field(INBB, "$(P):SLOT2 CP")
+  field(INCC, "$(P):SLOT3 CP")
+  field(CALC, "(AA != '') && (BB != '') && (CC != '')")
+  field(OOPT, "When Non-zero")         # Output when calculation is true
+  field(DOPT, "Use CALC")              # Use calculated result as output
+  field(VAL, "0")
+  field(DESC, "Disable SLOTS_RAW")
 }
 
 

@@ -1,0 +1,92 @@
+
+
+
+
+record(mbbo, "$(P):FUNCTION")
+{
+    field(DESC, "Switching function selection")
+    field(SCAN, "Passive")
+    field(DTYP, "Raw Soft Channel")
+    field(VAL, "1")
+    field(ZRST, "1")
+    field(ZRVL, "1")
+    field(ONST, "2")
+    field(ONVL, "2")
+    field(TWST, "3")
+    field(TWVL, "3")
+    field(THST, "4")
+    field(THVL, "4")
+    field(FRST, "A")
+    field(FRVL, "5")
+    field(FVST, "B")
+    field(FVVL, "6")
+    field(FLNK, "$(P):FUNCTION:VALID.PROC")
+    field(UNSV, "INVALID")
+}
+
+# These records are used to prevent sending invalid commands to the TPG500 (as it does not accept switching functions A and B as 
+# input parameters for the function 'SPx').
+record(calc, "$(P):FUNCTION:VALID")
+{
+    field(DESC, "Check FUNCTION value validity")
+    field(SCAN, "Passive")
+    field(INPA, "$(P):FUNCTION.VAL")
+    field(CALC, "A<=6")
+    field(FLNK, "$(P):FUNCTION:SEL:RB:RAW")
+    field(ASG, "READONLY")
+}
+
+
+# record(stringin, "$(P):FUNCTION:SEL:RB")
+# {
+#     field(DESC, "Selected function readback")
+#     field(DTYP, "stream")
+#     field(SCAN, "Passive")
+#     field(PINI, "YES")
+#     field(INP, "@devTPG300.proto getFunctionMacro($(P):FUNCTION.VAL,$(P):FUNCTION:SEL) $(PORT)")
+#     field(SIML, "$(P):SIM")
+#     field(SIOL, "$(P):SIM:FUNCTION:SEL:RB")
+#     field(SDIS, "$(P):DISABLE")
+# }
+
+record(mbbo, "$(P):FUNCTION:ASSIGN:SP")
+{
+    field(DESC, "Setpoint for circuit assignment")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZRST, "No assignment")
+    field(ONST, "A1")
+    field(TWST, "A2")
+    field(THST, "B1")
+    field(FRST, "B1")
+    field(FVST, "A1 self-monitor")
+    field(SXST, "A2 self-monitor")
+    field(SVST, "B1 self-monitor")
+    field(EIST, "B1 self-monitor")
+    field(OUT, "$(P):FUNCTION:ASSIGN")
+}
+
+record(longin, "$(P):FUNCTION:ASSIGN")
+{
+    field(SCAN, "Passive")
+}
+alias("$(P):FUNCTION:ASSIGN", "$(P):FUNCTION:ASSIGN:SP:RBV")
+
+# record(stringout, "$(P):FUNCTION:ASSIGN:SP:OUT") 
+# {
+#     field(DESC, "Sends new settings")
+#     field(SCAN, "Passive")
+#     field(DTYP, "stream")
+#     field(OUT,  "@devTPGx00.proto setFunction($(P):FUNCTION,:LOW:SP,:HIGH:SP,:ASSIGN) $(PORT)")
+   
+# }
+
+# record(stringin, "$(P):FUNCTION:STATUS:RB")
+# {
+#     field(DESC, "Reading all functions' status")
+#     field(DTYP, "stream")
+#     field(SCAN, "1 second")
+#     field(INP, "@devTPGx00.proto getFunctionsStatus($(P):FUNCTION:STATUS) $(PORT)")
+#     field(PINI, "YES")
+    
+# }

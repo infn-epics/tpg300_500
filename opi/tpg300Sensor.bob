@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-05-28 18:12:02 by andreamichelotti-->
+<!--Saved on 2025-06-01 15:00:31 by andreamichelotti-->
 <display version="2.0.0">
   <height>160</height>
   <background_color>
@@ -188,7 +188,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_7</name>
-    <pv_name>$(TPG3002Macro):$(SENSOR)-MODE-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):$(SENSOR):MODE_RB</pv_name>
     <x>499</x>
     <y>84</y>
     <width>246</width>
@@ -217,9 +217,9 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="combo" version="2.0.0">
     <name>Clock source</name>
-    <pv_name>$(TPG3002Macro):$(SENSOR)-MODE</pv_name>
-    <x>270</x>
-    <y>82</y>
+    <pv_name>$(TPG3002Macro):$(SENSOR):MODE_SP</pv_name>
+    <x>272</x>
+    <y>85</y>
     <width>200</width>
     <height>25</height>
     <font>
@@ -260,7 +260,7 @@ $(pv_value)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update Template_8</name>
-    <pv_name>$(TPG3002Macro):$(SENSOR)-FILT-RBV</pv_name>
+    <pv_name>$(TPG3002Macro):$(SENSOR):FILT_RB</pv_name>
     <x>499</x>
     <y>114</y>
     <width>246</width>
@@ -288,7 +288,7 @@ $(pv_value)</tooltip>
     </border_color>
   </widget>
   <widget type="combo" version="2.0.0">
-    <pv_name>$(TPG3002Macro):$(SENSOR)-FILT</pv_name>
+    <pv_name>$(TPG3002Macro):$(SENSOR):FILT_SP</pv_name>
     <x>270</x>
     <y>112</y>
     <width>200</width>

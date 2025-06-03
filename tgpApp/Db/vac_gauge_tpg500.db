@@ -1,27 +1,27 @@
-record(stringin, "${P}${R}Name-RB")
+record(stringin, "${P}:${R}:Name-RB")
 {
   field(DESC, "Sensor name")
   field(INP,  "${CONTROLLERNAME}${R}iSensorNames-RB.${SOURCE}${SOURCE} CP MSS")
 
-  field(FLNK, "${P}${R}iNameInit")
+  field(FLNK, "${P}:${R}:iNameInit")
 
   field(DISV, "0")
   field(DISS, "INVALID")
-  field(SDIS, "${P}${R}ValidR CP")
+  field(SDIS, "${P}:${R}:ValidR CP")
 }
 
 
-record(stringout, "${P}${R}NameS")
+record(stringout, "${P}:${R}:NameS")
 {
   field(DESC, "Sensor name")
   field(OUT,  "${CONTROLLERNAME}${R}${SENSOR}_NameS PP")
 
 # Cannot go directly to SensorNamesS as this PV needs to be processed when updated from -RB
-  field(FLNK, "${P}${R}NameCommitS")
+  field(FLNK, "${P}:${R}:NameCommitS")
 }
 
 
-record(fanout, "${P}${R}NameCommitS")
+record(fanout, "${P}:${R}:NameCommitS")
 {
 # Dynamically disabled by iNameInit-FO when NameS is updated from its -RB
   field(FLNK, "${CONTROLLERNAME}${R}SensorNamesS")
@@ -31,26 +31,26 @@ record(fanout, "${P}${R}NameCommitS")
 record(seq, "${CONTROLLERNAME}${R}${SENSOR}_iConnect-Name-FO")
 {
   field(DOL1, "0")
-  field(LNK1, "${P}${R}iNameInit2.PVAL")
+  field(LNK1, "${P}:${R}:iNameInit2.PVAL")
 }
 
 
 # if Name-RB is valid
-record(scalcout, "${P}${R}iNameInit")
+record(scalcout, "${P}:${R}:iNameInit")
 {
-  field(INAA, "${P}${R}Name-RB MS")
-  field(OUT,  "${P}${R}iNameInit2.PROC PP")
+  field(INAA, "${P}:${R}:Name-RB MS")
+  field(OUT,  "${P}:${R}:iNameInit2.PROC PP")
   field(CALC, "42")
   field(IVOA, "Don't drive outputs")
 }
 
 
 # and Name-RB is different from iPrevName
-record(scalcout, "${P}${R}iNameInit2")
+record(scalcout, "${P}:${R}:iNameInit2")
 {
-  field(INAA, "${P}${R}Name-RB")
-  field(INBB, "${P}${R}iPrevName")
-  field(OUT,  "${P}${R}iPrevName.PROC PP")
+  field(INAA, "${P}:${R}:Name-RB")
+  field(INBB, "${P}:${R}:iPrevName")
+  field(OUT,  "${P}:${R}:iPrevName.PROC PP")
   field(VAL,  "0")
   field(CALC, "AA!=BB")
   field(OOPT, "Transition To Non-zero")
@@ -58,23 +58,23 @@ record(scalcout, "${P}${R}iNameInit2")
 
 
 # then update iPrevName
-record(stringin, "${P}${R}iPrevName")
+record(stringin, "${P}:${R}:iPrevName")
 {
-  field(INP,  "${P}${R}Name-RB")
+  field(INP,  "${P}:${R}:Name-RB")
   field(VAL,  "-1")
-  field(FLNK, "${P}${R}iNameInit-FO")
+  field(FLNK, "${P}:${R}:iNameInit-FO")
 }
 
 
 # and update NameS too
-record(sseq, "${P}${R}iNameInit-FO")
+record(sseq, "${P}:${R}:iNameInit-FO")
 {
   field(DOL1, "1")
-  field(LNK1, "${P}${R}NameCommitS.DISA")
+  field(LNK1, "${P}:${R}:NameCommitS.DISA")
 
-  field(DOL2, "${P}${R}Name-RB")
-  field(LNK2, "${P}${R}NameS PP")
+  field(DOL2, "${P}:${R}:Name-RB")
+  field(LNK2, "${P}:${R}:NameS PP")
 
   field(DOL4, "0")
-  field(LNK4, "${P}${R}NameCommitS.DISA")
+  field(LNK4, "${P}:${R}:NameCommitS.DISA")
 }
