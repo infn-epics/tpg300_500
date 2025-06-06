@@ -14,10 +14,12 @@ DB += devTPG300.db
 DB += devTPG500.db
 DB += test.db
 
-DB += TPG300.db
+DB += TPG300_base.db
+DB += TPG300_channels.db
+
 # DB += unit_setter.db
-DB += TPG300_switching_functions.db
-DB += TPG300_function_statuses.db
+# DB += TPG300_switching_functions.db
+# DB += TPG300_function_statuses.db
 # DB += TPG300_switching_functions_rb_error_setter.db
 # DB += TPG300_function_statuses_error_setter.db
 
