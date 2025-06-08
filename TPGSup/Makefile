@@ -7,15 +7,6 @@ DATA += devTPGx00.proto
 DATA += devTPG300.proto
 DATA += devTPG500.proto
 
-DB += devTPGx00.db
-DB += devTPG3xx.db
-
-DB += devTPG300.db
-DB += devTPG500.db
-DB += test.db
-
-DB += TPG300_base.db
-DB += TPG300_channels.db
 
 # DB += unit_setter.db
 # DB += TPG300_switching_functions.db

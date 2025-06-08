@@ -4,12 +4,17 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS BELOW HERE
 
 # Install databases, templates & substitutions like this
-DB += vac_ctrl_tpg300_500.db
-DB += vac_gauge_tpg300.db
-DB += vac_gauge_tpg300_relay.db
-DB += vac_gauge_tpg500.db
 
-DB += vac_ctrl_tpg300_500.proto
+
+DB += devTPGx00.db
+DB += devTPG3xx.db
+
+DB += devTPG300.db
+DB += devTPG500.db
+DB += test.db
+
+DB += TPG300_base.db
+DB += TPG300_channels.db
 
 include $(TOP)/configure/RULES
 #----------------------------------------
