@@ -1,8 +1,8 @@
 file TPG300_channels.template {
 
 pattern {PORT, P, CHAN, NAME,TPG_UNDERRANGE_ALARM_SEVERITY}
-{"\$(PORT)", "\$(P)", "A1", "IG1","\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "A2", "IG2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
-{"\$(PORT)", "\$(P)", "B1", "PG1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "B2", "PG2","\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
+{"\$(PORT)", "\$(P)", "A1", "IG1","\$(TPG_UNDERRANGE_ALARM_SEVERITY_A1)"}
+{"\$(PORT)", "\$(P)", "A2", "IG2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_A2)"}
+{"\$(PORT)", "\$(P)", "B1", "PG1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_B1)"}
+{"\$(PORT)", "\$(P)", "B2", "PG2","\$(TPG_UNDERRANGE_ALARM_SEVERITY_B2)"}
 }

@@ -1,7 +1,7 @@
 
 file TPGxx0.template {
-    pattern {PORT, P,TPG_UNDERRANGE_ALARM_SEVERITY}
-    {"\$(PORT)", "\$(P)", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
+    pattern {PORT, P}
+    {"\$(PORT)", "\$(P)"}
 
 
 }
@@ -9,21 +9,21 @@ file TPGxx0.template {
 file TPG_channels_settings.template {
 
 pattern {PORT, P, CHAN,TPG_UNDERRANGE_ALARM_SEVERITY}
-{"\$(PORT)", "\$(P)", "A1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "A2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
-{"\$(PORT)", "\$(P)", "B1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "B2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
+{"\$(PORT)", "\$(P)", "A1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_A1)"}
+{"\$(PORT)", "\$(P)", "A2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_A2)"}
+{"\$(PORT)", "\$(P)", "B1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_B1)"}
+{"\$(PORT)", "\$(P)", "B2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_B2)"}
 }
 
 
 file TPG300_switching_functions.template {
 
-pattern {PORT, P, Q,TPG_UNDERRANGE_ALARM_SEVERITY}
-{"\$(PORT)", "\$(P)", "1", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "2", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
-{"\$(PORT)", "\$(P)", "3", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN1)"}
-{"\$(PORT)", "\$(P)", "4", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
-{"\$(PORT)", "\$(P)", "A", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
-{"\$(PORT)", "\$(P)", "B", "\$(TPG_UNDERRANGE_ALARM_SEVERITY_CHAN2)"}
+pattern {PORT, P, Q}
+{"\$(PORT)", "\$(P)", "1"}
+{"\$(PORT)", "\$(P)", "2"}
+{"\$(PORT)", "\$(P)", "3"}
+{"\$(PORT)", "\$(P)", "4"}
+{"\$(PORT)", "\$(P)", "A"}
+{"\$(PORT)", "\$(P)", "B"}
 
 }
