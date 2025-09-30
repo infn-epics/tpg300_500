@@ -51,4 +51,34 @@ record(mbbi, "$(P):$(CHAN):PRES_STAT")
     
 }
 
+record(calc, "$(P):$(CHAN):STATE_CALC_")
+{
+  field(DESC, "Calculate channel state from multiple inputs")
+  field(INPA, "$(P):$(CHAN):PRES_RB:VISIBLE CP")
+  field(INPB, "$(P):$(CHAN):PRES_STAT CP")
+  field(INPC, "$(P):ERROR CP")
+  field(CALC, "C?2:(B=3?2:(B=4?3:(A?1:0)))")
+  field(FLNK, "$(P):$(CHAN):STATE_RB PP")
+}
+
+record(mbbi, "$(P):$(CHAN):STATE_RB")
+{
+  field(DESC, "Overall Channel State")
+  field(INP, "$(P):$(CHAN):STATE_CALC_")
+  field(PINI, "YES")
+  field(SCAN, "Passive")
+  field(ZRVL, "0")
+  field(ZRST, "OFF")
+  field(ZRSV, "NO_ALARM")
+  field(ONVL, "1")
+  field(ONST, "ON")
+  field(ONSV, "NO_ALARM")
+  field(TWVL, "2")
+  field(TWST, "ERROR")
+  field(TWSV, "MAJOR")
+  field(THVL, "3")
+  field(THST, "INTERLOCK")
+  field(THSV, "MAJOR")
+}
+
 alias ("$(P):$(CHAN):PRES_STAT","$(P):$(NAME):PRES_STAT")
