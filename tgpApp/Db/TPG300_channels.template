@@ -53,7 +53,7 @@ record(mbbi, "$(P):$(CHAN):PRES_STAT")
 
 record(calc, "$(P):$(CHAN):STATE_CALC_")
 {
-  field(DESC, "Calculate channel state from multiple inputs")
+  field(DESC, "Calculate unichannel state")
   field(INPA, "$(P):$(CHAN):PRES_RB:VISIBLE CP")
   field(INPB, "$(P):$(CHAN):PRES_STAT CP")
   field(INPC, "$(P):ERROR CP")
@@ -80,5 +80,6 @@ record(mbbi, "$(P):$(CHAN):STATE_RB")
   field(THST, "INTERLOCK")
   field(THSV, "MAJOR")
 }
+alias ("$(P):$(CHAN):STATE_RB","$(P):$(NAME):STATE_RB")
 
 alias ("$(P):$(CHAN):PRES_STAT","$(P):$(NAME):PRES_STAT")
