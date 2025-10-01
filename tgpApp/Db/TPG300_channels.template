@@ -54,10 +54,9 @@ record(mbbi, "$(P):$(CHAN):PRES_STAT")
 record(calc, "$(P):$(CHAN):STATE_CALC_")
 {
   field(DESC, "Calculate vac unistate")
-  field(INPA, "$(P):$(CHAN):PRES_RB:VISIBLE CP")
-  field(INPB, "$(P):$(CHAN):PRES_STAT CP")
-  field(INPC, "$(P):ERROR CP")
-  field(CALC, "C?2:(B=3?2:(B=4?3:(A?1:0)))")
+  field(INPA, "$(P):$(CHAN):PRES_STAT CP")
+  field(INPB, "$(P):ERROR CP")
+  field(CALC, "B?2:(A=3?2:(A=4?0:(A=0?1:3)))")
   field(FLNK, "$(P):$(CHAN):STATE_RB PP")
 }
 
