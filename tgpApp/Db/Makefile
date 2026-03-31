@@ -11,6 +11,7 @@ DB += devTPG3xx.db
 
 DB += devTPG300.db
 DB += devTPG500.db
+DB += devTPG366.db
 DB += test.db
 
 DB += TPG300_base.db

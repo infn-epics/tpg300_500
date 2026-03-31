@@ -6,6 +6,7 @@ include $(TOP)/configure/CONFIG
 DATA += devTPGx00.proto
 DATA += devTPG300.proto
 DATA += devTPG500.proto
+DATA += devTPG366.proto
 
 
 # DB += unit_setter.db
