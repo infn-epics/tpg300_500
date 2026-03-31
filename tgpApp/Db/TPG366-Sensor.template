@@ -1,0 +1,284 @@
+# Mandatory macros:
+# CONTROLLER  MaxiGauge name (PV prefix)
+# SENSOR      Vacuum sensor name (used for aliases)
+
+# Optional Macros:
+# WARN        Warn (MINOR) level, defaults to Inf (No warning)
+# ALARM       Alarm (MAJOR) level, defaults to Inf (No alarm)
+# MIN         Minimal range exponent, defaults to -11
+# MAX         Maximal range exponent, defaults to 3
+# PREC        Precision, defaults to -4 (4 digit exponential)
+# ADDR        RS485 address (default 1, ignored for TCP)
+# ASG         Access Security Group
+# FASTSCAN    Scan rate for pressure etc, defaults to "1 second"
+# SLOWSCAN    Scan rate for sensor names etc, defaults to "10 second"
+
+# Many records are set by either $(CONTROLLER):READ-STATUS or $(CONTROLLER):READ-INFOS
+
+record (stringout, "$(CONTROLLER):DEBUG")
+{
+    field (DESC, "Generic command record")
+    field (DTYP, "stream")
+    field (PRIO, "HIGH")
+    field (OUT,  "@devTPG366.proto debug(,$(ADDR=1)) $(PORT)")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bi, "$(CONTROLLER):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX) of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto read_status($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):READ-INFOS")
+{
+# reads GAUGE-TYPE (TID) and NAME (CID) of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto read_infos($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (PRIO, "LOW")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (PINI, "YES")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):PRESSURE$(CH)")
+{
+    alias ("$(SENSOR):PRESSURE")
+    field (DESC, "Pressure measured by sensor $(CH)")
+    field (INPB, "$(CONTROLLER):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "mbar")
+    field (PREC, "$(PREC=-4)")
+    field (LOPR, "1e$(MIN=-11)")
+    field (HOPR, "1e$(MAX=3)")
+    field (HIGH, "$(WARN=Inf)")
+    field (HSV,  "MINOR")
+    field (HIHI, "$(ALARM=Inf)")
+    field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):DISCONNECTED$(CH)")
+{
+    field (INPA, "$(CONTROLLER):READ-STATUS.STAT CP")
+    field (CALC, "A!=0")
+    field (OOPT, "When Non-zero")
+    field (DOPT, "Use OCAL")
+    field (OCAL, "7")
+    field (OUT,  "$(SENSOR):STATUS PP")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):STATUS$(CH)")
+{
+    alias ("$(SENSOR):STATUS")
+    field (ZRST, "OK")
+    field (ONST, "UNDERRANGE")
+    field (TWST, "OVERRANGE")    field (TWSV, "MINOR")
+    field (THST, "SENSOR ERROR") field (THSV, "INVALID")
+    field (FRST, "SENSOR OFF")   field (FRSV, "INVALID")
+    field (FVST, "NO SENSOR")    field (FVSV, "INVALID")
+    field (SXST, "ID ERROR")     field (SXSV, "INVALID")
+    field (SVST, "I/O ERROR")    field (SVSV, "INVALID")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):ONOFFG$(CH)")
+{
+    alias ("$(SENSOR):ONOFFG")
+    field (DTYP, "Raw Soft Channel")
+    field (ZRVL, "1")  field (ZRST, "OFF")
+    field (ONVL, "2")  field (ONST, "ON")
+    field (TWVL, "0")  field (TWST, "not switchable")
+    field (FLNK, "$(CONTROLLER):ONOFF$(CH)-UPDATER")
+    field (ASG,  "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):ONOFF$(CH)-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ONOFF$(CH)-UPDATER.B")
+    field (INPB, "$(CONTROLLER):ONOFFG$(CH) MS CP")
+    field (INPC, "$(CONTROLLER):ONOFF$(CH)")
+    field (CALC, "B>1||(B#C&&A#B)")
+    field (OOPT, "When Non-zero")
+    field (DOPT, "Use OCAL")
+    field (OCAL, "B>0")                       # not switchable is always on
+    field (OUT,  "$(SENSOR):ONOFF PP")
+    field (IVOA, "Don't drive outputs")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):ONOFF$(CH)")
+{
+    alias("$(SENSOR):ONOFF")
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@devTPG366.proto set_onoff$(CH)($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+    field (SDIS, "$(CONTROLLER):ONOFFG$(CH)") field (DISV, "2") # don't write if not switchable
+}
+
+record (stringin, "$(CONTROLLER):TYPE$(CH)")
+{
+    alias("$(SENSOR):GAUGE-TYPE")
+    alias("$(CONTROLLER):SENSOR$(CH)-TYPE")
+    field (DESC, "Gauge type")
+    field (ASG,  "READONLY")
+}
+
+record (mbbo, "$(CONTROLLER):GAS$(CH)")
+{
+    alias("$(SENSOR):GAS")
+    alias("$(SENSOR):GAS_SP")
+    field (DESC, "Gas correction")
+    field (ZRST, "Air/N2")
+    field (ONST, "Ar")
+    field (TWST, "H2")
+    field (THST, "He")
+    field (FRST, "Ne")
+    field (FVST, "Kr")
+    field (SXST, "Xe")
+    field (SVST, "Other")
+    field (ASG,  "$(ASG=)")
+    field (FLNK, "$(CONTROLLER):SET-GAS")
+}
+
+record (bo, "$(CONTROLLER):SET-GAS")
+{
+    field (DTYP, "stream")
+    field (OUT,  "@devTPG366.proto set_gas($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (SDIS, "$(CONTROLLER):READ-INFOS.PACT")
+    field (PRIO, "HIGH")
+}
+
+record (stringout, "$(CONTROLLER):NAME$(CH)")
+{
+    alias("$(SENSOR):NAME")
+    alias("$(CONTROLLER):NAMEG$(CH)")
+    field (DESC, "Sensor label")
+    field (ASG,  "$(ASG=)")
+    field (FLNK, "$(CONTROLLER):SET-NAMES")
+}
+
+record (bo, "$(CONTROLLER):SET-NAMES")
+{
+    field (DTYP, "stream")
+    field (OUT,  "@devTPG366.proto set_names($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (SDIS, "$(CONTROLLER):READ-INFOS.PACT")
+    field (PRIO, "HIGH")
+    field (ASG,  "READONLY")
+}
+
+record (stringin, "$(CONTROLLER):SENSOR$(CH)-NAME")
+{
+    field (DESC, "EPICS channel name")
+    field (VAL,  "$(SENSOR)")
+    field (PINI, "YES")
+    field (DISP, "1")
+    field (ASG,  "READONLY")
+}
+
+###############################################################################
+# Device-level extras (per-controller, duplicated harmlessly by substitutions)
+# These add device info records not present in the TPG366 standalone project
+###############################################################################
+
+record (stringin, "$(CONTROLLER):FWVER")
+{
+    field (DESC, "Firmware version")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_firmware_version $(PORT)")
+    field (PINI, "YES")
+    field (ASG,  "READONLY")
+}
+
+record (stringin, "$(CONTROLLER):HWVER")
+{
+    field (DESC, "Hardware version")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_hardware_version $(PORT)")
+    field (PINI, "YES")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):ERROR")
+{
+    field (DESC, "Device error status")
+    field (DTYP, "stream")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (INP,  "@devTPG366.proto getErrorStatus $(PORT)")
+    field (ZRST, "No error")     field (ZRVL, "0")
+    field (ONST, "Device error") field (ONVL, "8")  field (ONSV, "MAJOR")
+    field (TWST, "No hardware")  field (TWVL, "4")  field (TWSV, "INVALID")
+    field (THST, "Invalid param") field (THVL, "2") field (THSV, "MINOR")
+    field (FRST, "Syntax error") field (FRVL, "1")  field (FRSV, "MINOR")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):UNITS_RB")
+{
+    field (DESC, "Units readback")
+    field (DTYP, "stream")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (INP,  "@devTPG366.proto getUnits $(PORT)")
+    field (ZRST, "mbar/bar") field (ZRVL, "0")
+    field (ONST, "Torr")     field (ONVL, "1")
+    field (TWST, "Pascal")   field (TWVL, "2")
+    field (THST, "Micron")   field (THVL, "3")
+    field (FRST, "hPascal")  field (FRVL, "4")
+    field (FVST, "Volt")     field (FVVL, "5")
+    field (ASG,  "READONLY")
+}
+
+record (longin, "$(CONTROLLER):TEMP")
+{
+    field (DESC, "Inner device temperature")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_temperature $(PORT)")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (EGU,  "degC")
+    field (HIHI, "50")
+    field (HIGH, "40")
+    field (HHSV, "MAJOR")
+    field (HSV,  "MINOR")
+    field (ASG,  "READONLY")
+}
+
+record (longin, "$(CONTROLLER):OPHOURS")
+{
+    field (DESC, "Operating hours")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_operating_hours $(PORT)")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (EGU,  "h")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):KEYLOCK_RB")
+{
+    field (DESC, "Keylock readback")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_keylock $(PORT)")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (ZNAM, "Unlocked")
+    field (ONAM, "Locked")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):KEYLOCK")
+{
+    field (DESC, "Keylock control")
+    field (DTYP, "stream")
+    field (OUT,  "@devTPG366.proto set_keylock $(PORT)")
+    field (ZNAM, "Unlock")
+    field (ONAM, "Lock")
+    field (FLNK, "$(CONTROLLER):KEYLOCK_RB")
+    field (ASG,  "$(ASG=)")
+}

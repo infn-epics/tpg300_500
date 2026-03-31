@@ -210,7 +210,7 @@
   <!-- CH1 Pressure -->
   <widget type="textupdate" version="2.0.0">
     <name>R1Pres</name>
-    <pv_name>EUAPS:VAC:VGC:PRVGA01:CH1:PRES</pv_name>
+    <pv_name>EUAPS:VAC:VGC:PRVGA01:PRESSURE1</pv_name>
     <x>415</x>
     <y>90</y>
     <width>120</width>
@@ -240,7 +240,7 @@
   <!-- CH1 Status -->
   <widget type="textupdate" version="2.0.0">
     <name>R1Stat</name>
-    <pv_name>EUAPS:VAC:VGC:PRVGA01:CH1:STAT</pv_name>
+    <pv_name>EUAPS:VAC:VGC:PRVGA01:STATUS1</pv_name>
     <x>545</x>
     <y>90</y>
     <width>80</width>
@@ -279,7 +279,7 @@
       <action type="open_display">
         <file>tpg366.bob</file>
         <macros>
-          <TPG366>EUAPS:VAC:VGC:PRVGA01:</TPG366>
+          <CONTROLLER>EUAPS:VAC:VGC:PRVGA01</CONTROLLER>
         </macros>
         <description>Open VGC-01 panel</description>
       </action>
@@ -359,7 +359,7 @@
 
   <widget type="textupdate" version="2.0.0">
     <name>R2Pres</name>
-    <pv_name>EUAPS:VAC:VGC:FIVGA01:CH1:PRES</pv_name>
+    <pv_name>EUAPS:VAC:VGC:FIVGA01:PRESSURE1</pv_name>
     <x>415</x>
     <y>180</y>
     <width>120</width>
@@ -387,7 +387,7 @@
 
   <widget type="textupdate" version="2.0.0">
     <name>R2Stat</name>
-    <pv_name>EUAPS:VAC:VGC:FIVGA01:CH1:STAT</pv_name>
+    <pv_name>EUAPS:VAC:VGC:FIVGA01:STATUS1</pv_name>
     <x>545</x>
     <y>180</y>
     <width>80</width>
@@ -424,7 +424,7 @@
       <action type="open_display">
         <file>tpg366.bob</file>
         <macros>
-          <TPG366>EUAPS:VAC:VGC:FIVGA01:</TPG366>
+          <CONTROLLER>EUAPS:VAC:VGC:FIVGA01</CONTROLLER>
         </macros>
         <description>Open VGC-02 panel</description>
       </action>
@@ -504,7 +504,7 @@
 
   <widget type="textupdate" version="2.0.0">
     <name>R3Pres</name>
-    <pv_name>EUAPS:VAC:VGC:FIVGA02:CH1:PRES</pv_name>
+    <pv_name>EUAPS:VAC:VGC:FIVGA02:PRESSURE1</pv_name>
     <x>415</x>
     <y>270</y>
     <width>120</width>
@@ -532,7 +532,7 @@
 
   <widget type="textupdate" version="2.0.0">
     <name>R3Stat</name>
-    <pv_name>EUAPS:VAC:VGC:FIVGA02:CH1:STAT</pv_name>
+    <pv_name>EUAPS:VAC:VGC:FIVGA02:STATUS1</pv_name>
     <x>545</x>
     <y>270</y>
     <width>80</width>
@@ -569,7 +569,7 @@
       <action type="open_display">
         <file>tpg366.bob</file>
         <macros>
-          <TPG366>EUAPS:VAC:VGC:FIVGA02:</TPG366>
+          <CONTROLLER>EUAPS:VAC:VGC:FIVGA02</CONTROLLER>
         </macros>
         <description>Open VGC-03 panel</description>
       </action>

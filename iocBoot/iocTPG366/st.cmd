@@ -4,12 +4,15 @@
 # Startup script for Pfeiffer Vacuum TPG 366 MaxiGauge IOC
 # 6-channel total pressure measurement and control unit
 #
+# Compatible with TPG366 standalone project PV naming convention.
+#
 # Usage:
 #   Set environment variables before running:
-#     DEVICENAME - Asyn port name / device identifier
-#     P          - PV prefix
-#     IPADDR     - IP address of the device (or Ethernet-to-Serial converter)
-#     PORT       - TCP port number (e.g. 4001 for MOXA)
+#     CTR        - Controller name / PV prefix (e.g. "tpg366")
+#     ASYN_PORT  - Asyn port name
+#     TCP_IP     - IP address of the device
+#     TCP_PORT   - TCP port number (default 8000)
+#     GAUGE-1..6 - Sensor names (default: SENSOR1..SENSOR6)
 ###############################################################################
 
 ## Register all support components
@@ -19,11 +22,16 @@ tgpioc_registerRecordDeviceDriver(pdbbase)
 ###############################################################################
 # Configuration - edit these for your installation
 ###############################################################################
-epicsEnvSet("DEVICENAME", "TPG366")
-epicsEnvSet("P",          "VAC-TPG366")
-epicsEnvSet("R",          "")
-epicsEnvSet("IPADDR",     "192.168.1.100")
-epicsEnvSet("PORT",       "4001")
+epicsEnvSet("CTR",       "tpg366")
+epicsEnvSet("ASYN_PORT", "tpg366-01")
+epicsEnvSet("TCP_IP",    "192.168.1.100")
+epicsEnvSet("TCP_PORT",  "8000")
+epicsEnvSet("GAUGE-1",   "SENSOR1")
+epicsEnvSet("GAUGE-2",   "SENSOR2")
+epicsEnvSet("GAUGE-3",   "SENSOR3")
+epicsEnvSet("GAUGE-4",   "SENSOR4")
+epicsEnvSet("GAUGE-5",   "SENSOR5")
+epicsEnvSet("GAUGE-6",   "SENSOR6")
 
 ###############################################################################
 # Set protocol file search path
@@ -32,14 +40,13 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "../../db:../../TPGSup")
 
 ###############################################################################
 # Configure asyn IP port
-# drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
 ###############################################################################
-drvAsynIPPortConfigure("$(DEVICENAME)", "$(IPADDR):$(PORT)")
+drvAsynIPPortConfigure("${ASYN_PORT}", "${TCP_IP}:${TCP_PORT}", 0, 0, 0)
 
 ###############################################################################
 # Load the TPG366 database
 ###############################################################################
-dbLoadRecords("../../db/devTPG366.db", "P=$(P), R=$(R), PORT=$(DEVICENAME)")
+dbLoadRecords("../../db/TPG366.db", "CONTROLLER=${CTR}, PORT=${ASYN_PORT}, S1=${GAUGE-1}, S2=${GAUGE-2}, S3=${GAUGE-3}, S4=${GAUGE-4}, S5=${GAUGE-5}, S6=${GAUGE-6}")
 
 ###############################################################################
 # Optional: Enable StreamDevice debug output (0=off, 1=on)

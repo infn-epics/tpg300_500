@@ -3,12 +3,13 @@
   Phoebus OPI for Pfeiffer Vacuum TPG 366 MaxiGauge
   6-channel total pressure measurement and control unit for ActiveLine gauges
 
-  Macro: TPG366  - PV prefix (e.g. "VAC-TPG366:")
+  Compatible with TPG366 standalone project PV naming convention.
+  Macro: CONTROLLER  - PV prefix (e.g. "tpg366" or "EUAPS:VAC:VGC:PRVGA01")
 -->
 <display version="2.0.0">
   <name>TPG 366 MaxiGauge</name>
   <width>900</width>
-  <height>900</height>
+  <height>820</height>
   <background_color>
     <color name="IO Grid" red="215" green="215" blue="215"/>
   </background_color>
@@ -32,30 +33,20 @@
     <y>5</y>
     <width>500</width>
     <height>35</height>
-    <font>
-      <font family="arial" style="BOLD" size="16.0"/>
-    </font>
-    <foreground_color>
-      <color red="255" green="255" blue="255"/>
-    </foreground_color>
+    <font><font family="arial" style="BOLD" size="16.0"/></font>
+    <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
     <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>DevTypeDisp</name>
-    <pv_name>$(TPG366)DEVTYPE</pv_name>
+    <name>FWVerTitle</name>
+    <pv_name>$(CONTROLLER):FWVER</pv_name>
     <x>700</x>
     <y>8</y>
     <width>180</width>
     <height>25</height>
-    <font>
-      <font family="arial" style="BOLD" size="11.0"/>
-    </font>
-    <foreground_color>
-      <color red="255" green="255" blue="255"/>
-    </foreground_color>
-    <background_color>
-      <color red="0" green="80" blue="160"/>
-    </background_color>
+    <font><font family="arial" style="BOLD" size="11.0"/></font>
+    <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
+    <background_color><color red="0" green="80" blue="160"/></background_color>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
@@ -66,14 +57,10 @@
     <x>10</x>
     <y>55</y>
     <width>880</width>
-    <height>95</height>
+    <height>75</height>
     <line_width>1</line_width>
-    <line_color>
-      <color red="180" green="180" blue="180"/>
-    </line_color>
-    <background_color>
-      <color red="240" green="240" blue="240"/>
-    </background_color>
+    <line_color><color red="180" green="180" blue="180"/></line_color>
+    <background_color><color red="240" green="240" blue="240"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>InfoTitle</name>
@@ -82,1169 +69,966 @@
     <y>58</y>
     <width>200</width>
     <height>20</height>
-    <font>
-      <font family="arial" style="BOLD" size="11.0"/>
-    </font>
+    <font><font family="arial" style="BOLD" size="11.0"/></font>
   </widget>
 
-  <!-- Row 1: FW Version, HW Version, Serial -->
+  <!-- Row 1: FW Version, HW Version, Error -->
   <widget type="label" version="2.0.0">
-    <name>LblFW</name>
-    <text>FW Version:</text>
-    <x>20</x>
-    <y>82</y>
-    <width>90</width>
-    <height>20</height>
+    <name>LblFW</name><text>FW:</text>
+    <x>20</x><y>82</y><width>30</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>FWVal</name>
-    <pv_name>$(TPG366)FWVER</pv_name>
-    <x>115</x>
-    <y>82</y>
-    <width>120</width>
-    <height>20</height>
+    <name>FWVal</name><pv_name>$(CONTROLLER):FWVER</pv_name>
+    <x>55</x><y>82</y><width>120</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
-
   <widget type="label" version="2.0.0">
-    <name>LblHW</name>
-    <text>HW Version:</text>
-    <x>260</x>
-    <y>82</y>
-    <width>90</width>
-    <height>20</height>
+    <name>LblHW</name><text>HW:</text>
+    <x>190</x><y>82</y><width>30</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>HWVal</name>
-    <pv_name>$(TPG366)HWVER</pv_name>
-    <x>355</x>
-    <y>82</y>
-    <width>120</width>
-    <height>20</height>
+    <name>HWVal</name><pv_name>$(CONTROLLER):HWVER</pv_name>
+    <x>225</x><y>82</y><width>120</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
-
   <widget type="label" version="2.0.0">
-    <name>LblSerial</name>
-    <text>Serial No:</text>
-    <x>500</x>
-    <y>82</y>
-    <width>90</width>
-    <height>20</height>
+    <name>LblErr</name><text>Error:</text>
+    <x>360</x><y>82</y><width>50</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>SerialVal</name>
-    <pv_name>$(TPG366)SERIALNUM</pv_name>
-    <x>595</x>
-    <y>82</y>
-    <width>150</width>
-    <height>20</height>
+    <name>ErrVal</name><pv_name>$(CONTROLLER):ERROR</pv_name>
+    <x>415</x><y>82</y><width>120</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- Row 2: Error, Units, Temperature, OpHours -->
+  <!-- Row 1 cont: Units, Temp, OpHours, Keylock -->
   <widget type="label" version="2.0.0">
-    <name>LblErr</name>
-    <text>Error:</text>
-    <x>20</x>
-    <y>107</y>
-    <width>50</width>
-    <height>20</height>
+    <name>LblUnits</name><text>Units:</text>
+    <x>550</x><y>82</y><width>50</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>ErrVal</name>
-    <pv_name>$(TPG366)ERROR</pv_name>
-    <x>75</x>
-    <y>107</y>
-    <width>120</width>
-    <height>20</height>
+    <name>UnitsVal</name><pv_name>$(CONTROLLER):UNITS_RB</pv_name>
+    <x>605</x><y>82</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
-
   <widget type="label" version="2.0.0">
-    <name>LblUnits</name>
-    <text>Units:</text>
-    <x>220</x>
-    <y>107</y>
-    <width>50</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>UnitsCombo</name>
-    <pv_name>$(TPG366)UNITS_SP</pv_name>
-    <x>275</x>
-    <y>105</y>
-    <width>120</width>
-    <height>24</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
-  </widget>
-
-  <widget type="label" version="2.0.0">
-    <name>LblTemp</name>
-    <text>Temp:</text>
-    <x>420</x>
-    <y>107</y>
-    <width>50</width>
-    <height>20</height>
+    <name>LblTemp</name><text>Temp:</text>
+    <x>700</x><y>82</y><width>50</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>TempVal</name>
-    <pv_name>$(TPG366)TEMP</pv_name>
-    <x>475</x>
-    <y>107</y>
-    <width>70</width>
-    <height>20</height>
+    <name>TempVal</name><pv_name>$(CONTROLLER):TEMP</pv_name>
+    <x>755</x><y>82</y><width>50</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
-
   <widget type="label" version="2.0.0">
-    <name>LblOph</name>
-    <text>Op Hours:</text>
-    <x>570</x>
-    <y>107</y>
-    <width>70</width>
-    <height>20</height>
+    <name>LblOph</name><text>Hours:</text>
+    <x>820</x><y>82</y><width>50</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>OphVal</name>
-    <pv_name>$(TPG366)OPHOURS</pv_name>
-    <x>645</x>
-    <y>107</y>
-    <width>100</width>
-    <height>20</height>
+    <name>OphVal</name><pv_name>$(CONTROLLER):OPHOURS</pv_name>
+    <x>820</x><y>102</y><width>60</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- Row 3: Keylock, Underrange -->
+  <!-- Row 2: Keylock -->
   <widget type="label" version="2.0.0">
-    <name>LblKeylock</name>
-    <text>Keylock:</text>
-    <x>20</x>
-    <y>132</y>
-    <width>60</width>
-    <height>20</height>
+    <name>LblKeylock</name><text>Keylock:</text>
+    <x>20</x><y>107</y><width>60</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>KeylockVal</name>
-    <pv_name>$(TPG366)KEYLOCK_RB</pv_name>
-    <x>85</x>
-    <y>132</y>
-    <width>80</width>
-    <height>20</height>
+    <name>KeylockVal</name><pv_name>$(CONTROLLER):KEYLOCK_RB</pv_name>
+    <x>85</x><y>107</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
   <!-- ===== Channel Header ===== -->
   <widget type="rectangle" version="2.0.0">
     <name>ChHeaderBg</name>
-    <x>10</x>
-    <y>160</y>
-    <width>880</width>
-    <height>25</height>
+    <x>10</x><y>140</y><width>880</width><height>25</height>
     <line_width>0</line_width>
-    <background_color>
-      <color red="60" green="60" blue="80"/>
-    </background_color>
+    <background_color><color red="60" green="60" blue="80"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrCh</name>
-    <text>CH</text>
-    <x>15</x>
-    <y>162</y>
-    <width>35</width>
-    <height>20</height>
+    <name>HdrCh</name><text>CH</text>
+    <x>15</x><y>142</y><width>35</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
     <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrType</name>
-    <text>Gauge Type</text>
-    <x>55</x>
-    <y>162</y>
-    <width>100</width>
-    <height>20</height>
+    <name>HdrType</name><text>Gauge Type</text>
+    <x>50</x><y>142</y><width>100</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
     <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrPres</name>
-    <text>Pressure</text>
-    <x>175</x>
-    <y>162</y>
-    <width>150</width>
-    <height>20</height>
+    <name>HdrName</name><text>Name</text>
+    <x>165</x><y>142</y><width>80</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrStat</name>
-    <text>Status</text>
-    <x>345</x>
-    <y>162</y>
-    <width>100</width>
-    <height>20</height>
+    <name>HdrPres</name><text>Pressure</text>
+    <x>260</x><y>142</y><width>150</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrSen</name>
-    <text>Sensor</text>
-    <x>465</x>
-    <y>162</y>
-    <width>80</width>
-    <height>20</height>
+    <name>HdrStat</name><text>Status</text>
+    <x>425</x><y>142</y><width>100</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrFilt</name>
-    <text>Filter</text>
-    <x>565</x>
-    <y>162</y>
-    <width>100</width>
-    <height>20</height>
+    <name>HdrOnOff</name><text>On/Off</text>
+    <x>540</x><y>142</y><width>80</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrDegas</name>
-    <text>Degas</text>
-    <x>685</x>
-    <y>162</y>
-    <width>80</width>
-    <height>20</height>
+    <name>HdrGas</name><text>Gas</text>
+    <x>635</x><y>142</y><width>80</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>HdrRelay</name>
-    <text>Relay</text>
-    <x>785</x>
-    <y>162</y>
-    <width>80</width>
-    <height>20</height>
+    <name>HdrRelay</name><text>Relay</text>
+    <x>730</x><y>142</y><width>80</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
     <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>HdrSensor</name><text>EPICS Name</text>
+    <x>810</x><y>142</y><width>80</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="9.0"/></font>
+    <foreground_color><color red="255" green="255" blue="255"/></foreground_color>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 1 Row (y=190) ===== -->
+  <!-- ===== Channel 1 Row (y=170) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch1Bg</name>
-    <x>10</x>
-    <y>190</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch1Bg</name><x>10</x><y>170</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="245" green="245" blue="250"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch1Lbl</name>
-    <text>1</text>
-    <x>20</x>
-    <y>194</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch1Lbl</name><text>1</text><x>20</x><y>174</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Type</name>
-    <pv_name>$(TPG366)SLOT1</pv_name>
-    <x>55</x>
-    <y>194</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch1Type</name><pv_name>$(CONTROLLER):TYPE1</pv_name>
+    <x>50</x><y>174</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Pres</name>
-    <pv_name>$(TPG366)CH1:PRES</pv_name>
-    <x>175</x>
-    <y>194</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch1Name</name><pv_name>$(CONTROLLER):NAME1</pv_name>
+    <x>165</x><y>174</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch1Pres</name><pv_name>$(CONTROLLER):PRESSURE1</pv_name>
+    <x>260</x><y>174</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <foreground_color><color red="0" green="0" blue="0"/></foreground_color>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Stat</name>
-    <pv_name>$(TPG366)CH1:STAT</pv_name>
-    <x>345</x>
-    <y>194</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch1Stat</name><pv_name>$(CONTROLLER):STATUS1</pv_name>
+    <x>425</x><y>174</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Sen</name>
-    <pv_name>$(TPG366)CH1:SEN_RB</pv_name>
-    <x>465</x>
-    <y>194</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch1OnOff</name><pv_name>$(CONTROLLER):ONOFFG1</pv_name>
+    <x>540</x><y>174</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Filt</name>
-    <pv_name>$(TPG366)CH1:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>194</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch1Gas</name><pv_name>$(CONTROLLER):GAS1</pv_name>
+    <x>635</x><y>174</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Degas</name>
-    <pv_name>$(TPG366)CH1:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>194</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch1Relay</name><pv_name>$(CONTROLLER):RELAY1</pv_name>
+    <x>730</x><y>174</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch1Relay</name>
-    <pv_name>$(TPG366)SP:1:RB</pv_name>
-    <x>785</x>
-    <y>194</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch1SName</name><pv_name>$(CONTROLLER):SENSOR1-NAME</pv_name>
+    <x>810</x><y>174</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 2 Row (y=225) ===== -->
+  <!-- ===== Channel 2 Row (y=205) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch2Bg</name>
-    <x>10</x>
-    <y>225</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch2Bg</name><x>10</x><y>205</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="230" green="235" blue="245"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch2Lbl</name>
-    <text>2</text>
-    <x>20</x>
-    <y>229</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch2Lbl</name><text>2</text><x>20</x><y>209</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Type</name>
-    <pv_name>$(TPG366)SLOT2</pv_name>
-    <x>55</x>
-    <y>229</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch2Type</name><pv_name>$(CONTROLLER):TYPE2</pv_name>
+    <x>50</x><y>209</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Pres</name>
-    <pv_name>$(TPG366)CH2:PRES</pv_name>
-    <x>175</x>
-    <y>229</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch2Name</name><pv_name>$(CONTROLLER):NAME2</pv_name>
+    <x>165</x><y>209</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch2Pres</name><pv_name>$(CONTROLLER):PRESSURE2</pv_name>
+    <x>260</x><y>209</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Stat</name>
-    <pv_name>$(TPG366)CH2:STAT</pv_name>
-    <x>345</x>
-    <y>229</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch2Stat</name><pv_name>$(CONTROLLER):STATUS2</pv_name>
+    <x>425</x><y>209</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Sen</name>
-    <pv_name>$(TPG366)CH2:SEN_RB</pv_name>
-    <x>465</x>
-    <y>229</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch2OnOff</name><pv_name>$(CONTROLLER):ONOFFG2</pv_name>
+    <x>540</x><y>209</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Filt</name>
-    <pv_name>$(TPG366)CH2:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>229</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch2Gas</name><pv_name>$(CONTROLLER):GAS2</pv_name>
+    <x>635</x><y>209</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Degas</name>
-    <pv_name>$(TPG366)CH2:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>229</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch2Relay</name><pv_name>$(CONTROLLER):RELAY2</pv_name>
+    <x>730</x><y>209</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch2Relay</name>
-    <pv_name>$(TPG366)SP:2:RB</pv_name>
-    <x>785</x>
-    <y>229</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch2SName</name><pv_name>$(CONTROLLER):SENSOR2-NAME</pv_name>
+    <x>810</x><y>209</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 3 Row (y=260) ===== -->
+  <!-- ===== Channel 3 Row (y=240) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch3Bg</name>
-    <x>10</x>
-    <y>260</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch3Bg</name><x>10</x><y>240</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="245" green="245" blue="250"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch3Lbl</name>
-    <text>3</text>
-    <x>20</x>
-    <y>264</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch3Lbl</name><text>3</text><x>20</x><y>244</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Type</name>
-    <pv_name>$(TPG366)SLOT3</pv_name>
-    <x>55</x>
-    <y>264</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch3Type</name><pv_name>$(CONTROLLER):TYPE3</pv_name>
+    <x>50</x><y>244</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Pres</name>
-    <pv_name>$(TPG366)CH3:PRES</pv_name>
-    <x>175</x>
-    <y>264</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch3Name</name><pv_name>$(CONTROLLER):NAME3</pv_name>
+    <x>165</x><y>244</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch3Pres</name><pv_name>$(CONTROLLER):PRESSURE3</pv_name>
+    <x>260</x><y>244</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Stat</name>
-    <pv_name>$(TPG366)CH3:STAT</pv_name>
-    <x>345</x>
-    <y>264</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch3Stat</name><pv_name>$(CONTROLLER):STATUS3</pv_name>
+    <x>425</x><y>244</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Sen</name>
-    <pv_name>$(TPG366)CH3:SEN_RB</pv_name>
-    <x>465</x>
-    <y>264</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch3OnOff</name><pv_name>$(CONTROLLER):ONOFFG3</pv_name>
+    <x>540</x><y>244</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Filt</name>
-    <pv_name>$(TPG366)CH3:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>264</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch3Gas</name><pv_name>$(CONTROLLER):GAS3</pv_name>
+    <x>635</x><y>244</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Degas</name>
-    <pv_name>$(TPG366)CH3:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>264</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch3Relay</name><pv_name>$(CONTROLLER):RELAY3</pv_name>
+    <x>730</x><y>244</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch3Relay</name>
-    <pv_name>$(TPG366)SP:3:RB</pv_name>
-    <x>785</x>
-    <y>264</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch3SName</name><pv_name>$(CONTROLLER):SENSOR3-NAME</pv_name>
+    <x>810</x><y>244</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 4 Row (y=295) ===== -->
+  <!-- ===== Channel 4 Row (y=275) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch4Bg</name>
-    <x>10</x>
-    <y>295</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch4Bg</name><x>10</x><y>275</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="230" green="235" blue="245"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch4Lbl</name>
-    <text>4</text>
-    <x>20</x>
-    <y>299</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch4Lbl</name><text>4</text><x>20</x><y>279</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Type</name>
-    <pv_name>$(TPG366)SLOT4</pv_name>
-    <x>55</x>
-    <y>299</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch4Type</name><pv_name>$(CONTROLLER):TYPE4</pv_name>
+    <x>50</x><y>279</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Pres</name>
-    <pv_name>$(TPG366)CH4:PRES</pv_name>
-    <x>175</x>
-    <y>299</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch4Name</name><pv_name>$(CONTROLLER):NAME4</pv_name>
+    <x>165</x><y>279</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch4Pres</name><pv_name>$(CONTROLLER):PRESSURE4</pv_name>
+    <x>260</x><y>279</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Stat</name>
-    <pv_name>$(TPG366)CH4:STAT</pv_name>
-    <x>345</x>
-    <y>299</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch4Stat</name><pv_name>$(CONTROLLER):STATUS4</pv_name>
+    <x>425</x><y>279</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Sen</name>
-    <pv_name>$(TPG366)CH4:SEN_RB</pv_name>
-    <x>465</x>
-    <y>299</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch4OnOff</name><pv_name>$(CONTROLLER):ONOFFG4</pv_name>
+    <x>540</x><y>279</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Filt</name>
-    <pv_name>$(TPG366)CH4:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>299</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch4Gas</name><pv_name>$(CONTROLLER):GAS4</pv_name>
+    <x>635</x><y>279</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Degas</name>
-    <pv_name>$(TPG366)CH4:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>299</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch4Relay</name><pv_name>$(CONTROLLER):RELAY4</pv_name>
+    <x>730</x><y>279</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch4Relay</name>
-    <pv_name>$(TPG366)SP:4:RB</pv_name>
-    <x>785</x>
-    <y>299</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch4SName</name><pv_name>$(CONTROLLER):SENSOR4-NAME</pv_name>
+    <x>810</x><y>279</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 5 Row (y=330) ===== -->
+  <!-- ===== Channel 5 Row (y=310) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch5Bg</name>
-    <x>10</x>
-    <y>330</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch5Bg</name><x>10</x><y>310</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="245" green="245" blue="250"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch5Lbl</name>
-    <text>5</text>
-    <x>20</x>
-    <y>334</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch5Lbl</name><text>5</text><x>20</x><y>314</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Type</name>
-    <pv_name>$(TPG366)SLOT5</pv_name>
-    <x>55</x>
-    <y>334</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch5Type</name><pv_name>$(CONTROLLER):TYPE5</pv_name>
+    <x>50</x><y>314</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Pres</name>
-    <pv_name>$(TPG366)CH5:PRES</pv_name>
-    <x>175</x>
-    <y>334</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch5Name</name><pv_name>$(CONTROLLER):NAME5</pv_name>
+    <x>165</x><y>314</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch5Pres</name><pv_name>$(CONTROLLER):PRESSURE5</pv_name>
+    <x>260</x><y>314</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Stat</name>
-    <pv_name>$(TPG366)CH5:STAT</pv_name>
-    <x>345</x>
-    <y>334</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch5Stat</name><pv_name>$(CONTROLLER):STATUS5</pv_name>
+    <x>425</x><y>314</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Sen</name>
-    <pv_name>$(TPG366)CH5:SEN_RB</pv_name>
-    <x>465</x>
-    <y>334</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch5OnOff</name><pv_name>$(CONTROLLER):ONOFFG5</pv_name>
+    <x>540</x><y>314</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Filt</name>
-    <pv_name>$(TPG366)CH5:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>334</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch5Gas</name><pv_name>$(CONTROLLER):GAS5</pv_name>
+    <x>635</x><y>314</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Degas</name>
-    <pv_name>$(TPG366)CH5:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>334</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch5Relay</name><pv_name>$(CONTROLLER):RELAY5</pv_name>
+    <x>730</x><y>314</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch5Relay</name>
-    <pv_name>$(TPG366)SP:5:RB</pv_name>
-    <x>785</x>
-    <y>334</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch5SName</name><pv_name>$(CONTROLLER):SENSOR5-NAME</pv_name>
+    <x>810</x><y>314</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Channel 6 Row (y=365) ===== -->
+  <!-- ===== Channel 6 Row (y=345) ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>Ch6Bg</name>
-    <x>10</x>
-    <y>365</y>
-    <width>880</width>
-    <height>30</height>
+    <name>Ch6Bg</name><x>10</x><y>345</y><width>880</width><height>30</height>
     <line_width>0</line_width>
     <background_color><color red="230" green="235" blue="245"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Ch6Lbl</name>
-    <text>6</text>
-    <x>20</x>
-    <y>369</y>
-    <width>25</width>
-    <height>20</height>
+    <name>Ch6Lbl</name><text>6</text><x>20</x><y>349</y><width>25</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Type</name>
-    <pv_name>$(TPG366)SLOT6</pv_name>
-    <x>55</x>
-    <y>369</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch6Type</name><pv_name>$(CONTROLLER):TYPE6</pv_name>
+    <x>50</x><y>349</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Pres</name>
-    <pv_name>$(TPG366)CH6:PRES</pv_name>
-    <x>175</x>
-    <y>369</y>
-    <width>150</width>
-    <height>20</height>
-    <format>2</format>
-    <precision>4</precision>
+    <name>Ch6Name</name><pv_name>$(CONTROLLER):NAME6</pv_name>
+    <x>165</x><y>349</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Ch6Pres</name><pv_name>$(CONTROLLER):PRESSURE6</pv_name>
+    <x>260</x><y>349</y><width>150</width><height>20</height>
+    <format>3</format><precision>3</precision>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>2</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Stat</name>
-    <pv_name>$(TPG366)CH6:STAT</pv_name>
-    <x>345</x>
-    <y>369</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch6Stat</name><pv_name>$(CONTROLLER):STATUS6</pv_name>
+    <x>425</x><y>349</y><width>100</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Sen</name>
-    <pv_name>$(TPG366)CH6:SEN_RB</pv_name>
-    <x>465</x>
-    <y>369</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch6OnOff</name><pv_name>$(CONTROLLER):ONOFFG6</pv_name>
+    <x>540</x><y>349</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Filt</name>
-    <pv_name>$(TPG366)CH6:FILTER_RB</pv_name>
-    <x>565</x>
-    <y>369</y>
-    <width>100</width>
-    <height>20</height>
+    <name>Ch6Gas</name><pv_name>$(CONTROLLER):GAS6</pv_name>
+    <x>635</x><y>349</y><width>80</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Degas</name>
-    <pv_name>$(TPG366)CH6:DEGAS_RB</pv_name>
-    <x>685</x>
-    <y>369</y>
-    <width>80</width>
-    <height>20</height>
+    <name>Ch6Relay</name><pv_name>$(CONTROLLER):RELAY6</pv_name>
+    <x>730</x><y>349</y><width>65</width><height>20</height>
     <font><font family="arial" style="REGULAR" size="10.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="textupdate" version="2.0.0">
-    <name>Ch6Relay</name>
-    <pv_name>$(TPG366)SP:6:RB</pv_name>
-    <x>785</x>
-    <y>369</y>
-    <width>80</width>
-    <height>20</height>
-    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <name>Ch6SName</name><pv_name>$(CONTROLLER):SENSOR6-NAME</pv_name>
+    <x>810</x><y>349</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="9.0"/></font>
     <background_color><color red="255" green="255" blue="255"/></background_color>
-    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
   </widget>
 
-  <!-- ===== Control Section ===== -->
+  <!-- ===== Channel Controls Section ===== -->
   <widget type="rectangle" version="2.0.0">
-    <name>CtrlBg</name>
-    <x>10</x>
-    <y>410</y>
-    <width>880</width>
-    <height>280</height>
+    <name>CtrlBg</name><x>10</x><y>390</y><width>880</width><height>230</height>
     <line_width>1</line_width>
     <line_color><color red="180" green="180" blue="180"/></line_color>
     <background_color><color red="240" green="240" blue="240"/></background_color>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>CtrlTitle</name>
-    <text>Channel Controls</text>
-    <x>15</x>
-    <y>413</y>
-    <width>200</width>
-    <height>20</height>
+    <name>CtrlTitle</name><text>Channel Controls</text>
+    <x>15</x><y>393</y><width>200</width><height>20</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
   </widget>
 
   <!-- Control header -->
   <widget type="label" version="2.0.0">
-    <name>CtrlHdrCh</name>
-    <text>CH</text>
-    <x>20</x>
-    <y>438</y>
-    <width>35</width>
-    <height>20</height>
+    <name>CtrlHdrCh</name><text>CH</text>
+    <x>20</x><y>418</y><width>35</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>CtrlHdrSen</name>
-    <text>Sensor On/Off</text>
-    <x>70</x>
-    <y>438</y>
-    <width>120</width>
-    <height>20</height>
+    <name>CtrlHdrOnOff</name><text>Sensor On/Off</text>
+    <x>70</x><y>418</y><width>120</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>CtrlHdrFilt</name>
-    <text>Filter</text>
-    <x>220</x>
-    <y>438</y>
-    <width>120</width>
-    <height>20</height>
-    <font><font family="arial" style="BOLD" size="10.0"/></font>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>CtrlHdrDegas</name>
-    <text>Degas</text>
-    <x>370</x>
-    <y>438</y>
-    <width>100</width>
-    <height>20</height>
+    <name>CtrlHdrGas</name><text>Gas Correction</text>
+    <x>220</x><y>418</y><width>120</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
   </widget>
 
   <!-- CH1 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl1Lbl</name><text>1</text><x>30</x><y>463</y><width>25</width><height>24</height>
+    <name>Ctrl1Lbl</name><text>1</text><x>30</x><y>443</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl1Sen</name><pv_name>$(TPG366)CH1:SEN</pv_name>
-    <x>70</x><y>463</y><width>120</width><height>24</height>
+    <name>Ctrl1OnOff</name><pv_name>$(CONTROLLER):ONOFF1</pv_name>
+    <x>70</x><y>443</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl1Filt</name><pv_name>$(TPG366)CH1:FILTER</pv_name>
-    <x>220</x><y>463</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl1Degas</name><pv_name>$(TPG366)CH1:DEGAS</pv_name>
-    <x>370</x><y>463</y><width>100</width><height>24</height>
+    <name>Ctrl1Gas</name><pv_name>$(CONTROLLER):GAS1</pv_name>
+    <x>220</x><y>443</y><width>120</width><height>24</height>
   </widget>
 
   <!-- CH2 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl2Lbl</name><text>2</text><x>30</x><y>493</y><width>25</width><height>24</height>
+    <name>Ctrl2Lbl</name><text>2</text><x>30</x><y>473</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl2Sen</name><pv_name>$(TPG366)CH2:SEN</pv_name>
-    <x>70</x><y>493</y><width>120</width><height>24</height>
+    <name>Ctrl2OnOff</name><pv_name>$(CONTROLLER):ONOFF2</pv_name>
+    <x>70</x><y>473</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl2Filt</name><pv_name>$(TPG366)CH2:FILTER</pv_name>
-    <x>220</x><y>493</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl2Degas</name><pv_name>$(TPG366)CH2:DEGAS</pv_name>
-    <x>370</x><y>493</y><width>100</width><height>24</height>
+    <name>Ctrl2Gas</name><pv_name>$(CONTROLLER):GAS2</pv_name>
+    <x>220</x><y>473</y><width>120</width><height>24</height>
   </widget>
 
   <!-- CH3 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl3Lbl</name><text>3</text><x>30</x><y>523</y><width>25</width><height>24</height>
+    <name>Ctrl3Lbl</name><text>3</text><x>30</x><y>503</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl3Sen</name><pv_name>$(TPG366)CH3:SEN</pv_name>
-    <x>70</x><y>523</y><width>120</width><height>24</height>
+    <name>Ctrl3OnOff</name><pv_name>$(CONTROLLER):ONOFF3</pv_name>
+    <x>70</x><y>503</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl3Filt</name><pv_name>$(TPG366)CH3:FILTER</pv_name>
-    <x>220</x><y>523</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl3Degas</name><pv_name>$(TPG366)CH3:DEGAS</pv_name>
-    <x>370</x><y>523</y><width>100</width><height>24</height>
+    <name>Ctrl3Gas</name><pv_name>$(CONTROLLER):GAS3</pv_name>
+    <x>220</x><y>503</y><width>120</width><height>24</height>
   </widget>
 
   <!-- CH4 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl4Lbl</name><text>4</text><x>30</x><y>553</y><width>25</width><height>24</height>
+    <name>Ctrl4Lbl</name><text>4</text><x>30</x><y>533</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl4Sen</name><pv_name>$(TPG366)CH4:SEN</pv_name>
-    <x>70</x><y>553</y><width>120</width><height>24</height>
+    <name>Ctrl4OnOff</name><pv_name>$(CONTROLLER):ONOFF4</pv_name>
+    <x>70</x><y>533</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl4Filt</name><pv_name>$(TPG366)CH4:FILTER</pv_name>
-    <x>220</x><y>553</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl4Degas</name><pv_name>$(TPG366)CH4:DEGAS</pv_name>
-    <x>370</x><y>553</y><width>100</width><height>24</height>
+    <name>Ctrl4Gas</name><pv_name>$(CONTROLLER):GAS4</pv_name>
+    <x>220</x><y>533</y><width>120</width><height>24</height>
   </widget>
 
   <!-- CH5 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl5Lbl</name><text>5</text><x>30</x><y>583</y><width>25</width><height>24</height>
+    <name>Ctrl5Lbl</name><text>5</text><x>30</x><y>563</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl5Sen</name><pv_name>$(TPG366)CH5:SEN</pv_name>
-    <x>70</x><y>583</y><width>120</width><height>24</height>
+    <name>Ctrl5OnOff</name><pv_name>$(CONTROLLER):ONOFF5</pv_name>
+    <x>70</x><y>563</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl5Filt</name><pv_name>$(TPG366)CH5:FILTER</pv_name>
-    <x>220</x><y>583</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl5Degas</name><pv_name>$(TPG366)CH5:DEGAS</pv_name>
-    <x>370</x><y>583</y><width>100</width><height>24</height>
+    <name>Ctrl5Gas</name><pv_name>$(CONTROLLER):GAS5</pv_name>
+    <x>220</x><y>563</y><width>120</width><height>24</height>
   </widget>
 
   <!-- CH6 controls -->
   <widget type="label" version="2.0.0">
-    <name>Ctrl6Lbl</name><text>6</text><x>30</x><y>613</y><width>25</width><height>24</height>
+    <name>Ctrl6Lbl</name><text>6</text><x>30</x><y>593</y><width>25</width><height>24</height>
     <font><font family="arial" style="BOLD" size="11.0"/></font>
     <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl6Sen</name><pv_name>$(TPG366)CH6:SEN</pv_name>
-    <x>70</x><y>613</y><width>120</width><height>24</height>
+    <name>Ctrl6OnOff</name><pv_name>$(CONTROLLER):ONOFF6</pv_name>
+    <x>70</x><y>593</y><width>120</width><height>24</height>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>Ctrl6Filt</name><pv_name>$(TPG366)CH6:FILTER</pv_name>
-    <x>220</x><y>613</y><width>120</width><height>24</height>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>Ctrl6Degas</name><pv_name>$(TPG366)CH6:DEGAS</pv_name>
-    <x>370</x><y>613</y><width>100</width><height>24</height>
+    <name>Ctrl6Gas</name><pv_name>$(CONTROLLER):GAS6</pv_name>
+    <x>220</x><y>593</y><width>120</width><height>24</height>
   </widget>
 
-  <!-- ===== Keylock / Underrange controls ===== -->
+  <!-- ===== Keylock control ===== -->
   <widget type="label" version="2.0.0">
-    <name>CtrlKeyLbl</name>
-    <text>Keylock:</text>
-    <x>530</x>
-    <y>465</y>
-    <width>80</width>
-    <height>20</height>
+    <name>CtrlKeyLbl</name><text>Keylock:</text>
+    <x>530</x><y>445</y><width>80</width><height>20</height>
     <font><font family="arial" style="BOLD" size="10.0"/></font>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>CtrlKeyCombo</name>
-    <pv_name>$(TPG366)KEYLOCK</pv_name>
-    <x>620</x>
-    <y>463</y>
-    <width>120</width>
-    <height>24</height>
+    <name>CtrlKeyCombo</name><pv_name>$(CONTROLLER):KEYLOCK</pv_name>
+    <x>620</x><y>443</y><width>120</width><height>24</height>
+  </widget>
+
+  <!-- ===== Relay Status Section ===== -->
+  <widget type="rectangle" version="2.0.0">
+    <name>RelayBg</name><x>10</x><y>630</y><width>880</width><height>180</height>
+    <line_width>1</line_width>
+    <line_color><color red="180" green="180" blue="180"/></line_color>
+    <background_color><color red="240" green="240" blue="240"/></background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>RelayTitle</name><text>Relay Setpoints</text>
+    <x>15</x><y>633</y><width>200</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="11.0"/></font>
+  </widget>
+
+  <!-- Relay header -->
+  <widget type="label" version="2.0.0">
+    <name>RlyHdrNr</name><text>Relay</text>
+    <x>20</x><y>658</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>RlyHdrSrc</name><text>Source</text>
+    <x>80</x><y>658</y><width>80</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>RlyHdrLow</name><text>SP Low</text>
+    <x>170</x><y>658</y><width>80</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>RlyHdrHigh</name><text>SP High</text>
+    <x>260</x><y>658</y><width>80</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>RlyHdrStat</name><text>State</text>
+    <x>350</x><y>658</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font>
+  </widget>
+
+  <!-- Relay 1 (A) -->
+  <widget type="label" version="2.0.0">
+    <name>Rly1Lbl</name><text>A (1)</text><x>20</x><y>683</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly1Src</name><pv_name>$(CONTROLLER):RELAY1-SOURCE</pv_name>
+    <x>80</x><y>683</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly1Low</name><pv_name>$(CONTROLLER):RELAY1-LOW</pv_name>
+    <x>170</x><y>683</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly1High</name><pv_name>$(CONTROLLER):RELAY1-HIGH</pv_name>
+    <x>260</x><y>683</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly1Stat</name><pv_name>$(CONTROLLER):RELAY1</pv_name>
+    <x>350</x><y>683</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+
+  <!-- Relay 2 (B) -->
+  <widget type="label" version="2.0.0">
+    <name>Rly2Lbl</name><text>B (2)</text><x>20</x><y>708</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly2Src</name><pv_name>$(CONTROLLER):RELAY2-SOURCE</pv_name>
+    <x>80</x><y>708</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly2Low</name><pv_name>$(CONTROLLER):RELAY2-LOW</pv_name>
+    <x>170</x><y>708</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly2High</name><pv_name>$(CONTROLLER):RELAY2-HIGH</pv_name>
+    <x>260</x><y>708</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly2Stat</name><pv_name>$(CONTROLLER):RELAY2</pv_name>
+    <x>350</x><y>708</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+
+  <!-- Relay 3-6 (C-F) abbreviated: same pattern -->
+  <widget type="label" version="2.0.0">
+    <name>Rly3Lbl</name><text>C (3)</text><x>20</x><y>733</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly3Src</name><pv_name>$(CONTROLLER):RELAY3-SOURCE</pv_name>
+    <x>80</x><y>733</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly3Low</name><pv_name>$(CONTROLLER):RELAY3-LOW</pv_name>
+    <x>170</x><y>733</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly3High</name><pv_name>$(CONTROLLER):RELAY3-HIGH</pv_name>
+    <x>260</x><y>733</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly3Stat</name><pv_name>$(CONTROLLER):RELAY3</pv_name>
+    <x>350</x><y>733</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
   <widget type="label" version="2.0.0">
-    <name>CtrlURLbl</name>
-    <text>Underrange Ctrl:</text>
-    <x>530</x>
-    <y>500</y>
-    <width>120</width>
-    <height>20</height>
-    <font><font family="arial" style="BOLD" size="10.0"/></font>
+    <name>Rly4Lbl</name><text>D (4)</text><x>420</x><y>683</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>CtrlURCombo</name>
-    <pv_name>$(TPG366)UNDERRANGE_CTRL</pv_name>
-    <x>660</x>
-    <y>498</y>
-    <width>100</width>
-    <height>24</height>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly4Src</name><pv_name>$(CONTROLLER):RELAY4-SOURCE</pv_name>
+    <x>480</x><y>683</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly4Low</name><pv_name>$(CONTROLLER):RELAY4-LOW</pv_name>
+    <x>570</x><y>683</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly4High</name><pv_name>$(CONTROLLER):RELAY4-HIGH</pv_name>
+    <x>660</x><y>683</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly4Stat</name><pv_name>$(CONTROLLER):RELAY4</pv_name>
+    <x>750</x><y>683</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
   <widget type="label" version="2.0.0">
-    <name>CtrlDisLbl</name>
-    <text>Comms Disable:</text>
-    <x>530</x>
-    <y>535</y>
-    <width>120</width>
-    <height>20</height>
-    <font><font family="arial" style="BOLD" size="10.0"/></font>
+    <name>Rly5Lbl</name><text>E (5)</text><x>420</x><y>708</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>CtrlDisCombo</name>
-    <pv_name>$(TPG366)DISABLE</pv_name>
-    <x>660</x>
-    <y>533</y>
-    <width>140</width>
-    <height>24</height>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly5Src</name><pv_name>$(CONTROLLER):RELAY5-SOURCE</pv_name>
+    <x>480</x><y>708</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly5Low</name><pv_name>$(CONTROLLER):RELAY5-LOW</pv_name>
+    <x>570</x><y>708</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly5High</name><pv_name>$(CONTROLLER):RELAY5-HIGH</pv_name>
+    <x>660</x><y>708</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly5Stat</name><pv_name>$(CONTROLLER):RELAY5</pv_name>
+    <x>750</x><y>708</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+
+  <widget type="label" version="2.0.0">
+    <name>Rly6Lbl</name><text>F (6)</text><x>420</x><y>733</y><width>50</width><height>20</height>
+    <font><font family="arial" style="BOLD" size="10.0"/></font><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly6Src</name><pv_name>$(CONTROLLER):RELAY6-SOURCE</pv_name>
+    <x>480</x><y>733</y><width>80</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly6Low</name><pv_name>$(CONTROLLER):RELAY6-LOW</pv_name>
+    <x>570</x><y>733</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly6High</name><pv_name>$(CONTROLLER):RELAY6-HIGH</pv_name>
+    <x>660</x><y>733</y><width>80</width><height>20</height>
+    <format>2</format><precision>3</precision>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Rly6Stat</name><pv_name>$(CONTROLLER):RELAY6</pv_name>
+    <x>750</x><y>733</y><width>50</width><height>20</height>
+    <font><font family="arial" style="REGULAR" size="10.0"/></font>
+    <background_color><color red="255" green="255" blue="255"/></background_color>
+    <horizontal_alignment>1</horizontal_alignment><vertical_alignment>1</vertical_alignment>
   </widget>
 
 </display>

@@ -1,0 +1,170 @@
+# Mandatory macros:
+# CONTROLLER  MaxiGauge name (PV prefix)
+# NR          Index number of the setpoint (1...6)
+# NRC         Character label of the setpoint (A...F, must correspond to NR)
+
+# Optional Macros:
+# PREC        Precision, defaults to -4 (4 digit exponential)
+# ADDR        RS485 address (default 1, ignored for TCP)
+# ASG         Access security group
+# FASTSCAN    Scan rate for pressure etc, defaults to "1 second"
+# SLOWSCAN    Scan rate for relay readback, defaults to "10 second"
+
+record (bi, "$(CONTROLLER):READ-SETPOINTS")
+{
+# reads relay status SETPOINTx (SPS)
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto read_relay_status($(CONTROLLER),$(ADDR=1)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):RELAY$(NR)")
+{
+    alias ("$(CONTROLLER):RELAIS-$(NRC)")
+    field (DESC, "state read from hardware")
+    field (ZNAM, "OFF")
+    field (ZSV,  "MAJOR")
+    field (ONAM, "ON")
+    field (SDIS, "$(CONTROLLER):READ-SETPOINTS MS CP")
+    field (FLNK, "$(CONTROLLER):SETPOINT$(NR)")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):SETPOINT$(NR)")
+{
+    # for backward compatibility
+    field (INP, "$(CONTROLLER):RELAY$(NR) MS")
+    field (DESC, "state read from hardware")
+    field (ZNAM, "alarm")
+    field (ZSV,  "MAJOR")
+    field (ONAM, "Ok")
+    field (ASG,  "READONLY")
+}
+
+record (mbbo, "$(CONTROLLER):RELAY$(NR)-SOURCE")
+{
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-SOURCE")
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-SOURCEG") # backward compat
+    field (DESC, "source for this relay")
+    field (ZRST, "OFF")
+    field (ONST, "ON")
+    field (TWST, "S1")
+    field (THST, "S2")
+    field (FRST, "S3")
+    field (FVST, "S4")
+    field (SXST, "S5")
+    field (SVST, "S6")
+    field (SDIS, "$(CONTROLLER):READ-SETPOINTS MS CP")
+    field (PRIO, "HIGH")
+    field (FLNK, "$(CONTROLLER):RELAY$(NR)-SET")
+    field (ASG,  "$(ASG=)")
+}
+
+record (ao, "$(CONTROLLER):RELAY$(NR)-LOW")
+{
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-LOW")
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-LOWG") # backward compat
+    field (DESC, "low limit for this relay")
+    field (LOPR, "0")
+    field (HOPR, "1500")
+    field (PREC, "$(PREC=-4)")
+    field (EGU,  "mbar")
+    field (PRIO, "HIGH")
+    field (FLNK, "$(CONTROLLER):RELAY$(NR)-SET")
+    field (SDIS, "$(CONTROLLER):RELAY$(NR)-UPDATE.PACT")
+    field (ASG,  "$(ASG=)")
+}
+
+record (ao, "$(CONTROLLER):RELAY$(NR)-HIGH")
+{
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-HIGH")
+    alias ("$(CONTROLLER):RELAIS-$(NRC)-HIGHG") # backward compat
+    field (DESC, "high limit for this relay")
+    field (LOPR, "0")
+    field (HOPR, "1500")
+    field (PREC, "$(PREC=-4)")
+    field (EGU,  "mbar")
+    field (PRIO, "HIGH")
+    field (FLNK, "$(CONTROLLER):RELAY$(NR)-SET")
+    field (SDIS, "$(CONTROLLER):RELAY$(NR)-UPDATE.PACT")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bo, "$(CONTROLLER):RELAY$(NR)-SET")
+{
+    field (DESC, "write relay settings")
+    field (DTYP, "stream")
+    field (OUT,  "@devTPG366.proto set_relay_setpoint($(CONTROLLER),$(ADDR=1),$(NR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (SDIS, "$(CONTROLLER):RELAY$(NR)-UPDATE.PACT")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):RELAY$(NR)-UPDATE")
+{
+    field (DESC, "read back relay settings")
+    field (DTYP, "stream")
+    field (INP,  "@devTPG366.proto get_relay_setpoint($(CONTROLLER),$(ADDR=1),$(NR)) $(PORT)")
+    field (PRIO, "LOW")
+    field (SCAN, "$(SLOWSCAN=10 second)")
+    field (PINI, "YES")
+    field (SDIS, "$(CONTROLLER):RELAY$(NR)-SET.PACT")
+    field (ASG,  "READONLY")
+}
+
+record (stringin, "$(CONTROLLER):RELAY$(NR)-SENSOR")
+{
+    alias("$(CONTROLLER):RELAIS-$(NRC)-SENSOR")
+    field (DESC, "sensor used for relay")
+    field (ASG,  "READONLY")
+}
+
+record (sel, "$(CONTROLLER):RELAY$(NR)-PRESSURE")
+{
+    field (DESC, "pressure used for relay")
+    alias("$(CONTROLLER):RELAIS-$(NRC)-PRESSURE")
+    field (NVL,  "$(CONTROLLER):RELAY$(NR)-SOURCE MS")
+    field (SELM, "Specified")
+    field (INPC, "$(CONTROLLER):PRESSURE1 MS")
+    field (INPD, "$(CONTROLLER):PRESSURE2 MS")
+    field (INPE, "$(CONTROLLER):PRESSURE3 MS")
+    field (INPF, "$(CONTROLLER):PRESSURE4 MS")
+    field (INPG, "$(CONTROLLER):PRESSURE5 MS")
+    field (INPH, "$(CONTROLLER):PRESSURE6 MS")
+    field (PREC, "$(PREC=-4)")
+    field (EGU,  "mbar")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (PINI, "YES")
+    field (ASG,  "READONLY")
+}
+
+record (sel, "$(CONTROLLER):RELAY$(NR)-PRSTATUSSEL")
+{
+    field (NVL,  "$(CONTROLLER):RELAY$(NR)-SOURCE MS CP")
+    field (SELM, "Specified")
+    field (INPC, "$(CONTROLLER):STATUS1 MS CP")
+    field (INPD, "$(CONTROLLER):STATUS2 MS CP")
+    field (INPE, "$(CONTROLLER):STATUS3 MS CP")
+    field (INPF, "$(CONTROLLER):STATUS4 MS CP")
+    field (INPG, "$(CONTROLLER):STATUS5 MS CP")
+    field (INPH, "$(CONTROLLER):STATUS6 MS CP")
+    field (ASG,  "READONLY")
+    field (FLNK, "$(CONTROLLER):RELAY$(NR)-PRSTATUS")
+}
+
+record (mbbi, "$(CONTROLLER):RELAY$(NR)-PRSTATUS")
+{
+    field (INP,  "$(CONTROLLER):RELAY$(NR)-PRSTATUSSEL MS")
+    field (ZRST, "OK")
+    field (ONST, "UNDERRANGE")
+    field (TWST, "OVERRANGE")
+    field (THST, "SENSOR ERROR")
+    field (FRST, "SENSOR OFF")
+    field (FVST, "NO SENSOR")
+    field (SXST, "ID ERROR")
+    field (SVST, "I/O ERROR")
+    field (ASG,  "READONLY")
+}

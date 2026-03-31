@@ -2,472 +2,319 @@
 # StreamDevice protocol file for Pfeiffer Vacuum TPG 366 MaxiGauge
 # 6-channel total pressure measurement and control unit for ActiveLine gauges
 #
-# Communication: Mnemonics protocol (3-char ASCII commands)
-# Data format: 1 start bit, 8 data bits, no parity, 1 stop bit, no handshake
-# Default baud: 9600
+# Compatible with the TPG366 standalone project PV naming convention.
+# Protocol parameters:
+#   $1 = CONTROLLER name  (PV prefix for fan-out)
+#   $2 = ADDR             (RS485 address, default 1, unused for TCP)
+#   $3 = extra parameter  (relay NR for setpoint protocols)
 #
-# Protocol flow:
-#   HOST -> TPG366: MNEMONIC [,params] <CR>
-#   TPG366 -> HOST: <ACK><CR><LF>
-#   HOST -> TPG366: <ENQ>
-#   TPG366 -> HOST: data <CR><LF>
+# No OutTerminator: ENQ must be sent clean (no trailing CR) for RS485.
+# Each command out explicitly appends CR.
 ###############################################################################
 
-OutTerminator = CR;
-InTerminator  = CR LF;
+ReplyTimeout = 200;
+InTerminator = CR LF;
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
 
-ReplyTimeout = 2000;
-ReadTimeout  = 2500;
-LockTimeout  = 10000;
+addr { out ESC "0\$2"; }
+#handshake { wait 10; in ACK; out ENQ; wait 10; }
+handshake { in ACK; out ENQ; }
 
 ###############################################################################
-# Reconnect handler
+# Debug - generic command
 ###############################################################################
-reconnect {
-    out ETX;
-    disconnect;
-    connect 1000;
-}
-
-@replytimeout {
-    reconnect;
-}
-
-@readtimeout {
-    reconnect;
-}
-
-@mismatch {
-    in NAK;
+debug {
+    #addr;
+    out "%s" CR; handshake;
+    in "%#s";
 }
 
 ###############################################################################
-# Reset interface - clear input buffer on controller
+# UNI,0 - Force units to mbar (called in read_status compound)
 ###############################################################################
-reset_interface {
-    out ETX;
+set_mbar {
+    #addr;
+    out "UNI,0" CR; handshake; in "0";
 }
 
 ###############################################################################
-# Simple ACK/ENQ handshake
+# DCB - Display sensor ID on device
 ###############################################################################
-enquery {
-    in  ACK;
-    out ENQ;
-}
-
-enquery_with_error {
-    enquery;
-    @mismatch {
-        in NAK;
-    }
+display_sensor_id {
+    #addr;
+    out "DCB,0,12" CR; handshake; in "0,12";
 }
 
 ###############################################################################
-# AYT - Device identification
-# Returns: designation, article number, serial number, FW ver, HW ver
-# PV: stringin (raw string)
+# SAV - Save settings to EEPROM
 ###############################################################################
-identify_device_raw {
-    out "AYT";
-    enquery;
-    in  "%#s";
+save {
+    #addr;
+    out "SAV,1" CR; handshake; in "0000";
 }
 
 ###############################################################################
+# SEN - Read sensor on/off status (all 6)
+# Fans out to $(CONTROLLER):ONOFFG1..6 RVAL fields
+###############################################################################
+read_onoff {
+    #addr;
+    out "SEN" CR; handshake;
+    in "%(\$1:ONOFFG1.RVAL)d,"
+       "%(\$1:ONOFFG2.RVAL)d,"
+       "%(\$1:ONOFFG3.RVAL)d,"
+       "%(\$1:ONOFFG4.RVAL)d,"
+       "%(\$1:ONOFFG5.RVAL)d,"
+       "%(\$1:ONOFFG6.RVAL)d";
+}
+
+###############################################################################
+# SEN - Set sensor on/off per channel (0=no change, 1=off, 2=on)
+###############################################################################
+set_onoff1 {
+    #addr;
+    out "SEN,%{1|2},0,0,0,0,0" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff2 {
+    #addr;
+    out "SEN,0,%{1|2},0,0,0,0" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff3 {
+    #addr;
+    out "SEN,0,0,%{1|2},0,0,0" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff4 {
+    #addr;
+    out "SEN,0,0,0,%{1|2},0,0" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff5 {
+    #addr;
+    out "SEN,0,0,0,0,%{1|2},0" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff6 {
+    #addr;
+    out "SEN,0,0,0,0,0,%{1|2}" CR; handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+
+###############################################################################
+# PRX - Read pressure and status of all 6 gauges
+# Fans out to $(CONTROLLER):STATUS1..6 and PRESSURE1..6.A
+###############################################################################
+read_pressure_and_status {
+    #addr;
+    out "PRX" CR; handshake;
+    in "%(\$1:STATUS1)d,%(\$1:PRESSURE1.A)f,"
+       "%(\$1:STATUS2)d,%(\$1:PRESSURE2.A)f,"
+       "%(\$1:STATUS3)d,%(\$1:PRESSURE3.A)f,"
+       "%(\$1:STATUS4)d,%(\$1:PRESSURE4.A)f,"
+       "%(\$1:STATUS5)d,%(\$1:PRESSURE5.A)f,"
+       "%(\$1:STATUS6)d,%(\$1:PRESSURE6.A)f";
+}
+
+###############################################################################
+# TID - Read gauge type identification (all 6)
+# Fans out to $(CONTROLLER):TYPE1..6
+###############################################################################
+read_gauge_type {
+    #addr;
+    out "TID" CR; handshake;
+    in "%(\$1:TYPE1)[^,],"
+       "%(\$1:TYPE2)[^,],"
+       "%(\$1:TYPE3)[^,],"
+       "%(\$1:TYPE4)[^,],"
+       "%(\$1:TYPE5)[^,],"
+       "%(\$1:TYPE6)[^,]";
+}
+
+###############################################################################
+# CID - Read sensor names (all 6)
+# Fans out to $(CONTROLLER):NAME1..6
+###############################################################################
+read_names {
+    #addr;
+    out "CID" CR; handshake;
+    in "%(\$1:NAME1)[^,],"
+       "%(\$1:NAME2)[^,],"
+       "%(\$1:NAME3)[^,],"
+       "%(\$1:NAME4)[^,],"
+       "%(\$1:NAME5)[^,],"
+       "%(\$1:NAME6)[^,]";
+}
+
+###############################################################################
+# CID - Write sensor names (all 6) + save
+###############################################################################
+set_names {
+    #addr;
+    out "CID,%(\$1:NAME1).8s,"
+            "%(\$1:NAME2).8s,"
+            "%(\$1:NAME3).8s,"
+            "%(\$1:NAME4).8s,"
+            "%(\$1:NAME5).8s,"
+            "%(\$1:NAME6).8s" CR;
+    handshake;
+    in "%(\$1:NAME1)[^,],"
+       "%(\$1:NAME2)[^,],"
+       "%(\$1:NAME3)[^,],"
+       "%(\$1:NAME4)[^,],"
+       "%(\$1:NAME5)[^,],"
+       "%(\$1:NAME6)[^,]";
+    save;
+}
+
+###############################################################################
+# GAS - Read gas correction (all 6)
+# Fans out to $(CONTROLLER):GAS1..6
+###############################################################################
+read_gas {
+    #addr;
+    out "GAS" CR; handshake;
+    in "%(\$1:GAS1)d,"
+       "%(\$1:GAS2)d,"
+       "%(\$1:GAS3)d,"
+       "%(\$1:GAS4)d,"
+       "%(\$1:GAS5)d,"
+       "%(\$1:GAS6)d";
+}
+
+###############################################################################
+# GAS - Write gas correction (all 6)
+###############################################################################
+set_gas {
+    #addr;
+    out "GAS,%(\$1:GAS1)d,"
+            "%(\$1:GAS2)d,"
+            "%(\$1:GAS3)d,"
+            "%(\$1:GAS4)d,"
+            "%(\$1:GAS5)d,"
+            "%(\$1:GAS6)d" CR;
+    handshake;
+    in "%(\$1:GAS1)d,"
+       "%(\$1:GAS2)d,"
+       "%(\$1:GAS3)d,"
+       "%(\$1:GAS4)d,"
+       "%(\$1:GAS5)d,"
+       "%(\$1:GAS6)d";
+}
+
+###############################################################################
+# Compound: read_status (fast scan ~1s)
+# Forces mbar units, reads sensor on/off, reads pressures + statuses
+###############################################################################
+read_status {
+    set_mbar;
+    read_onoff;
+    read_pressure_and_status;
+}
+
+###############################################################################
+# Compound: read_infos (slow scan ~10s)
+# Reads gauge types, sensor names, gas corrections
+###############################################################################
+read_infos {
+    read_gauge_type;
+    read_names;
+    read_gas;
+}
+
+###############################################################################
+# SPS - Read relay status (all 6)
+# Fans out to $(CONTROLLER):RELAY1..6
+###############################################################################
+read_relay_status {
+    #addr;
+    out "SPS" CR; handshake;
+    in "%(\$1:RELAY1){0|1},"
+       "%(\$1:RELAY2){0|1},"
+       "%(\$1:RELAY3){0|1},"
+       "%(\$1:RELAY4){0|1},"
+       "%(\$1:RELAY5){0|1},"
+       "%(\$1:RELAY6){0|1}";
+}
+
+###############################################################################
+# SPx - Read relay setpoint ($3 = relay number 1..6)
+# Fans out to $(CONTROLLER):RELAY$3-SOURCE, -LOW, -HIGH
+###############################################################################
+get_relay_setpoint {
+    #addr;
+    out "SP\$3" CR; handshake;
+    in "%(\$1:RELAY\$3-SOURCE)d,%(\$1:RELAY\$3-LOW)E,%(\$1:RELAY\$3-HIGH)E";
+}
+
+###############################################################################
+# SPx - Write relay setpoint ($3 = relay number 1..6) + save
+###############################################################################
+set_relay_setpoint {
+    #addr;
+    out "SP\$3,%(\$1:RELAY\$3-SOURCE)d,%(\$1:RELAY\$3-LOW).4E,%(\$1:RELAY\$3-HIGH).4E" CR;
+    handshake;
+    in "%(\$1:RELAY\$3-SOURCE)d,%(\$1:RELAY\$3-LOW)E,%(\$1:RELAY\$3-HIGH)E";
+    save;
+}
+
+###############################################################################
+# Extra device-level protocols (not in TPG366 standalone project)
+# These are standalone (no PV redirect) for device info records
+###############################################################################
+
 # PNR - Firmware version
-# PV: stringin
-###############################################################################
 get_firmware_version {
-    out "PNR";
-    enquery;
-    in  "%#s";
+    #addr;
+    out "PNR" CR; handshake;
+    in "%#s";
 }
 
-###############################################################################
 # HDW - Hardware version
-# PV: stringin
-###############################################################################
 get_hardware_version {
-    out "HDW";
-    enquery;
-    in  "%#s";
-}
-
-###############################################################################
-# PRn - Pressure of a single gauge (1..6)
-# $1 = channel number (1-6)
-# $2 = PV prefix for status
-# Returns: status,pressure
-# Status: 0=OK, 1=underrange, 2=overrange, 3=sensor error,
-#         4=sensor off, 5=no gauge, 6=identification error
-###############################################################################
-getPressure {
-    out "PR\$1";
-    enquery;
-    @mismatch {
-        in NAK;
-    }
-    in "%(\$2)i,%E";
-}
-
-###############################################################################
-# PRX - Pressure of all 6 gauges
-# Returns: s1,p1,s2,p2,s3,p3,s4,p4,s5,p5,s6,p6
-# PV: stringin (raw), parsed by aSub
-###############################################################################
-get_pressures_all {
-    out "PRX";
-    enquery_with_error;
+    #addr;
+    out "HDW" CR; handshake;
     in "%#s";
 }
 
-###############################################################################
-# TID - Gauge identification (all 6 channels)
-# Returns: type1,type2,type3,type4,type5,type6
-# Types: TPR/PCR, IKR, PKR, PBR, IMR, CMR/APR, noSENSOR, noIDENT
-###############################################################################
-get_gauge_ids_raw {
-    out "TID";
-    enquery;
-    in "%#s";
-}
-
-get_gauge_ids {
-    out "TID";
-    enquery_with_error;
-    in "%(\$1)[_a-zA-Z0-9/ ],%(\$2)[_a-zA-Z0-9/ ],%(\$3)[_a-zA-Z0-9/ ],%(\$4)[_a-zA-Z0-9/ ],%(\$5)[_a-zA-Z0-9/ ],%(\$6)[_a-zA-Z0-9/ ]";
-}
-
-###############################################################################
-# ERR - Error status
-# Returns: 4-digit error word (e.g. 0000)
-# 0000=no error, 1000=ERROR, 0100=NO HWR, 0010=PAR, 0001=SYN
-###############################################################################
+# ERR - Error status (binary word)
 getErrorStatus {
-    out "ERR";
-    enquery;
+    #addr;
+    out "ERR" CR; handshake;
     in "%b";
 }
 
-###############################################################################
-# UNI - Unit of measurement
-# 0=mbar/bar, 1=Torr, 2=Pascal, 3=Micron, 4=hPascal(default), 5=Volt
-###############################################################################
+# UNI - Read units
 getUnits {
-    out "UNI";
-    enquery;
+    #addr;
+    out "UNI" CR; handshake;
     in "%d";
 }
 
-setUnits {
-    out "UNI,%d";
-    enquery;
-    in "%d";
-    @init { getUnits; }
-}
-
-###############################################################################
-# SEN - Switching gauges on/off
-# Send: SEN [,a,b,c,d,e,f]  (0=no change, 1=off, 2=on)
-# Receive: a,b,c,d,e,f      (0=cannot switch, 1=off, 2=on)
-###############################################################################
-get_sensor_modes {
-    out "SEN";
-    enquery;
-    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
-}
-
-set_sensor_mode_1 {
-    out "SEN,%(\$1)d,0,0,0,0,0";
-    enquery_with_error;
-    in "%(\$2)d,%*d,%*d,%*d,%*d,%*d";
-}
-
-set_sensor_mode_2 {
-    out "SEN,0,%(\$1)d,0,0,0,0";
-    enquery_with_error;
-    in "%*d,%(\$2)d,%*d,%*d,%*d,%*d";
-}
-
-set_sensor_mode_3 {
-    out "SEN,0,0,%(\$1)d,0,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%(\$2)d,%*d,%*d,%*d";
-}
-
-set_sensor_mode_4 {
-    out "SEN,0,0,0,%(\$1)d,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%(\$2)d,%*d,%*d";
-}
-
-set_sensor_mode_5 {
-    out "SEN,0,0,0,0,%(\$1)d,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%(\$2)d,%*d";
-}
-
-set_sensor_mode_6 {
-    out "SEN,0,0,0,0,0,%(\$1)d";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%*d,%(\$2)d";
-}
-
-###############################################################################
-# FIL - Measured value filter
-# 0=off, 1=fast, 2=normal, 3=slow
-###############################################################################
-get_filters {
-    out "FIL";
-    enquery;
-    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
-}
-
-set_filter_1 {
-    out "FIL,%(\$1)d,0,0,0,0,0";
-    enquery_with_error;
-    in "%(\$2)d,%*d,%*d,%*d,%*d,%*d";
-}
-
-set_filter_2 {
-    out "FIL,0,%(\$1)d,0,0,0,0";
-    enquery_with_error;
-    in "%*d,%(\$2)d,%*d,%*d,%*d,%*d";
-}
-
-set_filter_3 {
-    out "FIL,0,0,%(\$1)d,0,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%(\$2)d,%*d,%*d,%*d";
-}
-
-set_filter_4 {
-    out "FIL,0,0,0,%(\$1)d,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%(\$2)d,%*d,%*d";
-}
-
-set_filter_5 {
-    out "FIL,0,0,0,0,%(\$1)d,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%(\$2)d,%*d";
-}
-
-set_filter_6 {
-    out "FIL,0,0,0,0,0,%(\$1)d";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%*d,%(\$2)d";
-}
-
-###############################################################################
-# SPS - Switching function status (all 6)
-# Returns: s1,s2,s3,s4,s5,s6  (0=off, 1=on)
-###############################################################################
-get_switching_status {
-    ExtraInput = Ignore;
-    out "SPS";
-    enquery;
-    in "%(\$1:1:RB)d,%(\$1:2:RB)d,%(\$1:3:RB)d,%(\$1:4:RB)d,%(\$1:5:RB)d,%(\$1:6:RB)d";
-}
-
-###############################################################################
-# SPx - Switching function 1..6
-# Send: SPx [,a,lower,upper]
-#   a: 0=off,1=on,2-7=ch1-ch6
-#   lower/upper: threshold values in exponential form
-# Receive: a,lower,upper
-###############################################################################
-getFunction {
-    ExtraInput = Ignore;
-    out "SP\$1";
-    in ACK;
-    out ENQ;
-    in "%(\$2:LOW:SP:RBV)E,%(\$2:HIGH:SP:RBV)E,%(\$2:ASSIGN:SP:RBV)i";
-}
-
-setFunction {
-    out "SP\$1,%(\$2:ASSIGN:SP)d,%(\$2:LOW:SP).1E,%(\$2:HIGH:SP).1E%#/E(\+|-)0(\d)/E\1\2/";
-    in ACK;
-    out ENQ;
-    in "%s";
-}
-
-###############################################################################
-# DGS - Degas (per channel)
-# 0=off, 1=on (3 minutes)
-###############################################################################
-get_degas {
-    out "DGS";
-    enquery;
-    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
-}
-
-set_degas_1 {
-    out "DGS,%(\$1)d,0,0,0,0,0";
-    enquery_with_error;
-    in "%(\$2)d,%*d,%*d,%*d,%*d,%*d";
-}
-
-set_degas_2 {
-    out "DGS,0,%(\$1)d,0,0,0,0";
-    enquery_with_error;
-    in "%*d,%(\$2)d,%*d,%*d,%*d,%*d";
-}
-
-set_degas_3 {
-    out "DGS,0,0,%(\$1)d,0,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%(\$2)d,%*d,%*d,%*d";
-}
-
-set_degas_4 {
-    out "DGS,0,0,0,%(\$1)d,0,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%(\$2)d,%*d,%*d";
-}
-
-set_degas_5 {
-    out "DGS,0,0,0,0,%(\$1)d,0";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%(\$2)d,%*d";
-}
-
-set_degas_6 {
-    out "DGS,0,0,0,0,0,%(\$1)d";
-    enquery_with_error;
-    in "%*d,%*d,%*d,%*d,%*d,%(\$2)d";
-}
-
-###############################################################################
-# GAS - Gas type correction (per channel)
-# 0=N2/air, 1=Argon, 2=Hydrogen, 3=Helium, 4=Neon, 5=Krypton, 6=Xenon, 7=Other
-###############################################################################
-get_gas_type {
-    out "GAS";
-    enquery;
-    in "%(A)d,%(B)d,%(C)d,%(D)d,%(E)d,%(F)d";
-}
-
-###############################################################################
-# BAU - Baud rate
-# 0=9600, 1=19200, 2=38400, 3=57600, 4=115200
-###############################################################################
-get_baud {
-    out "BAU";
-    enquery;
-    in "%d";
-}
-
-###############################################################################
-# PUC - Measuring underrange control
-# 0=off, 1=on
-###############################################################################
-get_puc {
-    out "PUC";
-    enquery;
-    in "%d";
-}
-
-set_puc {
-    out "PUC,%d";
-    enquery;
-    in "%*d";
-}
-
-###############################################################################
-# RES - Device restart
-# Send: RES,1  => restart device
-# Receive: list of error codes
-###############################################################################
-restart_device {
-    out "RES,1";
-    enquery;
-    in "%#s";
-}
-
-###############################################################################
-# RHR - Operating hours
-###############################################################################
-get_operating_hours {
-    out "RHR";
-    enquery;
-    in "%d";
-}
-
-###############################################################################
-# TMP - Inner temperature of device
-###############################################################################
+# TMP - Device temperature
 get_temperature {
-    out "TMP";
-    enquery;
+    #addr;
+    out "TMP" CR; handshake;
     in "%d";
 }
 
-###############################################################################
-# LOC - Input lock
-# 0=off, 1=on
-###############################################################################
+# RHR - Operating hours
+get_operating_hours {
+    #addr;
+    out "RHR" CR; handshake;
+    in "%d";
+}
+
+# LOC - Keylock read/write
 get_keylock {
-    out "LOC";
-    enquery;
+    #addr;
+    out "LOC" CR; handshake;
     in "%d";
 }
 
 set_keylock {
-    out "LOC,%d";
-    enquery;
+    #addr;
+    out "LOC,%d" CR; handshake;
     in "%*d";
-}
-
-###############################################################################
-# BAL - Backlighting (0..100%)
-###############################################################################
-get_backlight {
-    out "BAL";
-    enquery;
-    in "%d";
-}
-
-set_backlight {
-    out "BAL,%d";
-    enquery;
-    in "%*d";
-}
-
-###############################################################################
-# CID - Sensor name (per channel, max 8 chars)
-###############################################################################
-get_sensor_names_raw {
-    out "CID";
-    enquery;
-    in "%#s";
-}
-
-###############################################################################
-# ETH - Ethernet configuration
-# Returns: dhcp,ip,subnet,gateway
-###############################################################################
-get_ethernet_raw {
-    out "ETH";
-    enquery;
-    in "%#s";
-}
-
-###############################################################################
-# MAC - Ethernet MAC address
-###############################################################################
-get_mac {
-    out "MAC";
-    enquery;
-    in "%#s";
-}
-
-###############################################################################
-# Generic info getter (PNR, HDW, etc.)
-###############################################################################
-get_info {
-    out "\$1";
-    enquery;
-    in "%#s";
 }
