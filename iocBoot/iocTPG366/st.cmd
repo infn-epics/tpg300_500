@@ -21,7 +21,7 @@ tgpioc_registerRecordDeviceDriver(pdbbase)
 ###############################################################################
 epicsEnvSet("DEVICENAME", "TPG366")
 epicsEnvSet("P",          "VAC-TPG366")
-epicsEnvSet("R",          ":")
+epicsEnvSet("R",          "")
 epicsEnvSet("IPADDR",     "192.168.1.100")
 epicsEnvSet("PORT",       "4001")
 

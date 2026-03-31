@@ -30,7 +30,7 @@ epicsEnvSet("VGC01_P",      "EUAPS:VAC:VGC:PRVGA01")
 
 drvAsynIPPortConfigure("$(VGC01_PORT)", "$(VGC01_SERVER)")
 
-dbLoadRecords("../../db/devTPG366.db", "P=$(VGC01_P), R=:, PORT=$(VGC01_PORT)")
+dbLoadRecords("../../db/devTPG366.db", "P=$(VGC01_P), R=, PORT=$(VGC01_PORT)")
 
 ###############################################################################
 # VGC-02 – FI zone – FIVGA01
@@ -43,7 +43,7 @@ epicsEnvSet("VGC02_P",      "EUAPS:VAC:VGC:FIVGA01")
 
 drvAsynIPPortConfigure("$(VGC02_PORT)", "$(VGC02_SERVER)")
 
-dbLoadRecords("../../db/devTPG366.db", "P=$(VGC02_P), R=:, PORT=$(VGC02_PORT)")
+dbLoadRecords("../../db/devTPG366.db", "P=$(VGC02_P), R=, PORT=$(VGC02_PORT)")
 
 ###############################################################################
 # VGC-03 – FI zone – FIVGA02
@@ -56,7 +56,7 @@ epicsEnvSet("VGC03_P",      "EUAPS:VAC:VGC:FIVGA02")
 
 drvAsynIPPortConfigure("$(VGC03_PORT)", "$(VGC03_SERVER)")
 
-dbLoadRecords("../../db/devTPG366.db", "P=$(VGC03_P), R=:, PORT=$(VGC03_PORT)")
+dbLoadRecords("../../db/devTPG366.db", "P=$(VGC03_P), R=, PORT=$(VGC03_PORT)")
 
 ###############################################################################
 # Optional: StreamDevice debug (uncomment for commissioning)
