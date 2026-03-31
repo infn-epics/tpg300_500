@@ -46,7 +46,7 @@ drvAsynIPPortConfigure("${ASYN_PORT}", "${TCP_IP}:${TCP_PORT}", 0, 0, 0)
 ###############################################################################
 # Load the TPG366 database
 ###############################################################################
-dbLoadRecords("../../db/TPG366.db", "CONTROLLER=${CTR}, PORT=${ASYN_PORT}, S1=${GAUGE-1}, S2=${GAUGE-2}, S3=${GAUGE-3}, S4=${GAUGE-4}, S5=${GAUGE-5}, S6=${GAUGE-6}")
+dbLoadRecords("../../db/PFTPG366.db", "CONTROLLER=${CTR}, PORT=${ASYN_PORT}, S1=${GAUGE-1}, S2=${GAUGE-2}, S3=${GAUGE-3}, S4=${GAUGE-4}, S5=${GAUGE-5}, S6=${GAUGE-6}")
 
 ###############################################################################
 # Optional: Enable StreamDevice debug output (0=off, 1=on)

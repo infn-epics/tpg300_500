@@ -56,21 +56,21 @@ record(stringin, "$(P):$(R):SERIALNUM") {
 record(stringin, "$(P):$(R):FWVER") {
     field(DESC, "Firmware version")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_firmware_version $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_firmware_version $(PORT)")
     field(PINI, "YES")
 }
 
 record(stringin, "$(P):$(R):HWVER") {
     field(DESC, "Hardware version")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_hardware_version $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_hardware_version $(PORT)")
     field(PINI, "YES")
 }
 
 record(stringin, "$(P):$(R):IDN_RAW") {
     field(DESC, "Device identification raw")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto identify_device_raw $(PORT)")
+    field(INP,  "@devPFTPG366.proto identify_device_raw $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
     field(FLNK, "$(P):$(R):ParseIdentify")
@@ -107,7 +107,7 @@ record(mbbi, "$(P):$(R):ERROR") {
     field(DTYP, "stream")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
-    field(INP,  "@devTPG366.proto getErrorStatus $(PORT)")
+    field(INP,  "@devPFTPG366.proto getErrorStatus $(PORT)")
     field(ZRST, "No error")
     field(ZRVL, "0")
     field(ONST, "Device error")
@@ -133,7 +133,7 @@ record(mbbi, "$(P):$(R):UNITS_RB") {
     field(DTYP, "stream")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
-    field(INP,  "@devTPG366.proto getUnits $(PORT)")
+    field(INP,  "@devPFTPG366.proto getUnits $(PORT)")
     field(ZRST, "mbar/bar")
     field(ZRVL, "0")
     field(ONST, "Torr")
@@ -152,7 +152,7 @@ record(mbbi, "$(P):$(R):UNITS_RB") {
 record(mbbo, "$(P):$(R):UNITS_SP") {
     field(DESC, "Units setpoint")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto setUnits $(PORT)")
+    field(OUT,  "@devPFTPG366.proto setUnits $(PORT)")
     field(ZRST, "mbar/bar")
     field(ZRVL, "0")
     field(ONST, "Torr")
@@ -174,7 +174,7 @@ record(mbbo, "$(P):$(R):UNITS_SP") {
 record(bi, "$(P):$(R):UNDERRANGE_CTRL_RB") {
     field(DESC, "Underrange control readback")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_puc $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_puc $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
     field(ZNAM, "OFF")
@@ -184,7 +184,7 @@ record(bi, "$(P):$(R):UNDERRANGE_CTRL_RB") {
 record(bo, "$(P):$(R):UNDERRANGE_CTRL") {
     field(DESC, "Underrange control")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_puc $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_puc $(PORT)")
     field(ZNAM, "OFF")
     field(ONAM, "ON")
     field(FLNK, "$(P):$(R):UNDERRANGE_CTRL_RB")
@@ -196,7 +196,7 @@ record(bo, "$(P):$(R):UNDERRANGE_CTRL") {
 record(longin, "$(P):$(R):OPHOURS") {
     field(DESC, "Operating hours")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_operating_hours $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_operating_hours $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
     field(EGU,  "h")
@@ -208,7 +208,7 @@ record(longin, "$(P):$(R):OPHOURS") {
 record(longin, "$(P):$(R):TEMP") {
     field(DESC, "Inner device temperature")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_temperature $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_temperature $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
     field(EGU,  "degC")
@@ -224,7 +224,7 @@ record(longin, "$(P):$(R):TEMP") {
 record(bi, "$(P):$(R):KEYLOCK_RB") {
     field(DESC, "Keylock readback")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_keylock $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_keylock $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
     field(ZNAM, "Unlocked")
@@ -234,7 +234,7 @@ record(bi, "$(P):$(R):KEYLOCK_RB") {
 record(bo, "$(P):$(R):KEYLOCK") {
     field(DESC, "Keylock control")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_keylock $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_keylock $(PORT)")
     field(ZNAM, "Unlock")
     field(ONAM, "Lock")
     field(FLNK, "$(P):$(R):KEYLOCK_RB")
@@ -246,7 +246,7 @@ record(bo, "$(P):$(R):KEYLOCK") {
 record(stringin, "$(P):$(R):SLOTS_RAW") {
     field(DESC, "Gauge IDs raw")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_gauge_ids($(P):$(R):SLOT1,$(P):$(R):SLOT2,$(P):$(R):SLOT3,$(P):$(R):SLOT4,$(P):$(R):SLOT5,$(P):$(R):SLOT6) $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_gauge_ids($(P):$(R):SLOT1,$(P):$(R):SLOT2,$(P):$(R):SLOT3,$(P):$(R):SLOT4,$(P):$(R):SLOT5,$(P):$(R):SLOT6) $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
 }
@@ -287,7 +287,7 @@ record(stringin, "$(P):$(R):SLOT6") {
 record(stringin, "$(P):$(R):MAC") {
     field(DESC, "Ethernet MAC address")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_mac $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_mac $(PORT)")
     field(PINI, "YES")
 }
 
@@ -297,7 +297,7 @@ record(stringin, "$(P):$(R):MAC") {
 record(stringin, "$(P):$(R):ETH_RAW") {
     field(DESC, "Ethernet config raw")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_ethernet_raw $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_ethernet_raw $(PORT)")
     field(PINI, "YES")
 }
 
@@ -307,7 +307,7 @@ record(stringin, "$(P):$(R):ETH_RAW") {
 record(ai, "$(P):$(R):CH1:PRES") {
     field(DESC, "Channel 1 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(1,$(P):$(R):CH1:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(1,$(P):$(R):CH1:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -344,7 +344,7 @@ record(mbbi, "$(P):$(R):CH1:STAT") {
 record(mbbo, "$(P):$(R):CH1:FILTER") {
     field(DESC, "Channel 1 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_1($(P):$(R):CH1:FILTER,$(P):$(R):CH1:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_1($(P):$(R):CH1:FILTER,$(P):$(R):CH1:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -372,7 +372,7 @@ record(mbbi, "$(P):$(R):CH1:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH1:SEN") {
     field(DESC, "Channel 1 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_1($(P):$(R):CH1:SEN,$(P):$(R):CH1:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_1($(P):$(R):CH1:SEN,$(P):$(R):CH1:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -396,7 +396,7 @@ record(mbbi, "$(P):$(R):CH1:SEN_RB") {
 record(bo, "$(P):$(R):CH1:DEGAS") {
     field(DESC, "Channel 1 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_1($(P):$(R):CH1:DEGAS,$(P):$(R):CH1:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_1($(P):$(R):CH1:DEGAS,$(P):$(R):CH1:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -414,7 +414,7 @@ record(bi, "$(P):$(R):CH1:DEGAS_RB") {
 record(ai, "$(P):$(R):CH2:PRES") {
     field(DESC, "Channel 2 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(2,$(P):$(R):CH2:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(2,$(P):$(R):CH2:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -451,7 +451,7 @@ record(mbbi, "$(P):$(R):CH2:STAT") {
 record(mbbo, "$(P):$(R):CH2:FILTER") {
     field(DESC, "Channel 2 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_2($(P):$(R):CH2:FILTER,$(P):$(R):CH2:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_2($(P):$(R):CH2:FILTER,$(P):$(R):CH2:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -479,7 +479,7 @@ record(mbbi, "$(P):$(R):CH2:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH2:SEN") {
     field(DESC, "Channel 2 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_2($(P):$(R):CH2:SEN,$(P):$(R):CH2:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_2($(P):$(R):CH2:SEN,$(P):$(R):CH2:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -503,7 +503,7 @@ record(mbbi, "$(P):$(R):CH2:SEN_RB") {
 record(bo, "$(P):$(R):CH2:DEGAS") {
     field(DESC, "Channel 2 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_2($(P):$(R):CH2:DEGAS,$(P):$(R):CH2:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_2($(P):$(R):CH2:DEGAS,$(P):$(R):CH2:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -521,7 +521,7 @@ record(bi, "$(P):$(R):CH2:DEGAS_RB") {
 record(ai, "$(P):$(R):CH3:PRES") {
     field(DESC, "Channel 3 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(3,$(P):$(R):CH3:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(3,$(P):$(R):CH3:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -558,7 +558,7 @@ record(mbbi, "$(P):$(R):CH3:STAT") {
 record(mbbo, "$(P):$(R):CH3:FILTER") {
     field(DESC, "Channel 3 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_3($(P):$(R):CH3:FILTER,$(P):$(R):CH3:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_3($(P):$(R):CH3:FILTER,$(P):$(R):CH3:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -586,7 +586,7 @@ record(mbbi, "$(P):$(R):CH3:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH3:SEN") {
     field(DESC, "Channel 3 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_3($(P):$(R):CH3:SEN,$(P):$(R):CH3:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_3($(P):$(R):CH3:SEN,$(P):$(R):CH3:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -610,7 +610,7 @@ record(mbbi, "$(P):$(R):CH3:SEN_RB") {
 record(bo, "$(P):$(R):CH3:DEGAS") {
     field(DESC, "Channel 3 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_3($(P):$(R):CH3:DEGAS,$(P):$(R):CH3:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_3($(P):$(R):CH3:DEGAS,$(P):$(R):CH3:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -628,7 +628,7 @@ record(bi, "$(P):$(R):CH3:DEGAS_RB") {
 record(ai, "$(P):$(R):CH4:PRES") {
     field(DESC, "Channel 4 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(4,$(P):$(R):CH4:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(4,$(P):$(R):CH4:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -665,7 +665,7 @@ record(mbbi, "$(P):$(R):CH4:STAT") {
 record(mbbo, "$(P):$(R):CH4:FILTER") {
     field(DESC, "Channel 4 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_4($(P):$(R):CH4:FILTER,$(P):$(R):CH4:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_4($(P):$(R):CH4:FILTER,$(P):$(R):CH4:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -693,7 +693,7 @@ record(mbbi, "$(P):$(R):CH4:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH4:SEN") {
     field(DESC, "Channel 4 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_4($(P):$(R):CH4:SEN,$(P):$(R):CH4:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_4($(P):$(R):CH4:SEN,$(P):$(R):CH4:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -717,7 +717,7 @@ record(mbbi, "$(P):$(R):CH4:SEN_RB") {
 record(bo, "$(P):$(R):CH4:DEGAS") {
     field(DESC, "Channel 4 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_4($(P):$(R):CH4:DEGAS,$(P):$(R):CH4:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_4($(P):$(R):CH4:DEGAS,$(P):$(R):CH4:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -735,7 +735,7 @@ record(bi, "$(P):$(R):CH4:DEGAS_RB") {
 record(ai, "$(P):$(R):CH5:PRES") {
     field(DESC, "Channel 5 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(5,$(P):$(R):CH5:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(5,$(P):$(R):CH5:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -772,7 +772,7 @@ record(mbbi, "$(P):$(R):CH5:STAT") {
 record(mbbo, "$(P):$(R):CH5:FILTER") {
     field(DESC, "Channel 5 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_5($(P):$(R):CH5:FILTER,$(P):$(R):CH5:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_5($(P):$(R):CH5:FILTER,$(P):$(R):CH5:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -800,7 +800,7 @@ record(mbbi, "$(P):$(R):CH5:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH5:SEN") {
     field(DESC, "Channel 5 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_5($(P):$(R):CH5:SEN,$(P):$(R):CH5:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_5($(P):$(R):CH5:SEN,$(P):$(R):CH5:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -824,7 +824,7 @@ record(mbbi, "$(P):$(R):CH5:SEN_RB") {
 record(bo, "$(P):$(R):CH5:DEGAS") {
     field(DESC, "Channel 5 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_5($(P):$(R):CH5:DEGAS,$(P):$(R):CH5:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_5($(P):$(R):CH5:DEGAS,$(P):$(R):CH5:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -842,7 +842,7 @@ record(bi, "$(P):$(R):CH5:DEGAS_RB") {
 record(ai, "$(P):$(R):CH6:PRES") {
     field(DESC, "Channel 6 pressure")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto getPressure(6,$(P):$(R):CH6:STAT) $(PORT)")
+    field(INP,  "@devPFTPG366.proto getPressure(6,$(P):$(R):CH6:STAT) $(PORT)")
     field(SCAN, "1 second")
     field(PREC, "4")
     field(EGU,  "hPa")
@@ -879,7 +879,7 @@ record(mbbi, "$(P):$(R):CH6:STAT") {
 record(mbbo, "$(P):$(R):CH6:FILTER") {
     field(DESC, "Channel 6 filter")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_filter_6($(P):$(R):CH6:FILTER,$(P):$(R):CH6:FILTER_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_filter_6($(P):$(R):CH6:FILTER,$(P):$(R):CH6:FILTER_RB) $(PORT)")
     field(ZRST, "Off")
     field(ZRVL, "0")
     field(ONST, "Fast")
@@ -907,7 +907,7 @@ record(mbbi, "$(P):$(R):CH6:FILTER_RB") {
 record(mbbo, "$(P):$(R):CH6:SEN") {
     field(DESC, "Channel 6 sensor on/off")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_sensor_mode_6($(P):$(R):CH6:SEN,$(P):$(R):CH6:SEN_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_sensor_mode_6($(P):$(R):CH6:SEN,$(P):$(R):CH6:SEN_RB) $(PORT)")
     field(ZRST, "No change")
     field(ZRVL, "0")
     field(ONST, "Off")
@@ -931,7 +931,7 @@ record(mbbi, "$(P):$(R):CH6:SEN_RB") {
 record(bo, "$(P):$(R):CH6:DEGAS") {
     field(DESC, "Channel 6 degas")
     field(DTYP, "stream")
-    field(OUT,  "@devTPG366.proto set_degas_6($(P):$(R):CH6:DEGAS,$(P):$(R):CH6:DEGAS_RB) $(PORT)")
+    field(OUT,  "@devPFTPG366.proto set_degas_6($(P):$(R):CH6:DEGAS,$(P):$(R):CH6:DEGAS_RB) $(PORT)")
     field(ZNAM, "Off")
     field(ONAM, "On (3 min)")
 }
@@ -991,7 +991,7 @@ record(bi, "$(P):$(R):SP:6:RB") {
 record(stringin, "$(P):$(R):SPS_SCAN") {
     field(DESC, "Trigger switching fn status read")
     field(DTYP, "stream")
-    field(INP,  "@devTPG366.proto get_switching_status($(P):$(R):SP) $(PORT)")
+    field(INP,  "@devPFTPG366.proto get_switching_status($(P):$(R):SP) $(PORT)")
     field(SCAN, "Event")
     field(EVNT, "$(P)-10")
 }

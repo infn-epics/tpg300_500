@@ -36,8 +36,6 @@ epicsEnvSet("VGC01_S6",     "GAUGE6")
 
 drvAsynIPPortConfigure("$(VGC01_PORT)", "$(VGC01_SERVER)", 0, 0, 0)
 
-dbLoadRecords("../../db/PFTPG366.db", "CONTROLLER=$(VGC01_CTR), PORT=$(VGC01_PORT), S1=$(VGC01_S1), S2=$(VGC01_S2), S3=$(VGC01_S3), S4=$(VGC01_S4), S5=$(VGC01_S5), S6=$(VGC01_S6)")
-
 ###############################################################################
 # VGC-02 – FI zone – FIVGA01
 #   Server : vdflameinftpg001.lnf.infn.it  port 8000
@@ -54,8 +52,6 @@ epicsEnvSet("VGC02_S5",     "GAUGE5")
 epicsEnvSet("VGC02_S6",     "GAUGE6")
 
 drvAsynIPPortConfigure("$(VGC02_PORT)", "$(VGC02_SERVER)", 0, 0, 0)
-
-dbLoadRecords("../../db/PFTPG366.db", "CONTROLLER=$(VGC02_CTR), PORT=$(VGC02_PORT), S1=$(VGC02_S1), S2=$(VGC02_S2), S3=$(VGC02_S3), S4=$(VGC02_S4), S5=$(VGC02_S5), S6=$(VGC02_S6)")
 
 ###############################################################################
 # VGC-03 – FI zone – FIVGA02
@@ -74,7 +70,29 @@ epicsEnvSet("VGC03_S6",     "GAUGE6")
 
 drvAsynIPPortConfigure("$(VGC03_PORT)", "$(VGC03_SERVER)", 0, 0, 0)
 
-dbLoadRecords("../../db/PFTPG366.db", "CONTROLLER=$(VGC03_CTR), PORT=$(VGC03_PORT), S1=$(VGC03_S1), S2=$(VGC03_S2), S3=$(VGC03_S3), S4=$(VGC03_S4), S5=$(VGC03_S5), S6=$(VGC03_S6)")
+###############################################################################
+# Load sensor template directly
+###############################################################################
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=1,SENSOR=$(VGC01_CTR)-$(VGC01_S1)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=2,SENSOR=$(VGC01_CTR)-$(VGC01_S2)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=3,SENSOR=$(VGC01_CTR)-$(VGC01_S3)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=4,SENSOR=$(VGC01_CTR)-$(VGC01_S4)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=5,SENSOR=$(VGC01_CTR)-$(VGC01_S5)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC01_CTR),PORT=$(VGC01_PORT),CH=6,SENSOR=$(VGC01_CTR)-$(VGC01_S6)")
+
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=1,SENSOR=$(VGC02_CTR)-$(VGC02_S1)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=2,SENSOR=$(VGC02_CTR)-$(VGC02_S2)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=3,SENSOR=$(VGC02_CTR)-$(VGC02_S3)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=4,SENSOR=$(VGC02_CTR)-$(VGC02_S4)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=5,SENSOR=$(VGC02_CTR)-$(VGC02_S5)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC02_CTR),PORT=$(VGC02_PORT),CH=6,SENSOR=$(VGC02_CTR)-$(VGC02_S6)")
+
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=1,SENSOR=$(VGC03_CTR)-$(VGC03_S1)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=2,SENSOR=$(VGC03_CTR)-$(VGC03_S2)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=3,SENSOR=$(VGC03_CTR)-$(VGC03_S3)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=4,SENSOR=$(VGC03_CTR)-$(VGC03_S4)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=5,SENSOR=$(VGC03_CTR)-$(VGC03_S5)")
+dbLoadRecords("../../tgpApp/Db/PFTPG366-Sensor.template", "CONTROLLER=$(VGC03_CTR),PORT=$(VGC03_PORT),CH=6,SENSOR=$(VGC03_CTR)-$(VGC03_S6)")
 
 ###############################################################################
 # Optional: StreamDevice debug (uncomment for commissioning)
