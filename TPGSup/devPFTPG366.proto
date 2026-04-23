@@ -12,7 +12,7 @@
 # Each command out explicitly appends CR.
 ###############################################################################
 
-ReplyTimeout = 200;
+ReplyTimeout = 500;
 InTerminator = CR LF;
 # No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
 

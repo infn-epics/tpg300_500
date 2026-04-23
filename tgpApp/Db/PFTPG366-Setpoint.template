@@ -17,7 +17,8 @@ record (bi, "$(CONTROLLER):READ-SETPOINTS")
     field (INP,  "@devPFTPG366.proto read_relay_status($(CONTROLLER),$(ADDR=1)) $(PORT)")
     field (PRIO, "MEDIUM")
     field (PINI, "YES")
-    field (SCAN, "$(FASTSCAN=1 second)")
+    #field (SCAN, "$(FASTSCAN=1 second)")
+    field (SCAN, "5 second")
     field (ASG,  "READONLY")
 }
 
